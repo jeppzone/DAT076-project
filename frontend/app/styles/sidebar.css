@@ -1,0 +1,56 @@
+.navbar-inverse{
+  background-color: #EEE;
+  border-color: #FFF;
+}
+
+.navbar-brand {
+  font-size: 40px;
+}
+
+.navbar-inverse .navbar-nav > .active > a {
+  background-color: #2D9CDB;
+  color: #FFF;
+}
+
+
+.navbar-inverse .navbar-nav > li > a:hover {
+  color: #000;
+}
+
+.navbar-inverse .navbar-nav > li > a:focus,
+.navbar-inverse .navbar-nav > li > a,
+.navbar-inverse .navbar-header > a,
+.navbar-inverse .navbar-header > a:hover,
+.navbar-inverse .navbar-header > a:focus {
+  color: #666;
+}
+
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus {
+  background-color: #2D9CDB;
+}
+
+.searchbar {
+  width: 400px;
+  border: 1px solid #ccc;
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  -moz-box-shadow: 2px 2px 3px #666;
+  -webkit-box-shadow: 1px 1px 1px #AAA;
+  box-shadow: 1px 1px 1px #AAA;
+  font-size: 14px;
+  padding: 4px 8px;
+  margin-top: 10px;
+  margin-left: 50px;
+  outline: 0;
+  -webkit-appearance: none;
+}
+
+.search-icon{
+  padding-left: 15px;
+  cursor: pointer;
+  padding-top: 16px;
+  font-size: 20px;
+  color: #2D9CDB;
+}
