@@ -15,23 +15,35 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
+    'ui.bootstrap',
     'ui.router',
+    'moviez.menu',
+    'moviez.profile',
+    'moviez.register-factory',
+    'moviez.login-factory',
+    'moviez.login-register-modal',
     'moviez.login-register',
-    'moviez.home'
+    'moviez.user-factory',
   ])
+  .run(['$rootScope', 'UserFactory', function($rootScope, UserFactory){
+    $rootScope.$on('$stateChangeStart', function(evt, toState, toParams, fromState, fromParams) {
+      UserFactory.getUser();
+    });
+  }])
   .config(appConfig)
-
+  .constant('ApiBase', 'http://localhost:3000')
   .controller('AppController', AppController );
 
-  appConfig.$inject = ['$urlRouterProvider', '$httpProvider', '$locationProvider'];
+  appConfig.$inject = ['$urlRouterProvider', '$httpProvider', '$locationProvider', '$qProvider'];
 
-  function appConfig($urlRouterProvider, $httpProvider, $locationProvider){
+  function appConfig($urlRouterProvider, $httpProvider, $locationProvider, $qProvider){
     $locationProvider.hashPrefix('');
     $urlRouterProvider.otherwise('/');
+    $qProvider.errorOnUnhandledRejections(false);
   }
 
   AppController.$inject = ['$scope', '$state'];
 
   function AppController($scope, $state){
-
+    //$state.go('menu.profile')
   }

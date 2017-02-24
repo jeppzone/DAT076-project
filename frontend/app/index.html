@@ -14,21 +14,15 @@
     <!-- build:css(.tmp) styles/main.css -->
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/sidebar.css">
+    <link rel="stylesheet" href="styles/login-register.css">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <!-- endbuild -->
   </head>
   <body ng-app="frontendApp" ng-controller="AppController as app">
-    <!--[if lte IE 8]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-    <![endif]-->
-
-    <!-- Add your site or application content here -->
     <div class="container-fluid">
       <ui-view></ui-view>
     </div>
 
-    <!-- build:js(.) scripts/vendor.js -->
-    <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
@@ -38,13 +32,16 @@
     <script src="bower_components/angular-route/angular-route.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <!-- endbower -->
-    <!-- endbuild -->
+    <script src="bower_components/angular-bootstrap/ui-bootstrap.min.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
 
-        <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="app.js"></script>
         <script src="login-register/login-register.directive.js"></script>
-        <script src="home/home.js"></script>
-        <!-- endbuild -->
+        <script src="menu/menu.js"></script>
+        <script src="login-register/login-register-modal.factory.js"></script>
+        <script src="login-register/register.factory.js"></script>
+        <script src="login-register/login.factory.js"></script>
+        <script src="user/user.factory.js"></script>
+        <script src="profile/profile.js"></script>
 </body>
 </html>

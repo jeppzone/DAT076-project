@@ -5,15 +5,19 @@
     </div>
     <ul class="nav navbar-nav">
       <li class="active"><a href="#">Home</a></li>
-      <li><a href="#">Reviews</a></li>
-      <li><a href="#">Page 2</a></li>
-      <li><a href="#">Page 3</a></li>
+      <li><a href="">Reviews</a></li>
+      <li><a href="">Users</a></li>
+      <li><a href="">Page 3</a></li>
       <li><input type="text" class="searchbar"></li>
-      <li><span class="glyphicon glyphicon-search search-icon" tooltip="Hej"></span></li>
+      <li><span class="glyphicon glyphicon-search search-icon"></span></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li> <a href="#"> Profile</a></li>
-      <li> <a href="#"> Login</a></li>
+      <li><a href="" ng-if="user">{{user.username}} {{vm.test}} </a></li>
+      <login-register class="nav navbar-nav"></login-register>
     </ul>
   </div>
 </nav>
+
+<div>
+  <div ui-view="main"></div>
+</div>

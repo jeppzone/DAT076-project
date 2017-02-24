@@ -1,0 +1,54 @@
+<div class="loginmodal-container" ng-show="vm.activeFunction.login">
+	<h1>Login to your account</h1><br>
+  <form ng-submit="vm.login()">
+		<input type="text" name="user" placeholder="Username or E-mail" ng-model="vm.credentials.username">
+		<input type="password" name="pass" placeholder="Password" ng-model="vm.credentials.password">
+		<input type="submit" name="login" class="login loginmodal-submit" value="Login">
+  </form>
+
+  <div class="login-help">
+  	<a href="#" ng-click="vm.setActive('register')">Register</a> |
+    <a href="#" ng-click="vm.setActive('forgotPassword')">Forgot Password</a>
+  </div>
+</div>
+
+<div class="loginmodal-container" ng-show="vm.activeFunction.register">
+  <h1> Register an account </h1><br>
+  <form ng-submit="vm.register()">
+    <div class="register-input">
+			<input type="text" name="user" placeholder="Username" ng-model="vm.credentials.username" ng-keyup="vm.validateUsername()"></input>
+			<span ng-show="vm.credentialsValid.username" class="glyphicon glyphicon-ok input-correct"></span>
+    </div>
+		<div class="register-input">
+    	<input type="email" name="email" placeholder="E-mail" ng-model="vm.credentials.email" ng-keyup="vm.validateEmail()"></input>
+			<span ng-if="vm.credentialsValid.email" class="glyphicon glyphicon-ok input-correct"></span>
+		</div>
+		<div class="register-input">
+  		<input type="password" name="pass" placeholder="Password" ng-model="vm.credentials.password">
+			<span ng-if="vm.credentialsValid.password" class="glyphicon glyphicon-ok input-correct"></span>
+		</div>
+		<div class="register-input">
+    	<input type="password" name="pass" placeholder="Repeat password" ng-model="vm.credentials.passwordRepeated" ng-keyup="vm.validatePassword()">
+			<span ng-if="vm.credentialsValid.password" class="glyphicon glyphicon-ok input-correct"></span>
+		</div>
+  	<input type="submit" name="register" class="login loginmodal-submit" value="Register">
+  </form>
+
+  <div class="login-help">
+    <a href="#" ng-click="vm.setActive('login')">Login</a> |
+    <a href="#" ng-click="vm.setActive('forgotPassword')">Forgot Password</a>
+  </div>
+</div>
+
+<div class="loginmodal-container" ng-show="vm.activeFunction.forgotPassword">
+  <h1> Recover your password </h1><br>
+  <form ng-submit="vm.recoverPassword()">
+    <input type="email" name="email" placeholder="E-mail" ng-model="vm.credentials.email">
+  	<input type="submit" name="recover-password" class="login loginmodal-submit" value="Recover Password">
+  </form>
+
+  <div class="login-help">
+    <a href="#" ng-click="vm.setActive('login')">Login</a> |
+    <a href="#" ng-click="vm.setActive('register')">Register</a>
+  </div>
+</div>

@@ -10,6 +10,7 @@
 .navbar-inverse .navbar-nav > .active > a {
   background-color: #2D9CDB;
   color: #FFF;
+  outline: none;
 }
 
 
@@ -23,6 +24,7 @@
 .navbar-inverse .navbar-header > a:hover,
 .navbar-inverse .navbar-header > a:focus {
   color: #666;
+  outline: none;
 }
 
 .navbar-inverse .navbar-nav > .active > a:hover,

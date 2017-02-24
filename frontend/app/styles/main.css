@@ -82,3 +82,12 @@ body {
     border-bottom: 0;
   }
 }
+
+.login-form > input,
+.login-form > label {
+  display:inline-block
+}
+
+.login {
+  display: inline;
+}

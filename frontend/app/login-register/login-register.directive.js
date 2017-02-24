@@ -2,9 +2,10 @@
 
 angular.module('moviez.login-register', [])
 
-.directive('loginRegister', LoginRegister);
+.directive('loginRegister', LoginRegister)
+.controller('LoginRegisterCtrl', LoginRegisterCtrl);
 
-function LoginRegister() {
+function LoginRegister(){
   var directive = {
     restrict: 'E',
     templateUrl: 'login-register/login-register.view.html',
@@ -13,4 +14,20 @@ function LoginRegister() {
   }
 
   return directive;
+}
+
+LoginRegisterCtrl.$inject = ['loginRegisterModal', 'LoginFactory', '$scope', '$rootScope'];
+function LoginRegisterCtrl(loginRegisterModal, LoginFactory, $scope, $rootScope){
+  var vm = this;
+
+  vm.openLoginModal = openLoginModal;
+  vm.logOut = logOut;
+
+  function openLoginModal(){
+    loginRegisterModal.showModal();
+  }
+
+  function logOut() {
+    LoginFactory.clearCredentials();
+  }
 }
