@@ -20,7 +20,7 @@ angular
     'moviez.menu',
     'moviez.profile',
     'moviez.register-factory',
-    'moviez.login-factory',
+    "moviez.login-factory",
     'moviez.login-register-modal',
     'moviez.login-register',
     'moviez.user-factory',
@@ -38,7 +38,7 @@ angular
 
   function appConfig($urlRouterProvider, $httpProvider, $locationProvider, $qProvider){
     $locationProvider.hashPrefix('');
-    $urlRouterProvider.otherwise('/');
+    $urlRouterProvider.otherwise('/profile');
     $qProvider.errorOnUnhandledRejections(false);
   }
 

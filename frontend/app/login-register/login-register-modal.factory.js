@@ -40,10 +40,10 @@ function loginRegisterModal($uibModal) {
       };
 
       vm.credentials = {
-        username: 'jeppzone',
-        email: 'jeppzone@gmail.com',
-        password: 'testpassword',
-        passwordRepeated: 'testpassword'
+        username: '',
+        email: '',
+        password: '',
+        passwordRepeated: ''
       };
 
       vm.credentialsValid = {
@@ -65,10 +65,8 @@ function loginRegisterModal($uibModal) {
       function login(credentials) {
         LoginFactory.loginUser(vm.credentials).then((result) => {
           if(result.status === 200){
-            console.log('Status was 200');
             UserFactory.updateUser(result.data);
             LoginFactory.setCredentials(result.data.token);
-            console.log('After setCredentials');
             uibModalInstance.close();
           }else if(result.status === 401){
             /*TODO Implement error handling */
@@ -113,7 +111,6 @@ function loginRegisterModal($uibModal) {
 
       function credentialsValid() {
         Object.keys(vm.credentialsValid).forEach((key) =>{
-          console.log(vm.credentialsValid[key]);
           if (!vm.credentialsValid[key]){
             return false;
           }

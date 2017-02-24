@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 angular.module('moviez.login-register', [])
 
@@ -11,13 +11,13 @@ function LoginRegister(){
     templateUrl: 'login-register/login-register.view.html',
     controller: 'LoginRegisterCtrl',
     controllerAs: 'vm'
-  }
+  };
 
   return directive;
 }
 
-LoginRegisterCtrl.$inject = ['loginRegisterModal', 'LoginFactory', '$scope', '$rootScope'];
-function LoginRegisterCtrl(loginRegisterModal, LoginFactory, $scope, $rootScope){
+LoginRegisterCtrl.$inject = ['loginRegisterModal', 'LoginFactory'];
+function LoginRegisterCtrl(loginRegisterModal, LoginFactory){
   var vm = this;
 
   vm.openLoginModal = openLoginModal;

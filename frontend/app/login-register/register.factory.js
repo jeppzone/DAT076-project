@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 angular.module('moviez.register-factory', [])
 
@@ -34,26 +34,6 @@ function RegisterFactory(ApiBase, $http) {
   }
 
   function validatePassword(password, passwordRepeated) {
-    return password !== undefined && password === passwordRepeated && password.length > MIN_PASSWORD_LENGTH;
-  }
-
-  function checkInput(user, errorClasses){
-    var errors = {};
-    var correct = true;
-    if(!user.username){
-      errorClasses.username = 'has-error';
-      correct = false;
-    }
-    if(!user.email || !correctEmail(user.email)){
-      errorClasses.email = 'has-error';
-      correct = false;
-    }
-    if(!user.passsword || user.password.length < MIN_PASSWORD_LENGTH || user.password != user.passwordRepeated){
-      errorClasses.password = 'has-error'
-      correct = false;
-    }
-
-    return correct;
-
+    return password !== undefined && password === passwordRepeated && password.length >= MIN_PASSWORD_LENGTH;
   }
 }

@@ -1,12 +1,12 @@
-'use strict'
+'use strict';
 
 angular.module('moviez.user-factory', [])
 
 .factory('UserFactory', UserFactory);
 
-UserFactory.$inject = ['$http', 'ApiBase', 'LoginFactory'];
+UserFactory.$inject = ['$http', 'ApiBase'];
 
-function UserFactory($http, ApiBase, LoginFactory) {
+function UserFactory($http, ApiBase) {
   var service = {
     getUser: getUser,
     updateUser: updateUser,
@@ -17,9 +17,9 @@ function UserFactory($http, ApiBase, LoginFactory) {
 
   function getUser(){
     /*TODO Implement function go get user from API */
-    return $http.get(ApiBase + '/user').then((result => {
+    return $http.get(ApiBase + "/user").then((result) => {
       updateUser(result.data);
-    }))
+    });
   }
 
   function updateUser(user){

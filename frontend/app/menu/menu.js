@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 angular.module('moviez.menu', [])
 
@@ -18,14 +18,10 @@ function menuConfig($stateProvider){
 
 MenuController.$inject = ['LoginFactory', 'UserFactory', '$scope', '$rootScope'];
 function MenuController(LoginFactory, UserFactory, $scope, $rootScope){
-  var vm = this;
-  console.log(vm);
-  vm.test = 'test';
   $scope.$watch(function(){
     return UserFactory.userInfo;
-  }, function(newValue, oldValue){
+  }, function(newValue){
     $rootScope.user = newValue;
   }, true);
 
-  return vm;
 }

@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 angular.module('moviez.profile', [])
 
@@ -19,7 +19,7 @@ function profileConfig($stateProvider){
   });
 }
 
-ProfileController.$inject = ['LoginFactory', 'UserFactory', '$scope', '$rootScope'];
-function ProfileController(LoginFactory, UserFactory, $scope, $rootScope){
-  var vm = this;
+ProfileController.$inject = [];
+function ProfileController(){
+
 }
