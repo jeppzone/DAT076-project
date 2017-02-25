@@ -21,5 +21,4 @@ function homeConfig($stateProvider){
 
 HomeController.$inject = [];
 function HomeController(){
-  console.log('IN menucontroller');
 }

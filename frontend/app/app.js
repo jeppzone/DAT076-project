@@ -18,6 +18,8 @@ angular
     'ui.bootstrap',
     'ui.router',
     'moviez.menu',
+    'moviez.search',
+    'moviez.search-factory',
     'moviez.home',
     'moviez.movies',
     'moviez.movie',

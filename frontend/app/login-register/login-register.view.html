@@ -1,2 +1,2 @@
-<li><a href="" ng-show="!loggedIn" ng-click="vm.openLoginModal()"> Sign in </a></li>
-<li><a href="" ng-show="loggedIn" ng-click="vm.logOut()"> Sign out </a></li>
+<li ng-if="!loggedIn"><a ng-click="vm.openLoginModal()"> Sign in </a></li>
+<li ng-if="loggedIn"><a ng-click="vm.logOut()"> Sign out </a></li>

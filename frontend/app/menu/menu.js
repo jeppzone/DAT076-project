@@ -16,12 +16,18 @@ function menuConfig($stateProvider){
   });
 }
 
-MenuController.$inject = ['LoginFactory', 'UserFactory', '$scope', '$rootScope', '$location'];
-function MenuController(LoginFactory, UserFactory, $scope, $rootScope, $location){
-  let state = $location.path().split('/')[1]
+MenuController.$inject = ['LoginFactory', 'UserFactory', '$scope', '$rootScope', '$location', 'SearchFactory'];
+
+/* Using $scope in this controller instead of vm=this, beacuse controllerAs did for some reason not work here
+   This is incosistent, and should be changed
+*/
+function MenuController(LoginFactory, UserFactory, $scope, $rootScope, $location, SearchFactory){
+  console.log('MenuController');
+  let state = $location.path().split('/')[1];
+  console.log(state);
   $scope.setActiveTab = setActiveTab;
   $scope.tabClasses = {
-    home: 'active',
+    home: '',
     movies: '',
     users: '',
     reviews: '',
@@ -31,12 +37,18 @@ function MenuController(LoginFactory, UserFactory, $scope, $rootScope, $location
 
   $scope.$watch(function(){
     return UserFactory.userInfo;
-  }, function(newValue){
+  }, function(newValue, oldValue){
     $rootScope.user = newValue;
-    if(isEmpty($rootScope.user)){
+    if(isEmpty($rootScope.user) && !isEmpty(oldValue)){
       setActiveTab('home'); //User has logged out, set the active tab to home
     }
   }, true);
+
+  $scope.$watch(function(){
+    return SearchFactory.searchString;
+  }, function(newValue, oldValue){
+      setActiveTab('movies'); //User has searched, set active tab to movies
+  });
 
   function setActiveTab(tab){
     if(tab == 'profile' && !$rootScope.user) {
