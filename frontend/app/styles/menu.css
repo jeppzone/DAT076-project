@@ -8,6 +8,7 @@
 }
 
 .navbar-inverse .navbar-nav > .active > a {
+  transition: color 0.3s ease;
   background-color: #2D9CDB;
   color: #FFF;
   outline: none;
@@ -15,6 +16,7 @@
 
 
 .navbar-inverse .navbar-nav > li > a:hover {
+  transition: color 0.3s ease;
   color: #000;
 }
 
@@ -23,17 +25,16 @@
 .navbar-inverse .navbar-header > a,
 .navbar-inverse .navbar-header > a:hover,
 .navbar-inverse .navbar-header > a:focus {
+  transition: color 0.3s ease;
   color: #666;
   outline: none;
   cursor: pointer;
 }
 
 .navbar-inverse .navbar-nav > .active > a:hover,
-.navbar-inverse .navbar-nav > .active > a:focus {
-  background-color: #2D9CDB;
-}
-
+.navbar-inverse .navbar-nav > .active > a:focus,
 .nav .navbar-nav .navbar-right .active > a {
+  transition: background-color 0.3s ease;
   background-color: #2D9CDB;
 }
 
