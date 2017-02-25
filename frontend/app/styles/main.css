@@ -10,6 +10,10 @@ body {
   font-family: 'Raleway', sans-serif;
 }
 
+::-webkit-scrollbar {
+    display: none;
+}
+
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
 .marketing,

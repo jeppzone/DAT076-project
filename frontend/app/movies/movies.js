@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('moviez.movies', [])
+angular.module('moviez.movies', ['infinite-scroll'])
 
 .config(moviesConfig)
 .controller('MoviesController', MoviesController);
@@ -22,6 +22,23 @@ function moviesConfig($stateProvider){
 MoviesController.$inject = [];
 function MoviesController(){
   var vm = this;
-  vm.movies = ['Test1', 'Test2', 'Test3', 'Test4', 'Test5', 'Test6', 'Test7',
-    'Test8', 'Test9', 'Test10', 'Test11', 'Test12', 'Test13', 'Test14'];
+  const MOVIES_PER_ROW = 11;
+  vm.loadMoreMovies = loadMoreMovies;
+  vm.allMovies = [];
+  vm.shownMovies = [];
+  for(var i = 0; i < 1000; i++){
+    vm.allMovies.push('Movie ' + i);
+  }
+
+  for(var i = 0; i < 55; i++){
+    vm.shownMovies.push(vm.allMovies[i]);
+  }
+
+  function loadMoreMovies(){
+    if(vm.shownMovies.length < (vm.allMovies.length - MOVIES_PER_ROW-1)){
+      for(var i = 0; i < MOVIES_PER_ROW; i++){
+        vm.shownMovies.push(vm.allMovies[vm.shownMovies.length]);
+      }
+    }
+  }
 }

@@ -9,7 +9,8 @@ SearchFactory.$inject = ['ApiBase', '$http'];
 function SearchFactory(ApiBase, $http) {
   var service = {
     search: search,
-    searchString: ''
+    searchString: '',
+    searchResult: []
   };
 
   return service;
@@ -17,5 +18,6 @@ function SearchFactory(ApiBase, $http) {
   function search(searchString) {
     console.log(searchString);
     service.searchString = searchString;
+    /* TODO Call to API */
   }
 }

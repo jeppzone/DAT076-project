@@ -1,6 +1,11 @@
 <div class="movie-header">
   <h1>MOVIES</h1>
 </div>
-<div class="movies" ng-repeat="movie in vm.movies">
-  <movie name="movie"></movie>
+<div infinite-scroll="vm.loadMoreMovies()">
+  <div class="movies" ng-repeat="movie in vm.shownMovies">
+    <movie name="movie"></movie>
+  </div>
+</div>
+
+<div style="height: 500px;">
 </div>
