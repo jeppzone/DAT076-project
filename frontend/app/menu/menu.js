@@ -18,10 +18,27 @@ function menuConfig($stateProvider){
 
 MenuController.$inject = ['LoginFactory', 'UserFactory', '$scope', '$rootScope'];
 function MenuController(LoginFactory, UserFactory, $scope, $rootScope){
+  $scope.setActiveTab = setActiveTab;
+  $scope.tabClasses = {
+    home: 'active',
+    movies: '',
+    users: '',
+    reviews: ''
+  };
+
   $scope.$watch(function(){
     return UserFactory.userInfo;
   }, function(newValue){
     $rootScope.user = newValue;
   }, true);
 
+  function setActiveTab(tab){
+    Object.keys($scope.tabClasses).forEach((key) => {
+      if(key === tab){
+        $scope.tabClasses[key] = 'active';
+      }else{
+        $scope.tabClasses[key] = '';
+      }
+    });
+  }
 }

@@ -25,6 +25,7 @@
 .navbar-inverse .navbar-header > a:focus {
   color: #666;
   outline: none;
+  cursor: pointer;
 }
 
 .navbar-inverse .navbar-nav > .active > a:hover,
@@ -33,18 +34,14 @@
 }
 
 .searchbar {
-  width: 400px;
+  width: 600px;
   border: 1px solid #ccc;
-  -moz-border-radius: 10px;
-  -webkit-border-radius: 10px;
   border-radius: 10px;
-  -moz-box-shadow: 2px 2px 3px #666;
-  -webkit-box-shadow: 1px 1px 1px #AAA;
   box-shadow: 1px 1px 1px #AAA;
   font-size: 14px;
   padding: 4px 8px;
   margin-top: 10px;
-  margin-left: 50px;
+  margin-left: 200px;
   outline: 0;
   -webkit-appearance: none;
 }

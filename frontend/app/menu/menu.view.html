@@ -4,15 +4,15 @@
       <a class="navbar-brand" href="#">Moviez</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
-      <li><a href="">Reviews</a></li>
-      <li><a href="">Users</a></li>
-      <li><a href="">Page 3</a></li>
+      <li ng-class="tabClasses.home"><a ui-sref="menu.home"ng-click="setActiveTab('home')">Home</a></li>
+      <li ng-class="tabClasses.movies"><a ui-sref="menu.movies" ng-click="setActiveTab('movies')">Movies</a></li>
+      <li ng-class="tabClasses.reviews"><a ui-sref="menu.reviews" ng-click="setActiveTab('reviews')">Reviews</a></li>
+      <li ng-class="tabClasses.users"><a ui-sref="menu.users" ng-click="setActiveTab('users')">Users</a></li>
       <li><input type="text" class="searchbar"></li>
       <li><span class="glyphicon glyphicon-search search-icon"></span></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="" ng-if="user">{{user.username}} {{vm.test}} </a></li>
+      <li><a href="" ng-if="user">{{user.username}}</a></li>
       <login-register class="nav navbar-nav"></login-register>
     </ul>
   </div>
