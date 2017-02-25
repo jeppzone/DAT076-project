@@ -40,9 +40,9 @@ function loginRegisterModal($uibModal) {
       };
 
       vm.credentials = {
-        username: '',
+        username: 'testing',
         email: '',
-        password: '',
+        password: 'testpass',
         passwordRepeated: ''
       };
 

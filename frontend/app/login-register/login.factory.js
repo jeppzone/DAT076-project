@@ -4,9 +4,9 @@ angular.module('moviez.login-factory', ['ngCookies'])
 
 .factory('LoginFactory', LoginFactory);
 
-LoginFactory.$inject = ['ApiBase', '$http', '$state', '$cookies', '$rootScope'];
+LoginFactory.$inject = ['ApiBase', '$http', '$state', '$cookies', '$rootScope', 'UserFactory'];
 
-function LoginFactory(ApiBase, $http, $state, $cookies, $rootScope) {
+function LoginFactory(ApiBase, $http, $state, $cookies, $rootScope, UserFactory) {
   var service = {
     loginUser: loginUser,
     setCredentials: setCredentials,
@@ -37,12 +37,12 @@ function LoginFactory(ApiBase, $http, $state, $cookies, $rootScope) {
 
   function clearCredentials(){
     $rootScope.loggedIn = false;
-    $rootScope.user = {};
-    
+    UserFactory.userInfo = {};
+
     $http.defaults.headers.common.Authorization= '';
     $http.defaults.headers.post.Authorization = '';
     $cookies.remove('auth');
 
-    $state.go('menu.profile');
+    $state.go('menu.home');
   }
 }

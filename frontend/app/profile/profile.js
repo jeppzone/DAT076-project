@@ -19,7 +19,9 @@ function profileConfig($stateProvider){
   });
 }
 
-ProfileController.$inject = [];
-function ProfileController(){
-
+ProfileController.$inject = ['UserFactory'];
+function ProfileController(UserFactory){
+  var vm = this;
+  vm.user = UserFactory.userInfo;
+  console.log(vm.user);
 }

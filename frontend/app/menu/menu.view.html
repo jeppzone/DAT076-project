@@ -12,7 +12,7 @@
       <li><span class="glyphicon glyphicon-search search-icon"></span></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="" ng-if="user">{{user.username}}</a></li>
+        <li ng-show="user" ng-class="tabClasses.profile"><a ui-sref="menu.profile" ng-click="setActiveTab('profile')">{{user.username}}</a></li>
       <login-register class="nav navbar-nav"></login-register>
     </ul>
   </div>

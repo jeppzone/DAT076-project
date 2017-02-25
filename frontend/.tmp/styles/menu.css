@@ -33,6 +33,10 @@
   background-color: #2D9CDB;
 }
 
+.nav .navbar-nav .navbar-right .active > a {
+  background-color: #2D9CDB;
+}
+
 .searchbar {
   width: 600px;
   border: 1px solid #ccc;
