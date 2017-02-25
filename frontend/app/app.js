@@ -20,6 +20,7 @@ angular
     'moviez.menu',
     'moviez.home',
     'moviez.movies',
+    'moviez.movie',
     'moviez.reviews',
     'moviez.users',
     'moviez.profile',
@@ -42,7 +43,7 @@ angular
 
   function appConfig($urlRouterProvider, $httpProvider, $locationProvider, $qProvider){
     $locationProvider.hashPrefix('');
-    $urlRouterProvider.otherwise('/profile');
+    $urlRouterProvider.otherwise('/home');
     $qProvider.errorOnUnhandledRejections(false);
   }
 

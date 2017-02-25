@@ -35,7 +35,6 @@ function MenuController(LoginFactory, UserFactory, $scope, $rootScope, $location
   }, true);
 
   function setActiveTab(tab){
-    console.log(tab);
     Object.keys($scope.tabClasses).forEach((key) => {
       if(key === tab){
         $scope.tabClasses[key] = 'active';

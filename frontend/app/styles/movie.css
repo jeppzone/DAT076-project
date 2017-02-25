@@ -1,0 +1,24 @@
+.movies {
+  display: inline-block;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-top: 40px;
+}
+
+.movie-header h1 {
+  text-align: center;
+  color: #2D9CDB;
+}
+
+.movie-item {
+  width: 250px;
+  height: 350px;
+  cursor: pointer;
+}
+
+.movie-item h4 {
+  text-align: center;
+}
+.movie-item img:hover {
+  opacity: 0.5;
+}
