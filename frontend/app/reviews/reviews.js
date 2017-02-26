@@ -21,5 +21,12 @@ function reviewsConfig($stateProvider){
 
 ReviewsController.$inject = [];
 function ReviewsController(){
-
+  var vm = this;
+  vm.allReviews = [{author: 'testing', title: 'The Dark Knight', text: 'Really great movie!'},
+    {author: 'Jesper Olsson', title: 'The Dark Knight', text: 'Really great movie!'},
+    {author: 'testing', title: 'The Dark Knight', text: 'Really great movie!'},
+    {author: 'testing', title: 'The Dark Knight', text: 'Really great movie!'},
+    {author: 'testing', title: 'The Dark Knight', text: 'Really great movie!'},
+    {author: 'testing', title: 'The Dark Knight', text: 'Really great movie!'},
+    {author: 'testing', title: 'The Dark Knight', text: 'Really great movie!'},];
 }

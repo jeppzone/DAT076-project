@@ -1,0 +1,138 @@
+.reviews {
+  display: inline-block;
+}
+.review-card-parent {
+  display: inline-block;
+  position: relative;
+  width: 30vw;
+  height: 200px;
+  margin-right: 10px;
+  resize: none;
+}
+
+.overlay {
+  width: 100px;
+  position: absolute;
+  opacity: 0;
+  bottom: 20%;
+  right: 44%;
+}
+
+.review-card-parent:hover .review-card-hovering {
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  -webkit-filter: blur(3px);
+  -moz-filter: blur(3px);
+  -o-filter: blur(3px);
+  -ms-filter: blur(3px);
+  filter: blur(3px);
+}
+
+.review-card-parent:hover .overlay {
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+
+.review-card {
+  box-shadow: 0 4px 8px 0 #666;
+  background-color: #EEE;
+  color: #000;
+  resize: none;
+}
+
+.review-card {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.overlay input {
+  width: 100%;
+  margin-top: 10px;
+}
+.review-card h5,
+.review-card h4,
+.review-card h3 {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.review-card hr{
+  border-top: 2px solid #2D9CDB;
+  margin-bottom: 0;
+}
+
+.review-card input {
+  margin:auto;
+  width: 15%;
+}
+
+.review-card-edit {
+  border: 0px;
+  color: #FFF;
+  text-shadow: 0 1px rgba(0,0,0,0.1);
+  background-color: #4d90fe;
+  padding: 17px 0px;
+  font-size: 16px;
+}
+
+.review-card textarea {
+  width: 450px;
+  height: 105px;
+  padding-left: 10px;
+  padding-top: 5px;
+}
+
+.review-card textarea:focus {
+  outline-offset: 0;
+}
+
+.review-card-button {
+  position: absolute;
+  right: 21px;
+  border: 0px;
+  height: 45px;
+  text-align: center;
+  color: #FFF;
+  text-shadow: 0 1px rgba(0,0,0,0.1);
+  background-color: #4d90fe;
+  padding: 10px 0px;
+  font-size: 16px;
+}
+
+.save {
+  bottom: 55px;
+}
+
+.cancel {
+  bottom: 5px;
+}
+
+.animate-enter-setup, .animate-leave-setup {
+    -webkit-transition: 1s linear all;
+    /* Safari/Chrome */
+    -moz-transition: 1s linear all;
+    /* Firefox */
+    -ms-transition: 1s linear all;
+    /* IE10 */
+    -o-transition: 1s linear all;
+    /* Opera */
+    transition: 1s linear all;
+    /* Future Browsers */
+}
+.animate-enter-setup {
+    opacity: 0;
+}
+.animate-enter-setup.animate-enter-start {
+    /* The animation code itself */
+    opacity: 1;
+}
+.animate-leave-setup {
+    opacity: 1;
+}
+.animate-leave-setup.animate-leave-start {
+    /* The animation code itself */
+    opacity: 0;
+}

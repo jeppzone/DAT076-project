@@ -24,6 +24,7 @@ function MoviesController($scope, SearchFactory){
   var vm = this;
   const MOVIES_PER_ROW = 9;
   vm.loadMoreMovies = loadMoreMovies;
+
   $scope.$watch(function(){
     return SearchFactory.searchResult;
   }, function(newValue, oldValue){
@@ -41,6 +42,7 @@ function MoviesController($scope, SearchFactory){
       setOriginalList();
     }
   });
+
   setOriginalList();
 
   function loadMoreMovies(){

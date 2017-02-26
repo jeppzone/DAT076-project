@@ -1,0 +1,23 @@
+<div ng-show="!vm.editing" class="review-card-parent">
+  <div class="review-card" ng-class="{'review-card-hovering': review.author === vm.loggedInUser.username && vm.showOverlay}">
+    <h3> {{review.title}} </h3>
+    <h5> {{review.author}} </h5>
+    <hr>
+    <h4> {{review.text}} </h4>
+  </div>
+  <div class="overlay" ng-show="review.author == vm.loggedInUser.username && vm.showOverlay">
+    <input type="button" class="review-card-edit" value="Edit" ng-click="vm.editing = true"></input>
+    <input type="button" class="review-card-edit" value="Delete" ng-click="vm.deleteReview()"></input>
+  </div>
+</div>
+
+<div ng-show="vm.editing" class="review-card-parent">
+  <div class="review-card">
+    <h3> {{review.title}} </h3>
+    <h5> {{review.author}} </h5>
+    <hr>
+    <textarea ng-model ="vm.editedText"></textarea>
+    <input type="button" class="review-card-button save" value="Save" ng-click="vm.save()"></input>
+    <input type="button" class="review-card-button cancel" value="Cancel" ng-click="vm.cancel()"></input>
+  </div>
+</div>
