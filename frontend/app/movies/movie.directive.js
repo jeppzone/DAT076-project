@@ -10,7 +10,8 @@ function Movie(){
     restrict: 'E',
     templateUrl: 'movies/movie.view.html',
     scope: {
-      name: '='
+      title: '=',
+      poster: '='
     },
     controller: 'MovieController',
     controllerAs: 'vm'
@@ -19,7 +20,6 @@ function Movie(){
   return directive;
 }
 
-MovieController.$inject = [];
-function MovieController(){
-  var vm = this;
+MovieController.$inject = ['$scope'];
+function MovieController($scope){
 }

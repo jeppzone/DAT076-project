@@ -23,6 +23,7 @@ angular
     'moviez.home',
     'moviez.movies',
     'moviez.movie',
+    'moviez.movie-factory',
     'moviez.review',
     'moviez.reviews',
     'moviez.review-factory',

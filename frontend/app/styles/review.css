@@ -80,6 +80,7 @@
 
 .review-card textarea {
   width: 450px;
+  max-height: 105px;
   height: 105px;
   padding-left: 10px;
   padding-top: 5px;

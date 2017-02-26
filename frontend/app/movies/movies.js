@@ -22,7 +22,7 @@ function moviesConfig($stateProvider){
 MoviesController.$inject = ['$scope', 'SearchFactory'];
 function MoviesController($scope, SearchFactory){
   var vm = this;
-  const MOVIES_PER_ROW = 9;
+  const MOVIES_PER_ROW = 6;
   vm.loadMoreMovies = loadMoreMovies;
 
   $scope.$watch(function(){
@@ -57,10 +57,10 @@ function MoviesController($scope, SearchFactory){
     vm.allMovies = [];
     vm.shownMovies = [];
     for(var i = 0; i < 1000; i++){
-      vm.allMovies.push('Movie ' + i);
+      vm.allMovies.push({title: 'Movie ' + i, poster: 'http://placehold.it/300x440'});
     }
 
-    for(var i = 0; i < 54; i++){
+    for(var i = 0; i < 30; i++){
       vm.shownMovies.push(vm.allMovies[i]);
     }
   }

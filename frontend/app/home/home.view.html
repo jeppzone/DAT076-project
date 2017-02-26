@@ -1,1 +1,8 @@
-HOME
+<div class="movie-header">
+  <h1> Popular movies </h1>
+</div>
+<div class="movie-container">
+  <div ng-repeat="movie in vm.popularMovies" class="movies">
+    <movie title="movie.title" poster="movie.poster"></movie>
+  </div>
+</div

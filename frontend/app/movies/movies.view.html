@@ -1,11 +1,12 @@
 <div class="movie-header">
-  <h1>MOVIES</h1>
+  <h1>Browse movies</h1>
 </div>
-<div infinite-scroll="vm.loadMoreMovies()">
-  <div class="movies" ng-repeat="movie in vm.shownMovies">
-    <movie name="movie"></movie>
+<div class="movie-container">
+  <div infinite-scroll="vm.loadMoreMovies()">
+    <div class="movies" ng-repeat="movie in vm.shownMovies">
+      <movie title="movie.title" poster="movie.poster"></movie>
+    </div>
   </div>
 </div>
 
-<div style="height: 500px;">
-</div>
+<div style="height: 200px;"></div>
