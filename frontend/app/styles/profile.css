@@ -1,0 +1,43 @@
+.card {
+    box-shadow: 0 4px 8px 0 #666;
+    margin: auto;
+}
+
+.card img {
+  display: block;
+  margin: auto;
+  margin-top: 20px;
+}
+
+.container {
+  margin-top: 20px;
+  padding: 2px 16px;
+  color: #2D9CDB;
+  text-align: center;
+}
+
+.container h4 {
+  margin-top: 20px;
+}
+
+.card input {
+  width: 50%;
+  display: block;
+  margin: auto;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+.profile-edit-button {
+  border: 0px;
+  color: #FFF;
+  text-shadow: 0 1px rgba(0,0,0,0.1);
+  background-color: #4d90fe;
+  padding: 17px 0px;
+  font-size: 14px;
+}
+
+.profile-edit-button:hover {
+  border: 0px;
+  text-shadow: 0 1px rgba(0,0,0,0.3);
+  background-color: #357ae8;
+}

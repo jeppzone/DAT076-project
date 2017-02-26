@@ -18,6 +18,7 @@ function SearchFactory(ApiBase, $http) {
   function search(searchString) {
     console.log(searchString);
     service.searchString = searchString;
+    service.searchResult = [searchString]; //Only for testing purposes;
     /* TODO Call to API */
   }
 }

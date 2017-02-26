@@ -8,11 +8,12 @@
 body {
   padding: 0;
   font-family: 'Raleway', sans-serif;
+  overflow-y: auto;
 }
 
-::-webkit-scrollbar {
+/*::-webkit-scrollbar {
     display: none;
-}
+}*/
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
 .header,
