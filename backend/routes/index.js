@@ -22,7 +22,6 @@ module.exports = function(express) {
      *   user not registered (404)
      *   missing fields (400)
      *
-     *
      */
     router.post('/login', function(req, res) {
         var body = req.body;

@@ -10,7 +10,7 @@ var Errors = require('../errors');
 var Helpers = require('./test-helpers');
 var Status = require('http-status-codes');
 
-describe("Register user", function() {
+describe("Register and log in user", function() {
 
     const URL = "http://localhost:3000";
 

@@ -8,22 +8,32 @@ mongoose.Promise = Promise;
 
 var Cfg = require('../configuration');
 var User = require('../models/internal/user');
+var Review = require('../models/internal/review');
 
 module.exports = {
+    clearReviews: clearReviews,
     clearUsers: clearUsers,
     connectTestingDb: connectTestingDb,
     disconnectDb: disconnectDb
 };
 
-function clearUsers(done) {
+function clearCollection(model, done) {
     if (mongoose.connection.name === 'moviesite-test') {
-        User.remove({}, function(err) {
+        model.remove({}, function(err) {
             if (err) throw err;
             done();
         });
     } else {
         done();
     }
+}
+
+function clearReviews(done) {
+    clearCollection(Review, done);
+}
+
+function clearUsers(done) {
+    clearCollection(User, done);
 }
 
 function connectTestingDb(done) {

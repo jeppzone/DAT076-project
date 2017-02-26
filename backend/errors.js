@@ -13,9 +13,11 @@ module.exports = {
     COLLISION: Status.CONFLICT,
     TOKEN_INVALID: Status.UNAUTHORIZED,
     LOGIN_INVALID: Status.UNAUTHORIZED,
+    UNAUTHORIZED: Status.UNAUTHORIZED,
     UNKNOWN_ERROR: 500,
 
     sendErrorResponse: function(err, res) {
+        console.log(err);
         if (typeof err === 'number') {
             res.status(err).send();
         } else {
