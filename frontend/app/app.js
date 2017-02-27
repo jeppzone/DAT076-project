@@ -39,7 +39,7 @@ angular
   ])
   .run(['$rootScope', 'UserFactory', function($rootScope, UserFactory){
     $rootScope.$on('$stateChangeStart', function(evt, toState, toParams, fromState, fromParams) {
-      UserFactory.getUser();
+      UserFactory.getUser(); // Get the user info every time state is changed
     });
   }])
   .config(appConfig)
@@ -52,12 +52,28 @@ angular
 
   function appConfig($urlRouterProvider, $httpProvider, $locationProvider, $qProvider){
     $locationProvider.hashPrefix('');
-    $urlRouterProvider.otherwise('/home');
+    $urlRouterProvider.otherwise('/home'); // If url does not match, go to home
     $qProvider.errorOnUnhandledRejections(false);
+
+    /* Intercept all HTTP Requests and put Authorization header only if the
+       request is made to localhost (meaning our REST API), because TMDb API does
+       not accept the Authorization header
+    */
+    $httpProvider.interceptors.push(['$q', '$injector', '$cookies',
+      function(q, injector, $cookies){
+        return{
+          request: function(config) {
+            config.headers = config.headers || {};
+            if(config.url.indexOf('localhost') > 0){
+              config.headers.Authorization = $cookies.get('token');
+            }
+            return config;
+          }
+        };
+    }]);
   }
 
   AppController.$inject = ['$scope', '$state'];
 
   function AppController($scope, $state){
-    //$state.go('menu.profile')
   }

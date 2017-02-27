@@ -2,10 +2,10 @@
   <h2>{{vm.movie.title}} ({{vm.movie.release_date}})</h2>
   <div class="col-md-3">
     <img ng-src="{{vm.fullPosterPath}}"></img>
-    <h4> {{vm.movie.overview}} </h4>
   </div>
-  <div class="col-md-2">
-    <h3> Length: {{vm.movie.runtime}} minutes </h3>
-    <h3> Budget: {{vm.movie.budget}} </h3>
+  <div class="col-md-4 movie-detailed-info">
+    <h4> {{vm.movie.overview}} </h4><br><br>
+    <h4 ng-repeat=" genre in vm.movie.genres"> <b>{{genre.name}}</b></h4>
+    <h3> {{vm.movie.runtime}} minutes </h3>
   </div>
 </div>

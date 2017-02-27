@@ -59,9 +59,15 @@
   transition: opacity 0.3s ease;
   opacity: 1;
 }
+
 .movie-detailed h2 {
   padding-left: 14px;
+  padding-bottom: 10px;
 }
 .movie-detailed img {
   width: 100%;
+}
+
+.movie-detailed-info h4 {
+  display: inline;
 }

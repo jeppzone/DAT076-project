@@ -19,12 +19,10 @@ function menuConfig($stateProvider){
 MenuController.$inject = ['LoginFactory', 'UserFactory', '$scope', '$location', 'SearchFactory'];
 
 /* Using $scope in this controller instead of vm=this, beacuse controllerAs did for some reason not work here
-   This is incosistent, and should be changed
 */
 function MenuController(LoginFactory, UserFactory, $scope, $location, SearchFactory){
-  console.log('MenuController');
+  // Get state from URL, in order to change the active tab accordingly on page reload
   let state = $location.path().split('/')[1];
-  console.log(state);
   $scope.setActiveTab = setActiveTab;
   $scope.tabClasses = {
     home: '',
