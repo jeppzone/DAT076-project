@@ -27,7 +27,7 @@ function HomeController(MovieFactory){
   MovieFactory.getPopularMovies().then((result) => {
     var movies = result.data.results;
     for(var i = 0; i < movies.length; i++){
-      vm.popularMovies.push({title: movies[i].title, poster: posterBaseUrl + movies[i].poster_path});
+      vm.popularMovies.push({title: movies[i].title, poster: movies[i].poster_path});
     }
     console.log(vm.popularMovies);
   })

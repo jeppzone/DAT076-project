@@ -25,7 +25,7 @@ function LoginFactory(ApiBase, $http, $state, $cookies, UserFactory) {
   function setCredentials(token){
     UserFactory.loggedIn = true;
 
-    $http.defaults.headers.common.Authorization = token;
+    //$http.defaults.headers.common.Authorization = token;
     $http.defaults.headers.post.Authorization = token;
 
     var day = 24 * 60 * 60 * 1000;
@@ -39,7 +39,7 @@ function LoginFactory(ApiBase, $http, $state, $cookies, UserFactory) {
     UserFactory.loggedIn = false;
     UserFactory.userInfo = {};
 
-    $http.defaults.headers.common.Authorization= '';
+    //$http.defaults.headers.common.Authorization= '';
     $http.defaults.headers.post.Authorization = '';
     $cookies.remove('auth');
 

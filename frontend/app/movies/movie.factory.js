@@ -4,24 +4,23 @@ angular.module('moviez.movie-factory', [])
 
 .factory('MovieFactory', MovieFactory);
 
-MovieFactory.$inject = ['ApiBase', '$http'];
+MovieFactory.$inject = ['ApiBase', '$http', 'TmdbFactory'];
 
-function MovieFactory(ApiBase, $http) {
-  var TMDbApiBase = 'http://api.themoviedb.org/3/'
-  var apiKey = '&api_key=f2975c7499d3ec3abb0aef5401787eb2'
+function MovieFactory(ApiBase, $http, TmdbFactory) {
   var service = {
-    getPopularMovies: getPopularMovies
+    getPopularMovies: getPopularMovies,
+    searchMovie: searchMovie
   };
 
   return service;
 
   function getPopularMovies(movie) {
     var data = 'movie?sort_by=popularity.desc'
-    return executeTMBbRequest('discover', data);
+    return TmdbFactory.executeTMDbRequest('discover', data);
   }
 
-  function executeTMBbRequest(type, data){
-    var url = TMDbApiBase + type + '/' + data + apiKey;
-    return $http.get(url);
+  function searchMovie(searchString) {
+    var data = 'movie?query='+searchString;
+    return TmdbFactory.executeTMDbRequest('search', data);
   }
 }

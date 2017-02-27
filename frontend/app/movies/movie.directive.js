@@ -22,4 +22,10 @@ function Movie(){
 
 MovieController.$inject = ['$scope'];
 function MovieController($scope){
+  let noImage = 'poster-not-available.jpg';
+  if($scope.poster){
+    $scope.posterFullPath = 'http://image.tmdb.org/t/p/w300' + $scope.poster;
+  }else{
+    $scope.posterFullPath = noImage;
+  }
 }
