@@ -13,8 +13,13 @@ function TmdbFactory(TMDbApiBase, ApiKey, $http) {
 
   return service;
 
-  function executeTMBbRequest(type, data){
-    var url = TMDbApiBase + type + '/' + data + ApiKey;
+  function executeTMBbRequest(type, data, multipleQueryParameters){
+    var url = '';
+    if(multipleQueryParameters){
+      url = TMDbApiBase + type + '/' + data + '&' + ApiKey;
+    }else{
+      url = TMDbApiBase + data + '?' +ApiKey;
+    }
     return $http.get(url);
   }
 }

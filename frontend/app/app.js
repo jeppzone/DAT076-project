@@ -23,6 +23,7 @@ angular
     'moviez.home',
     'moviez.movies',
     'moviez.movie',
+    'moviez.movie-detailed',
     'moviez.movie-factory',
     'moviez.tmdb-factory',
     'moviez.review',
@@ -44,7 +45,7 @@ angular
   .config(appConfig)
   .constant('ApiBase', 'http://localhost:3000')
   .constant('TMDbApiBase', 'http://api.themoviedb.org/3/')
-  .constant('ApiKey', '&api_key=f2975c7499d3ec3abb0aef5401787eb2')
+  .constant('ApiKey', 'api_key=f2975c7499d3ec3abb0aef5401787eb2')
   .controller('AppController', AppController );
 
   appConfig.$inject = ['$urlRouterProvider', '$httpProvider', '$locationProvider', '$qProvider'];

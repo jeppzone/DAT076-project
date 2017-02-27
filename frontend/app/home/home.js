@@ -22,13 +22,10 @@ function homeConfig($stateProvider){
 HomeController.$inject = ['MovieFactory'];
 function HomeController(MovieFactory){
   var vm = this;
+  vm.movies = [];
   var posterBaseUrl =  'http://image.tmdb.org/t/p/w300';
   vm.popularMovies = [];
   MovieFactory.getPopularMovies().then((result) => {
-    var movies = result.data.results;
-    for(var i = 0; i < movies.length; i++){
-      vm.popularMovies.push({title: movies[i].title, poster: movies[i].poster_path});
-    }
-    console.log(vm.popularMovies);
-  })
+    vm.movies = result.data.results;
+  });
 }

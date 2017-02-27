@@ -1,8 +1,8 @@
-<div class="movie-item">
+<div class="movie-item" ui-sref="menu.movie-detail({movieId: movie.id})">
   <div class="movie-poster">
     <img ng-src="{{posterFullPath}}"></img>
   </div>
   <div class="title-overlay">
-    <h4> {{title}} </h4>
+    <h4> {{movie.title}} </h4>
   </div>
 </div>
