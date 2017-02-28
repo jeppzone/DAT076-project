@@ -1,11 +1,14 @@
 <div ng-show="!vm.editing" class="review-card-parent">
-  <div class="review-card" ng-class="{'review-card-hovering': review.author === vm.loggedInUser.username && vm.showOverlay}">
-    <h3> {{review.title}} </h3>
-    <h5> {{review.author}} </h5>
+  <div class="review-card" ng-class="{'review-card-hovering': review.author.username === vm.loggedInUser.username && vm.showOverlay}">
+    <h3> {{title}} <span class="date"> {{review.date}}</span></h3>
+    <h3>
+      <span uib-rating ng-model="review.score" read-only="true"></span>
+      <span class="author-name"> {{review.author.username}}</span>
+    </h3>
     <hr>
     <h4> {{review.text}} </h4>
   </div>
-  <div class="overlay" ng-show="review.author == vm.loggedInUser.username && vm.showOverlay">
+  <div class="overlay" ng-show="review.author.username == vm.loggedInUser.username && vm.showOverlay">
     <input type="button" class="review-card-edit" value="Edit" ng-click="vm.editing = true"></input>
     <input type="button" class="review-card-edit" value="Delete" ng-click="vm.deleteReview()"></input>
   </div>
@@ -13,8 +16,8 @@
 
 <div ng-show="vm.editing" class="review-card-parent">
   <div class="review-card">
-    <h3> {{review.title}} </h3>
-    <h5> {{review.author}} </h5>
+    <h3> {{title}}</h3>
+    <h3><span uib-rating ng-model="review.score"></span></h3>
     <hr>
     <textarea ng-model ="vm.editedText"></textarea>
     <input type="button" class="review-card-button save" value="Save" ng-click="vm.save()"></input>

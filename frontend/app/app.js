@@ -28,6 +28,7 @@ angular
     'moviez.tmdb-factory',
     'moviez.review',
     'moviez.reviews',
+    'moviez.add-review',
     'moviez.review-factory',
     'moviez.users',
     'moviez.profile',
@@ -55,9 +56,9 @@ angular
     $urlRouterProvider.otherwise('/home'); // If url does not match, go to home
     $qProvider.errorOnUnhandledRejections(false);
 
-    /* Intercept all HTTP Requests and put Authorization header only if the
+    /* Intercept all HTTP Requests and put authorization header only if the
        request is made to localhost (meaning our REST API), because TMDb API does
-       not accept the Authorization header
+       not accept the authorization header
     */
     $httpProvider.interceptors.push(['$q', '$injector', '$cookies',
       function(q, injector, $cookies){
@@ -65,7 +66,7 @@ angular
           request: function(config) {
             config.headers = config.headers || {};
             if(config.url.indexOf('localhost') > 0){
-              config.headers.Authorization = $cookies.get('token');
+              config.headers.authorization = $cookies.get('auth');
             }
             return config;
           }

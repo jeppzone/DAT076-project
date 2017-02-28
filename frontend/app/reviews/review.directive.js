@@ -25,7 +25,9 @@ function Review(){
     restrict: 'E',
     templateUrl: 'reviews/review.view.html',
     scope: {
-      review: '='
+      review: '=',
+      title: '=',
+      movieDetailed: '='
     },
     controller: 'ReviewController',
     controllerAs: 'vm'
@@ -43,9 +45,10 @@ function ReviewController(UserFactory, $scope, ReviewFactory, $timeout){
   vm.editedText = $scope.review.text;
   vm.loggedInUser = UserFactory.userInfo;
   vm.showOverlay = true;
+  formatDate($scope.review.date);
 
   function save() {
-    //ReviewFactory.editReview($scope.review)
+    ReviewFactory.createReview($scope.review)
     $scope.review.text = vm.editedText;
     vm.showOverlay = false;
     vm.editing = false;
@@ -64,7 +67,13 @@ function ReviewController(UserFactory, $scope, ReviewFactory, $timeout){
 
   function deleteReview() {
     //ReviewFactory.deleteReview($scope.review.reviewId)
-    let index = $scope.$parent.vm.allReviews.indexOf($scope.review);
-    $scope.$parent.vm.allReviews.splice(index, 1);
+    let index = $scope.$parent.vm.reviews.indexOf($scope.review);
+    $scope.$parent.vm.reviews.splice(index, 1);
+  }
+
+  function formatDate(date) {
+    var day = date.substring(0,10);
+    var time = date.substring(11,16);
+    $scope.review.date = day + ' ' + time;
   }
 }

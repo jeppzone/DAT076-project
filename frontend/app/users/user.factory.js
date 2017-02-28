@@ -10,16 +10,17 @@ function UserFactory($http, ApiBase) {
   var service = {
     getUser: getUser,
     updateUser: updateUser,
-    userInfo: {}
+    userInfo: {},
+    loggedIn: false
   };
 
   return service;
 
   function getUser(){
-    /*TODO Implement function go get user from API */
-    return $http.get(ApiBase + "/user").then((result) => {
-      updateUser(result.data);
-    });
+    /*TODO Uncomment this when backend function implemented */
+    //return $http.get(ApiBase + '/user').then((result) => {
+      //updateUser(result.data);
+    //});
   }
 
   function updateUser(user){

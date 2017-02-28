@@ -62,12 +62,30 @@
 
 .movie-detailed h2 {
   padding-left: 14px;
-  padding-bottom: 10px;
 }
+
+.movie-detailed h2 span {
+  color: #f4bf42;
+  outline: none;
+}
+
 .movie-detailed img {
   width: 100%;
 }
 
 .movie-detailed-info h4 {
   display: inline;
+}
+
+.half {
+    position:relative;
+}
+.half:after {
+    content:'';
+    position:absolute;
+    z-index:1;
+    background:white;
+    width: 50%;
+    height: 100%;
+    left: 47%;
 }
