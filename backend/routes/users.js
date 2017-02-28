@@ -20,12 +20,19 @@ module.exports = function(express) {
      *
      */
     router.get('/:username', function(req, res) {
-        console.log("HEJ");
         Users.getUser(req.params.username)
             .then(function(pubUser) { res.send(pubUser); })
             .catch(function(err) {
                 Errors.sendErrorResponse(err, res);
             })
+    });
+
+    router.get('/:username/profile', function(req, res) {
+        Users.getUserAndProfile(req.params.username)
+            .then(function(pubUserAndProfile) {
+                res.send(pubUserAndProfile);
+            })
+            .catch(function(err) { Errors.sendErrorResponse(err, res) })
     });
 
     return router;

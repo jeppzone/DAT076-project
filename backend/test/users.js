@@ -108,10 +108,10 @@ describe("Get users", function() {
             })
     });
 
-    const PROFILE_URL = 'http://localhost:3000/profile';
+    const MY_PROFILE_URL = 'http://localhost:3000/profile';
 
     it('Should return the user profile', function(done) {
-        request(PROFILE_URL)
+        request(MY_PROFILE_URL)
             .get('/')
             .set('authorization', userToken)
             .send()
@@ -136,7 +136,7 @@ describe("Get users", function() {
     });
 
     it('Should return the user profile', function(done) {
-        request(PROFILE_URL)
+        request(MY_PROFILE_URL)
             .get('/')
             .set('authorization', user2Token)
             .send()
@@ -152,8 +152,7 @@ describe("Get users", function() {
 
                 should.exist(body.user.email);
                 body.user.email.should.equal(validUser2.email);
-
-                console.log(body);
+                
                 should.exist(body.profile);
                 should.exist(body.profile.text);
                 should.exist(body.profile.lastActivity);
@@ -163,7 +162,7 @@ describe("Get users", function() {
     });
 
     it('Should receive error due to missing token', function(done) {
-        request(PROFILE_URL)
+        request(MY_PROFILE_URL)
             .get('/')
             .send()
             .end(function(err, res) {
@@ -174,7 +173,7 @@ describe("Get users", function() {
     });
 
     it('Should receive error due to invalid token', function(done) {
-        request(PROFILE_URL)
+        request(MY_PROFILE_URL)
             .get('/')
             .set('authorization', 'this is not really a token')
             .send()
@@ -185,5 +184,38 @@ describe("Get users", function() {
             })
     });
 
+    it('Should return the other user profile', function(done) {
+        request(URL)
+            .get('/' + encodeURIComponent(validUser.username) + '/profile')
+            .send()
+            .end(function(err, res) {
+                if (err) { throw err }
+
+                should.exist(res.body);
+                var body = res.body;
+
+                should.exist(body.user);
+                should.exist(body.user.username);
+                body.user.username.should.equal(validUser.username);
+
+                should.not.exist(body.user.email);
+
+                should.exist(body.profile);
+                should.exist(body.profile.text);
+                should.exist(body.profile.lastActivity);
+                done();
+            })
+    });
+
+    it('Should not return profile of nonexistant user', function(done) {
+        request(URL)
+            .get('/the_donald/profile')
+            .send()
+            .end(function(err, res) {
+                if (err) { throw err }
+                res.status.should.equal(Errors.NOT_FOUND);
+                done();
+            })
+    });
 
 });

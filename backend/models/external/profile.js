@@ -5,6 +5,6 @@
 module.exports = function(profile) {
     return {
         text: profile.text,
-        lastActivity: profile.lastActivity.getTime()
+        lastActivity: profile.lastActivity
     }
 };

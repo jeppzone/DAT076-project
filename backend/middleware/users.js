@@ -14,6 +14,7 @@ var Tokens = require('./tokens');
 module.exports = {
     getUser: getUser,
     getUserProfile: getUserProfile,
+    getUserAndProfile: getUserAndProfile,
     login: login,
     register: register
 };
@@ -129,4 +130,17 @@ function getUserProfile(user) {
             }
             return new PublicProfile(foundProfile);
         });
+}
+
+function getUserAndProfile(username) {
+    return User.findOne({ usernameLower: username.toLowerCase().trim() })
+        .then(function(foundUser) {
+            if (!foundUser) {
+                throw Errors.NOT_FOUND;
+            }
+            return getUserProfile(foundUser)
+                .then(function(foundProfile) {
+                    return { user: new PublicUser(foundUser), profile: new PublicProfile(foundProfile) }
+                })
+        })
 }
