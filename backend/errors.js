@@ -6,6 +6,7 @@ var Status = require('http-status-codes');
 
 module.exports = {
     BAD_REQUEST: Status.BAD_REQUEST,
+    VALIDATION_ERROR: Status.BAD_REQUEST,
     NOT_FOUND: Status.NOT_FOUND,
     USERNAME_MALFORMED: 420,
     EMAIL_MALFORMED: 421,

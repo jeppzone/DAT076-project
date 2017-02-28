@@ -15,6 +15,7 @@ module.exports = {
     getUser: getUser,
     getUserProfile: getUserProfile,
     getUserAndProfile: getUserAndProfile,
+    updateProfile: updateProfile,
     login: login,
     register: register
 };
@@ -123,11 +124,8 @@ function getUser(username) {
  * @returns {Promise}
  */
 function getUserProfile(user) {
-    return Profile.findOne({ owner: user._id })
+    return getProfile(user._id)
         .then(function(foundProfile) {
-            if (!foundProfile) {
-                throw Errors.NOT_FOUND;
-            }
             return new PublicProfile(foundProfile);
         });
 }
@@ -143,4 +141,40 @@ function getUserAndProfile(username) {
                     return { user: new PublicUser(foundUser), profile: new PublicProfile(foundProfile) }
                 })
         })
+}
+
+/**
+ * Update the profile belonging to the given user with the given text.
+ * @param user
+ * @param text
+ * @returns {Promise|*} The updated profile, or an error if the text had the wrong format.
+ */
+function updateProfile(user, text) {
+    return Profile.findOne({ owner: user._id })
+        .then(function(foundProfile) {
+            foundProfile.text = text;
+            foundProfile.lastActivity = Date.now();
+            return foundProfile.save()
+                .catch(function(err) {
+                    throw Errors.UNKNOWN_ERROR;
+                });
+        })
+        .then(function(savedProfile) {
+            return { user: new PublicMe(user), profile: new PublicProfile(savedProfile) }
+        })
+}
+
+/**
+ * Get the profile belonging to the user with the given id.
+ * @param userId
+ * @returns {Promise|*}
+ */
+function getProfile(userId) {
+    return Profile.findOne({ owner: userId })
+        .then(function(foundProfile) {
+            if (!foundProfile) {
+                throw Errors.NOT_FOUND;
+            }
+            return foundProfile;
+        });
 }

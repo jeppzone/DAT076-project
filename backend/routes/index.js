@@ -101,5 +101,32 @@ module.exports = function(express) {
 
     });
 
+    /**
+     * Update the profile of the user issued the token supplied in the request "authorization" header.
+     * Accepts the body attribute "text" with a max length of 3000 characters.
+     *
+     * Returns HTTP Status 200 if successful, together with the user and the updated user profile.
+     *
+     * ## Errors (HTTP Status) ##
+     *   token or profile text was not supplied, or text was too long (400)
+     *   token was invalid (401)
+     *
+     */
+    router.put('/profile', function(req, res) {
+
+        if (!req.user || !req.body || !req.body.text || typeof req.body.text !== 'string' ||
+            req.body.text.length > Cfg.PROFILE_MAX_LENGTH) {
+
+            Errors.sendErrorResponse(Errors.BAD_REQUEST, res);
+        } else {
+            Users.updateProfile(req.user, req.body.text)
+                .then(function(pubUserAndProfile) {
+                    res.send(pubUserAndProfile);
+                })
+                .catch(function(err) { Errors.sendErrorResponse(err, res) })
+        }
+
+    });
+
     return router;
 };

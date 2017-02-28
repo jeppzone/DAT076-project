@@ -33,11 +33,15 @@ describe("Get users", function() {
         password: "hunter2"
     };
 
+    const validProfileText = "Welcome to my awesome profile!";
+    const tooLongProfileText = new Array(4000).join("X");
+
     var userToken;
     var user2Token;
 
     before(Helpers.connectTestingDb);
     before(Helpers.clearUsers);
+    before(Helpers.clearProfiles);
     before(function (done) {
         UsersMW.register(validUser)
             .then(function (pubUser) {
@@ -214,6 +218,86 @@ describe("Get users", function() {
             .end(function(err, res) {
                 if (err) { throw err }
                 res.status.should.equal(Errors.NOT_FOUND);
+                done();
+            })
+    });
+
+    it('Should update the profile of the given user', function(done) {
+        request(MY_PROFILE_URL)
+            .put('/')
+            .set('authorization', userToken)
+            .send({text: validProfileText})
+            .end(function(err, res) {
+                if (err) { throw err }
+                res.status.should.equal(Status.OK);
+
+                should.exist(res.body);
+                var body = res.body;
+
+                should.exist(body.user);
+                var user = body.user;
+
+                should.exist(user.username);
+                user.username.should.equal(validUser.username);
+
+                should.exist(user.email);
+                user.email.should.equal(validUser.email);
+
+                should.exist(body.profile);
+                var profile = body.profile;
+
+                should.exist(profile.text);
+                profile.text.should.equal(validProfileText);
+
+                should.exist(profile.lastActivity);
+
+                done();
+            })
+    });
+
+    it('Should fail to update the profile since the profile text is too long', function(done) {
+        request(MY_PROFILE_URL)
+            .put('/')
+            .set('authorization', userToken)
+            .send({text: tooLongProfileText})
+            .end(function (err, res) {
+                if (err) { throw err }
+                res.status.should.equal(Errors.VALIDATION_ERROR);
+                done();
+            })
+    });
+
+    it('Should fail to update the profile due to missing text attribute', function(done) {
+        request(MY_PROFILE_URL)
+            .put('/')
+            .set('authorization', userToken)
+            .send({texxxxt: validProfileText})
+            .end(function (err, res) {
+                if (err) { throw err }
+                res.status.should.equal(Errors.VALIDATION_ERROR);
+                done();
+            })
+    });
+
+    it('Should fail to update the profile due to missing token', function(done) {
+        request(MY_PROFILE_URL)
+            .put('/')
+            .send({text: validProfileText})
+            .end(function (err, res) {
+                if (err) { throw err }
+                res.status.should.equal(Errors.VALIDATION_ERROR);
+                done();
+            })
+    });
+
+    it('Should fail to update the profile due to invalid token', function(done) {
+        request(MY_PROFILE_URL)
+            .put('/')
+            .set('authorization', 'LET ME IN PLZ')
+            .send({text: validProfileText})
+            .end(function (err, res) {
+                if (err) { throw err }
+                res.status.should.equal(Errors.TOKEN_INVALID);
                 done();
             })
     });
