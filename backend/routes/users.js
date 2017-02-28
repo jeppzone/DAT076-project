@@ -27,6 +27,15 @@ module.exports = function(express) {
             })
     });
 
+    /**
+    * Get the profile of the user with the supplied username.
+    *
+    * Returns HTTP Status 200 if successful, together with the user and profile information.
+    *
+    * ## Errors (HTTP Status) ##
+    *   user not found (404)
+    *
+    */
     router.get('/:username/profile', function(req, res) {
         Users.getUserAndProfile(req.params.username)
             .then(function(pubUserAndProfile) {

@@ -152,7 +152,7 @@ describe("Get users", function() {
 
                 should.exist(body.user.email);
                 body.user.email.should.equal(validUser2.email);
-                
+
                 should.exist(body.profile);
                 should.exist(body.profile.text);
                 should.exist(body.profile.lastActivity);
