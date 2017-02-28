@@ -6,6 +6,8 @@ var TokenVerification = require('../middleware/tokens').tokenVerification;
 
 var Users = require('../middleware/users');
 
+var PublicMe = require('../models/external/me');
+
 module.exports = function(express) {
 
     var router = express.Router();
@@ -90,8 +92,9 @@ module.exports = function(express) {
             Errors.sendErrorResponse(Errors.BAD_REQUEST, res);
         } else {
             Users.getUserProfile(req.user)
-                .then(function(pubUser) {
-                    res.send(pubUser);
+                .then(function(pubProfile) {
+
+                    res.send({user: new PublicMe(req.user), profile: pubProfile});
                 })
                 .catch(function(err) { Errors.sendErrorResponse(err, res); });
         }

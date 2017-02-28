@@ -121,12 +121,16 @@ describe("Get users", function() {
                 should.exist(res.body);
                 var body = res.body;
 
-                should.exist(body.username);
-                body.username.should.equal(validUser.username);
+                should.exist(body.user);
+                should.exist(body.user.username);
+                body.user.username.should.equal(validUser.username);
 
-                should.exist(body.email);
-                body.email.should.equal(validUser.email);
+                should.exist(body.user.email);
+                body.user.email.should.equal(validUser.email);
 
+                should.exist(body.profile);
+                should.exist(body.profile.text);
+                should.exist(body.profile.lastActivity);
                 done();
             })
     });
@@ -142,11 +146,17 @@ describe("Get users", function() {
                 should.exist(res.body);
                 var body = res.body;
 
-                should.exist(body.username);
-                body.username.should.equal(validUser2.username);
+                should.exist(body.user);
+                should.exist(body.user.username);
+                body.user.username.should.equal(validUser2.username);
 
-                should.exist(body.email);
-                body.email.should.equal(validUser2.email);
+                should.exist(body.user.email);
+                body.user.email.should.equal(validUser2.email);
+
+                console.log(body);
+                should.exist(body.profile);
+                should.exist(body.profile.text);
+                should.exist(body.profile.lastActivity);
 
                 done();
             })

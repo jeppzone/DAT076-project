@@ -79,7 +79,7 @@ module.exports = function(express) {
             Errors.sendErrorResponse(Errors.UNAUTHORIZED, res);
         } else if (
             (!body.score && !body.text) || // A review must have either a score or a review text, or both.
-            (body.text && body.text.length > Cfg.MAX_REVIEW_LENGTH) || // Enforce max review length
+            (body.text && body.text.length > Cfg.REVIEW_MAX_LENGTH) || // Enforce max review length
             (body.score && !isValidScore(body.score)) || // Score must be between 0 (to unset score) and 5,
             (isNaN(parseInt(req.params.movieId)))
         ) {

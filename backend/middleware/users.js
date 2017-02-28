@@ -4,7 +4,9 @@
 
 var Errors = require('../errors');
 var User = require('../models/internal/user');
+var Profile = require('../models/internal/profile');
 var PublicMe = require('../models/external/me');
+var PublicProfile = require('../models/external/profile');
 var PublicUser = require('../models/external/user');
 
 var Tokens = require('./tokens');
@@ -86,9 +88,14 @@ function register(userData) {
             }
         })
         .then(function(savedUser) {
-            var pubUser = PublicMe(savedUser);
-            pubUser.token = Tokens.signSessionToken(savedUser);
-            return pubUser;
+            var userProfile = new Profile({ owner: savedUser._id });
+
+            return userProfile.save()
+                .then(function(savedProfile) {
+                    var pubUser = PublicMe(savedUser);
+                    pubUser.token = Tokens.signSessionToken(savedUser);
+                    return pubUser;
+                });
         })
 
 }
@@ -115,5 +122,11 @@ function getUser(username) {
  * @returns {Promise}
  */
 function getUserProfile(user) {
-    return Promise.resolve(new PublicMe(user));
+    return Profile.findOne({ owner: user._id })
+        .then(function(foundProfile) {
+            if (!foundProfile) {
+                throw Errors.NOT_FOUND;
+            }
+            return new PublicProfile(foundProfile);
+        });
 }
