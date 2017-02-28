@@ -108,5 +108,72 @@ describe("Get users", function() {
             })
     });
 
+    const PROFILE_URL = 'http://localhost:3000/profile';
+
+    it('Should return the user profile', function(done) {
+        request(PROFILE_URL)
+            .get('/')
+            .set('authorization', userToken)
+            .send()
+            .end(function(err, res) {
+                if (err) { throw err }
+
+                should.exist(res.body);
+                var body = res.body;
+
+                should.exist(body.username);
+                body.username.should.equal(validUser.username);
+
+                should.exist(body.email);
+                body.email.should.equal(validUser.email);
+
+                done();
+            })
+    });
+
+    it('Should return the user profile', function(done) {
+        request(PROFILE_URL)
+            .get('/')
+            .set('authorization', user2Token)
+            .send()
+            .end(function(err, res) {
+                if (err) { throw err }
+
+                should.exist(res.body);
+                var body = res.body;
+
+                should.exist(body.username);
+                body.username.should.equal(validUser2.username);
+
+                should.exist(body.email);
+                body.email.should.equal(validUser2.email);
+
+                done();
+            })
+    });
+
+    it('Should receive error due to missing token', function(done) {
+        request(PROFILE_URL)
+            .get('/')
+            .send()
+            .end(function(err, res) {
+                if (err) { throw err }
+                res.status.should.equal(Errors.BAD_REQUEST);
+                done();
+            })
+    });
+
+    it('Should receive error due to invalid token', function(done) {
+        request(PROFILE_URL)
+            .get('/')
+            .set('authorization', 'this is not really a token')
+            .send()
+            .end(function(err, res) {
+                if (err) { throw err }
+                res.status.should.equal(Errors.TOKEN_INVALID);
+                done();
+            })
+    });
+
 
 });

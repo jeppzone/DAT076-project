@@ -4,7 +4,6 @@
 
 module.exports = function(internalUser) {
     return {
-        id: internalUser._id,
         username: internalUser.username
     };
 };

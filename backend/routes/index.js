@@ -2,12 +2,14 @@
 var Cfg = require('../configuration');
 var Errors = require('../errors');
 var Status = require('http-status-codes');
+var TokenVerification = require('../middleware/tokens').tokenVerification;
 
 var Users = require('../middleware/users');
 
 module.exports = function(express) {
 
     var router = express.Router();
+    router.use(TokenVerification);
 
 
     /**
@@ -68,6 +70,30 @@ module.exports = function(express) {
                 .catch(function(err) {
                     Errors.sendErrorResponse(err, res);
                 })
+        }
+
+    });
+
+    /**
+     * Get the profile of the user belonging to the token supplied in the request "authorization" header.
+     *
+     * Returns HTTP Status 200 if successful, together with the user profile information.
+     *
+     * ## Errors (HTTP Status) ##
+     *   token was not supplied (400)
+     *   token was invalid (401)
+     *
+     */
+    router.get('/profile', function(req, res) {
+
+        if (!req.user) { //Token was not supplied
+            Errors.sendErrorResponse(Errors.BAD_REQUEST, res);
+        } else {
+            Users.getUserProfile(req.user)
+                .then(function(pubUser) {
+                    res.send(pubUser);
+                })
+                .catch(function(err) { Errors.sendErrorResponse(err, res); });
         }
 
     });

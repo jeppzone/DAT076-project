@@ -11,6 +11,7 @@ var Tokens = require('./tokens');
 
 module.exports = {
     getUser: getUser,
+    getUserProfile: getUserProfile,
     login: login,
     register: register
 };
@@ -92,6 +93,11 @@ function register(userData) {
 
 }
 
+/**
+ * Get the user with the given username.
+ * @param username
+ * @returns {Promise|*} - The user, or an error if none found.
+ */
 function getUser(username) {
     return User.findOne({ usernameLower: username.toLowerCase().trim() })
         .then(function(foundUser) {
@@ -101,4 +107,13 @@ function getUser(username) {
             return new PublicUser(foundUser);
         })
 
+}
+
+/**
+ * Return the public representation of the profile of the given user.
+ * @param user
+ * @returns {Promise}
+ */
+function getUserProfile(user) {
+    return Promise.resolve(new PublicMe(user));
 }
