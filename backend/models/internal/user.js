@@ -20,7 +20,7 @@ var UserSchema = new mongoose.Schema({
         index: true,
         unique: true
     },
-    username: { // Cased representaiton of username for presentation
+    username: { // Cased representation of username for presentation
         type: String,
         trim: true,
         unique: true

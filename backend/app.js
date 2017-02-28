@@ -14,6 +14,7 @@ mongoose.Promise = Promise;
 // Routes
 var index = require('./routes/index');
 var movies = require('./routes/movies');
+var users = require('./routes/users');
 
 var app = express();
 
@@ -34,6 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index(express));
 app.use('/movies', movies(express));
+app.use('/users', users(express));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

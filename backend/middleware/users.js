@@ -5,10 +5,12 @@
 var Errors = require('../errors');
 var User = require('../models/internal/user');
 var PublicMe = require('../models/external/me');
+var PublicUser = require('../models/external/user');
 
 var Tokens = require('./tokens');
 
 module.exports = {
+    getUser: getUser,
     login: login,
     register: register
 };
@@ -86,6 +88,17 @@ function register(userData) {
             var pubUser = PublicMe(savedUser);
             pubUser.token = Tokens.signSessionToken(savedUser);
             return pubUser;
+        })
+
+}
+
+function getUser(username) {
+    return User.findOne({ usernameLower: username.toLowerCase().trim() })
+        .then(function(foundUser) {
+            if (!foundUser) {
+                throw Errors.NOT_FOUND;
+            }
+            return new PublicUser(foundUser);
         })
 
 }
