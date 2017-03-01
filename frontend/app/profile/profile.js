@@ -22,6 +22,11 @@ function profileConfig($stateProvider){
 ProfileController.$inject = ['UserFactory'];
 function ProfileController(UserFactory){
   var vm = this;
-  vm.user = UserFactory.userInfo;
+  vm.user = angular.copy(UserFactory.userInfo);
+  vm.save = save;
+
+  function save() {
+    console.log('Saving the user profile');
+  }
   console.log(vm.user);
 }

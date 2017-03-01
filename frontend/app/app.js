@@ -38,9 +38,11 @@ angular
     'moviez.login-register',
     'moviez.user-factory',
   ])
-  .run(['$rootScope', 'UserFactory', function($rootScope, UserFactory){
+  .run(['$rootScope', 'UserFactory', '$cookies', function($rootScope, UserFactory, $cookies){
     $rootScope.$on('$stateChangeStart', function(evt, toState, toParams, fromState, fromParams) {
-      UserFactory.getUser(); // Get the user info every time state is changed
+      if($cookies.get('auth')){
+        UserFactory.verifyUser(); // Get the user info every time state is changed
+      }
     });
   }])
   .config(appConfig)

@@ -18,7 +18,6 @@ function RegisterFactory(ApiBase, $http) {
   return service;
 
   function registerUser(user) {
-    console.log('In regsiter user');
     return $http.post(ApiBase + '/register', user);
   }
 

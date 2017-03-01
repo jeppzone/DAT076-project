@@ -1,7 +1,5 @@
 .movie-container{
-  padding-left: 6vw;
   padding-top: 10px;
-  margin-left: 50px;
 }
 
 .movies {
@@ -11,7 +9,6 @@
 
 .movie-header h1 {
   text-align: center;
-  color: #2D9CDB;
 }
 
 .movie-item {
@@ -19,6 +16,18 @@
   width: 300px;
   height: 440px;
   cursor: pointer;
+}
+
+.movie-container-home .movie-item {
+  position: relative;
+  width: 150px;
+  height: 250px;
+  cursor: pointer;
+}
+
+.movie-container-home .title-overlay h4 {
+  font-size: 20px;
+  color: #000
 }
 
 .movie-poster {

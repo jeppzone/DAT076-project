@@ -1,5 +1,10 @@
 'use strict';
 
+/* The module menu contains the parent state to which all other states in the
+  application inherit from. The menu module is responsible for all navigation
+  and is visible and accessible at all times.
+*/
+
 angular.module('moviez.menu', [])
 
 .config(menuConfig)
@@ -33,17 +38,18 @@ function MenuController(LoginFactory, UserFactory, $scope, $location, SearchFact
   };
   setActiveTab(state);
 
+  /*Watch to see if userInfo is changed, in order to control know if the user
+  is logged in our out */
   $scope.$watch(function(){
     return UserFactory.userInfo;
   }, function(newValue, oldValue){
     $scope.user = newValue;
-    console.log('In watch')
     if(isEmpty($scope.user)){
       $scope.loggedIn = false;
     }else{
       $scope.loggedIn = true;
     }
-    console.log('Setting new value');
+
     if(isEmpty($scope.user) && !isEmpty(oldValue)){
       setActiveTab('home'); //User has logged out, set the active tab to home
     }
@@ -51,14 +57,16 @@ function MenuController(LoginFactory, UserFactory, $scope, $location, SearchFact
 
   $scope.$watch(function(){
     return SearchFactory.searchString;
-  }, function(newValue, oldValue){
+  }, function(newValue){
       if(newValue){
         setActiveTab('movies'); //User has searched, set active tab to movies
       }
   });
 
+  /*Set the active tab to the parameter tab. If the tab is profile, but the
+  user is not logged in, the profile tab should not be active. */
   function setActiveTab(tab){
-    if(tab == 'profile' && !$scope.loggedIn) {
+    if(tab == 'profile' && !UserFactory.loggedIn) {
       $scope.tabClasses.profile = '';
       return;
     }

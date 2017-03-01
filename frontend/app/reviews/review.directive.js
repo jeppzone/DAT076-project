@@ -1,5 +1,11 @@
 'use strict';
 
+/** The review directive represents a review card and is responsible for editing
+    and deleting the given review. It takes two scope properties:
+* @property review - The review object which contains the text, the score and
+            the author
+* @property title - The title of the movie that the review belongs to
+**/
 angular.module('moviez.review', [])
 
 .directive('review', Review)
@@ -27,7 +33,6 @@ function Review(){
     scope: {
       review: '=',
       title: '=',
-      movieDetailed: '='
     },
     controller: 'ReviewController',
     controllerAs: 'vm'
@@ -43,15 +48,23 @@ function ReviewController(UserFactory, $scope, ReviewFactory, $timeout){
   vm.save = save;
   vm.deleteReview = deleteReview;
   vm.editedText = $scope.review.text;
+  vm.editedScore = $scope.review.score;
   vm.loggedInUser = UserFactory.userInfo;
   vm.showOverlay = true;
+
   formatDate($scope.review.date);
 
   function save() {
-    ReviewFactory.createReview($scope.review)
-    $scope.review.text = vm.editedText;
+    ReviewFactory.createReview(vm.editedText, vm.editedScore, $scope.$parent.vm.movie.id)
+      .then((result) => {
+        $scope.review.author = result.data.author
+        $scope.review.text = result.data.text;
+        $scope.review.score = result.data.score;
+        formatDate(result.data.date);
+      });
     vm.showOverlay = false;
     vm.editing = false;
+    /* Adds a timeout so that the hover overlay is not shown immediately */
     $timeout(function () {
       vm.showOverlay = true;
     }, 1500);
@@ -60,6 +73,7 @@ function ReviewController(UserFactory, $scope, ReviewFactory, $timeout){
   function cancel() {
     vm.editing = false;
     vm.showOverlay = false;
+    /* Adds a timeout so that the hover overlay is not shown immediately */
     $timeout(function () {
       vm.showOverlay = true;
     }, 1500);
@@ -71,9 +85,15 @@ function ReviewController(UserFactory, $scope, ReviewFactory, $timeout){
     $scope.$parent.vm.reviews.splice(index, 1);
   }
 
+  /* Format the date on the format 1 Mar 07:47 */
   function formatDate(date) {
-    var day = date.substring(0,10);
-    var time = date.substring(11,16);
-    $scope.review.date = day + ' ' + time;
+    var reviewDate = new Date(new Date(date).getTime());
+    var day = reviewDate.toString().substring(8, 10);
+    if(day.charAt(0) === '0'){
+      day = day.charAt(1);
+    }
+    var month = reviewDate.toString().substring(4, 7);
+    var time = reviewDate.toString().substring(16, 21);
+    $scope.review.date = day + ' ' + month + ' ' + time;
   }
 }

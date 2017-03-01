@@ -1,8 +1,24 @@
 <div class="card">
   <img src="download.jpg" alt="Avatar">
-  <div class="container">
-    <h4><b>{{user.username}}</b></h4>
-    <h4><b>{{user.email}}</b></h4>
-    <input type="button" name="edit" class="profile-edit-button" value="Edit">
+  <div class="container" ng-if="!vm.editing">
+    <h4><b>{{vm.user.username}}</b></h4>
+    <h4><b>{{vm.user.email}}</b></h4>
+    <input type="button" name="edit" class="profile-edit-button" value="Edit" ng-click="vm.editing=true">
+  </div>
+  <div class="edit-container" ng-if="vm.editing">
+    <div>
+      <h4>username</h4>
+      <input type="text" name="username" ng-model="vm.user.username">
+    </div>
+    <div>
+      <h4>email</h4>
+      <input type="email" name="email" ng-model="vm.user.email">
+    </div>
+    <div>
+      <h4>password</h4>
+      <input type="password" name="password" ng-model="vm.user.password">
+    </div>
+    <input type="button" name="cancel" class="profile-edit-button" value="Cancel" ng-click="vm.editing=false">
+    <input type="button" name="save" class="profile-edit-button" value="Save" ng-click="vm.save()">
   </div>
 </div>

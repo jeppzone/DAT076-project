@@ -8,7 +8,7 @@ UserFactory.$inject = ['$http', 'ApiBase'];
 
 function UserFactory($http, ApiBase) {
   var service = {
-    getUser: getUser,
+    verifyUser: verifyUser,
     updateUser: updateUser,
     userInfo: {},
     loggedIn: false
@@ -16,12 +16,19 @@ function UserFactory($http, ApiBase) {
 
   return service;
 
-  function getUser(){
-    /*TODO Uncomment this when backend function implemented */
-    //return $http.get(ApiBase + '/user').then((result) => {
-      //updateUser(result.data);
-    //});
+  function verifyUser(){
+    return $http.get(ApiBase + '/profile').then((result) => {
+      updateUser(result.data.user);
+      if(service.userInfo.username){
+        service.loggedIn = true;
+      }
+    });
   }
+
+  /*
+  function editUser() {
+    return $http.put(ApiBase + '/profile', )
+  }*/
 
   function updateUser(user){
     for(var key in user) {

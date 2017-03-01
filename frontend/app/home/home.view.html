@@ -1,8 +1,32 @@
-<div class="movie-header">
-  <h1> Popular movies </h1>
-</div>
-<div class="movie-container">
-  <div ng-repeat="movie in vm.movies" class="movies">
-    <movie movie="movie"></movie>
+<div class="col-md-12">
+  <div class="col-md-4">
+    <div class="header-home">
+      <h1> Popular movies </h1>
+    </div>
+    <div class="movie-container-home">
+      <div ng-repeat="movie in vm.movies" class="movies">
+        <movie movie="movie"></movie>
+      </div>
+    </div>
   </div>
-</div
+  <div class="col-md-4">
+    <div class="header-home">
+      <h1>Users that you follow </h1>
+    </div>
+    <div class="movie-container-home">
+      <div ng-repeat="movie in vm.movies" class="movies">
+        <movie movie="movie"></movie>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="header-home">
+      <h1> Latest reviews </h1>
+    </div>
+    <div class="movie-container-home">
+      <div ng-repeat="review in vm.latestReviews" class="reviews">
+        <review review="review"></review>
+      </div>
+    </div>
+  </div>
+</div>

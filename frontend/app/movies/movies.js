@@ -8,6 +8,11 @@ angular.module('moviez.movies', ['infinite-scroll'])
 moviesConfig.$inject = ['$stateProvider'];
 function moviesConfig($stateProvider){
   $stateProvider.state('menu.movies', {
+    resolve: {
+      popularMovies: function(MovieFactory){
+         return MovieFactory.getPopularMovies();
+       }
+    },
     url: '/movies',
     views: {
       'main':{
@@ -19,43 +24,26 @@ function moviesConfig($stateProvider){
   });
 }
 
-MoviesController.$inject = ['$scope', 'SearchFactory'];
-function MoviesController($scope, SearchFactory){
+MoviesController.$inject = ['$scope', 'SearchFactory', 'popularMovies'];
+function MoviesController($scope, SearchFactory, popularMovies){
   var vm = this;
-  const MOVIES_PER_ROW = 6;
-  //vm.loadMoreMovies = loadMoreMovies;
+  vm.searchString = SearchFactory.searchString;
+
+  if(!SearchFactory.searchString || SearchFactory.searchResult.length < 1){
+    vm.shownMovies = popularMovies.data.results;
+  }else{
+    vm.shownMovies = SearchFactory.searchResult;
+  }
 
   $scope.$watch(function(){
     return SearchFactory.searchResult;
-  }, function(newValue, oldValue){
-    if(SearchFactory.searchString){
+  }, function(newValue){
+    vm.searchString = SearchFactory.searchString;
+    if(newValue && newValue.length > 0 && vm.searchString){
       vm.allMovies = newValue;
       vm.shownMovies = newValue;
-      console.log(vm.allMovies.length);
+    }else{
+      vm.shownMovies = popularMovies.data.results;
     }
   });
-
-  function loadMoreMovies(){
-    if(vm.shownMovies.length < (vm.allMovies.length - MOVIES_PER_ROW-1)){
-      for(var i = 0; i < MOVIES_PER_ROW; i++){
-        if(vm.allMovies[i]){
-          vm.shownMovies.push(vm.allMovies[vm.shownMovies.length]);
-        }
-      }
-    }
-  }
-
-    /*
-
-  function setOriginalList() {
-    vm.allMovies = [];
-    vm.shownMovies = [];
-    for(var i = 0; i < 1000; i++){
-      vm.allMovies.push({title: 'Movie ' + i, poster: 'http://placehold.it/300x440'});
-    }
-
-    for(var i = 0; i < 30; i++){
-      vm.shownMovies.push(vm.allMovies[i]);
-    }
-  }*/
 }

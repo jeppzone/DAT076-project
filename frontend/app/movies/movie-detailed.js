@@ -1,5 +1,11 @@
 'use strict';
-
+/**
+The movie-detailed module contains the movie-detail state, which is repsonsible
+for displaying detailed information about a single movie; Both information from
+the TMDb API, as well as all reviews belonging to the given movie. It takes one
+state parameter:
+* @param movieId - the TMDb id of the given movie
+**/
 angular.module('moviez.movie-detailed', [])
 
 .config(movieDetailedConfig)
@@ -31,6 +37,7 @@ function MovieDetailedController ($scope, MovieFactory, $stateParams, ReviewFact
   vm.movie = {};
   vm.reviews = result.data.reviews;
   vm.averageRating = Math.floor(result.data.averageScore);
+
   $scope.$watch(function(){
     return vm.reviews;
   }, function(){

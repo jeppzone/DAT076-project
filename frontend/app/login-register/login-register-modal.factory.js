@@ -67,6 +67,7 @@ function loginRegisterModal($uibModal) {
           if(result.status === 200){
             UserFactory.updateUser(result.data);
             LoginFactory.setCredentials(result.data.token);
+            UserFactory.verifyUser();
             uibModalInstance.close();
           }else if(result.status === 401){
             /*TODO Implement error handling */
@@ -79,12 +80,16 @@ function loginRegisterModal($uibModal) {
       function register() {
         if(credentialsValid()) {
           RegisterFactory.registerUser(vm.credentials).then((result) => {
-            if(result.status === 409){
+            if(result.status === 200 || result.status === 201){
+              LoginFactory.setCredentials(result.data.token);
+              UserFactory.updateUser(result.data);
+              uibModalInstance.close();
+              UserFactory.verifyUser();
+            }else if(result.status === 409){
               /*TODO Add error handling */
             }else if(result.status === 400){
               /*TODO Add error handling */
-            }
-            uibModalInstance.close();
+            }else{}
           })
         }else{
           /*TODO Implement error handling */

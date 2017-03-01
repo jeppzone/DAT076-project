@@ -1,6 +1,7 @@
 .card {
     box-shadow: 0 4px 8px 0 #666;
-    margin: auto;
+    width: 30%;
+    height: auto;
 }
 
 .card img {
@@ -10,6 +11,7 @@
 }
 
 .container {
+  width: 100%;
   margin-top: 20px;
   padding: 2px 16px;
   color: #2D9CDB;
@@ -21,12 +23,61 @@
 }
 
 .card input {
-  width: 50%;
+  width: 80%;
   display: block;
   margin: auto;
   margin-top: 20px;
   margin-bottom: 10px;
 }
+
+.profile-edit-button:hover {
+  border: 0px;
+  text-shadow: 0 1px rgba(0,0,0,0.3);
+  background-color: #357ae8;
+}
+
+.edit-container {
+  color: black;
+  padding-bottom: 20px;
+}
+
+.edit-container input[type="text"],
+.edit-container input[type="email"],
+.edit-container input[type="password"] {
+  display: inline;
+  height: 44px;
+  font-size: 16px;
+  width: 50%;
+  -webkit-appearance: none;
+  background: #fff;
+  border: 1px solid #d9d9d9;
+  border-top: 1px solid #c0c0c0;
+  /* border-radius: 2px; */
+  padding: 0 8px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+}
+.edit-container input[type="email"] {
+  margin-left: 38px;
+}
+
+.edit-container input[type="password"] {
+  margin-left: 4px;
+}
+
+.edit-container input[type="button"] {
+  display: inline;
+  width: 30%;
+  margin-top: 5%;
+  margin-left: 10%;
+}
+
+.edit-container h4 {
+  display: inline;
+  padding-left: 6%;
+  padding-right: 40px;
+}
+
 .profile-edit-button {
   border: 0px;
   color: #FFF;
@@ -34,10 +85,4 @@
   background-color: #4d90fe;
   padding: 17px 0px;
   font-size: 14px;
-}
-
-.profile-edit-button:hover {
-  border: 0px;
-  text-shadow: 0 1px rgba(0,0,0,0.3);
-  background-color: #357ae8;
 }
