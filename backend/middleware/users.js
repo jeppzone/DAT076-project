@@ -2,6 +2,7 @@
  * Created by Oskar Jönefors on 2/22/17.
  */
 
+var Cfg = require('../configuration');
 var Errors = require('../errors');
 var User = require('../models/internal/user');
 var Profile = require('../models/internal/profile');
@@ -17,7 +18,8 @@ module.exports = {
     getUserAndProfile: getUserAndProfile,
     updateProfile: updateProfile,
     login: login,
-    register: register
+    register: register,
+    search: search
 };
 
 /**
@@ -177,4 +179,12 @@ function getProfile(userId) {
             }
             return foundProfile;
         });
+}
+
+function search(searchString) {
+
+    var qry = '^' + searchString;
+    return User.find({ usernameLower: new RegExp(qry, "i") })
+        .limit(Cfg.SEARCH_MIN_LENGTH)
+
 }

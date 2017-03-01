@@ -18,5 +18,6 @@ module.exports = {
     NBR_REVIEWS_MOVIE_INFO: 10,
     MOVIE_REFRESH_HOURS: 24, // If a movie has been fetched from TMDB in this time period, do not fetch again to update it.
     MOVIE_REFRESH_MILLIS: this.MOVIE_REFRESH_HOURS * MILLIS_PER_HOUR,
-    LATEST_REVIEWS_MAX_LIMIT: 20
+    LATEST_REVIEWS_MAX_LIMIT: 20,
+    SEARCH_MIN_LENGTH: 3
 };

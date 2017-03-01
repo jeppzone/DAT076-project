@@ -28,7 +28,7 @@ describe("Get users", function() {
     };
 
     const validUser2 = {
-        username: "TheValidUser2",
+        username: "EquallyValidUser2",
         email: "valid2@user.com",
         password: "hunter2"
     };
@@ -301,5 +301,85 @@ describe("Get users", function() {
                 done();
             })
     });
+
+    it('Should find user when searching ', function(done) {
+        request(URL)
+            .get('/?search=equ')
+            .send()
+            .end(function(err, res) {
+                if (err) { throw err }
+                res.status.should.equal(Status.OK);
+                should.exist(res.body);
+
+                var body = res.body;
+
+                should.exist(body.searchResults);
+                var results = body.searchResults;
+
+                results.length.should.equal(1);
+
+                var fstRes = results[0];
+
+                should.exist(fstRes.username);
+                fstRes.username.should.equal(validUser2.username);
+                done();
+            })
+    });
+
+    it('Should find user when searching ', function(done) {
+        request(URL)
+            .get('/?search=the')
+            .send()
+            .end(function(err, res) {
+                if (err) { throw err }
+                res.status.should.equal(Status.OK);
+                should.exist(res.body);
+
+                var body = res.body;
+
+                should.exist(body.searchResults);
+                var results = body.searchResults;
+
+                results.length.should.equal(1);
+
+                var fstRes = results[0];
+
+                should.exist(fstRes.username);
+                fstRes.username.should.equal(validUser.username);
+                done();
+            })
+    });
+
+    it('Should find no user when searching ', function(done) {
+        request(URL)
+            .get('/?search=haaaaaa')
+            .send()
+            .end(function(err, res) {
+                if (err) { throw err }
+                res.status.should.equal(Status.OK);
+                should.exist(res.body);
+
+                var body = res.body;
+
+                should.exist(body.searchResults);
+                var results = body.searchResults;
+
+                results.length.should.equal(0);
+                done();
+            })
+    });
+
+    it('Should fail to search with short string', function(done) {
+        request(URL)
+            .get('/?search=h')
+            .send()
+            .end(function(err, res) {
+                if (err) { throw err }
+                res.status.should.equal(Errors.BAD_REQUEST);
+                done();
+            })
+    });
+
+
 
 });

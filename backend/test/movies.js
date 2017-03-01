@@ -30,7 +30,7 @@ describe("Post and read reviews", function() {
     };
 
     const validUser2 = {
-        username: "The Valid User2",
+        username: "Equally valid User",
         email: "valid2@user.com",
         password: "hunter2"
     };
@@ -339,6 +339,6 @@ describe("Post and read reviews", function() {
 
                 done();
             })
-    })
+    });
 
 });
