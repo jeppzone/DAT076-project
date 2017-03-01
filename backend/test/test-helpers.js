@@ -10,8 +10,10 @@ var Cfg = require('../configuration');
 var User = require('../models/internal/user');
 var Profile = require('../models/internal/profile');
 var Review = require('../models/internal/review');
+var Movie = require('../models/internal/movie');
 
 module.exports = {
+    clearMovies: clearMovies,
     clearReviews: clearReviews,
     clearUsers: clearUsers,
     clearProfiles: clearProfiles,
@@ -36,6 +38,10 @@ function clearReviews(done) {
 
 function clearProfiles(done) {
     clearCollection(Profile, done);
+}
+
+function clearMovies(done) {
+    clearCollection(Movie, done);
 }
 
 function clearUsers(done) {

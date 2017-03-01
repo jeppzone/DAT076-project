@@ -7,7 +7,8 @@ var mongoose = require('mongoose');
 var ObjectId = mongoose.Schema.Types.ObjectId;
 
 var ReviewSchema = new mongoose.Schema({
-    movieId: { type: Number, index: true, required: true },
+    tmdbMovieId: { type: Number, index: true, required: true },
+    movie: { type: ObjectId, ref: 'Movie', required: true },
     author: { type: ObjectId, ref: 'User', required: true },
     date: { type: Date, default: Date.now },
     score: { type: Number, min: 1, max: 5 },

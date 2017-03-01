@@ -6,7 +6,7 @@ var Cfg = require('../configuration');
 var Errors = require('../errors');
 
 const BASE_URL = 'https://api.themoviedb.org/3';
-const API_KEY = 'INSERT TMDB API KEY HERE';
+const API_KEY = 'INSERT_TMDB_API_KEY_HERE';
 
 
 module.exports = {
@@ -20,9 +20,6 @@ module.exports = {
  */
 function getMovie(movieId) {
     return getRequest('/movie/' + movieId)
-        .then(function(foundMovie) {
-            console.log(foundMovie);
-        })
         .catch(function(err) {
             console.log(err);
             if (err.statusCode && err.statusCode === 404) {
@@ -32,7 +29,6 @@ function getMovie(movieId) {
             }
         })
 }
-
 
 function getRequest(endPoint, method) {
     return request({

@@ -14,11 +14,13 @@ var Errors = require('../errors');
 var Helpers = require('./test-helpers');
 var Status = require('http-status-codes');
 
+var MovieAPI = require('../middleware/movie-api');
 var Tokens = require('../middleware/tokens');
 var UsersMW = require('../middleware/users');
 
 describe("Post and read reviews", function() {
 
+    const BASE_URL = "http://localhost:3000";
     const URL = "http://localhost:3000/movies";
 
     const validUser = {
@@ -47,6 +49,7 @@ describe("Post and read reviews", function() {
     var user2Token;
 
     before(Helpers.connectTestingDb);
+    before(Helpers.clearMovies);
     before(Helpers.clearUsers);
     before(Helpers.clearReviews);
     before(function(done) {
@@ -159,7 +162,6 @@ describe("Post and read reviews", function() {
                 should.exist(body.date);
 
                 should.exist(body.author);
-                should.exist(body.author.id);
                 should.exist(body.author.username);
                 body.author.username.should.equal(validUser.username);
 
@@ -187,7 +189,6 @@ describe("Post and read reviews", function() {
                 should.exist(body.date);
 
                 should.exist(body.author);
-                should.exist(body.author.id);
                 should.exist(body.author.username);
                 body.author.username.should.equal(validUser2.username);
 
@@ -230,6 +231,76 @@ describe("Post and read reviews", function() {
 
                 should.exist(body.reviews);
                 body.reviews.length.should.equal(0);
+
+                done();
+            })
+    });
+
+    it('Should be able to get latest reviews', function(done) {
+        request(BASE_URL + "/reviews")
+            .get("/latest")
+            .send()
+            .end(function(err, res) {
+                if (err) { throw err }
+
+                res.status.should.equal(Status.OK);
+
+                should.exist(res.body);
+                var body = res.body;
+
+                should.exist(body.reviews);
+                body.reviews.length.should.equal(2);
+
+                var fstReview = body.reviews[0];
+
+                should.exist(fstReview.id);
+                should.exist(fstReview.date);
+                should.exist(fstReview.score);
+                fstReview.score.should.equal(1);
+                fstReview.text.should.equal(validReview2.text);
+
+                should.exist(fstReview.movie);
+                var mov = fstReview.movie;
+
+                should.exist(mov.id);
+                should.exist(mov.title);
+                should.exist(mov.year);
+                should.exist(mov.posterPath);
+
+                done();
+            })
+    });
+
+    it('Should be able to get a single latest review', function(done) {
+        request(BASE_URL + "/reviews")
+            .get("/latest?limit=1")
+            .send()
+            .end(function(err, res) {
+                if (err) { throw err }
+
+                res.status.should.equal(Status.OK);
+
+                should.exist(res.body);
+                var body = res.body;
+
+                should.exist(body.reviews);
+                body.reviews.length.should.equal(1);
+
+                var fstReview = body.reviews[0];
+
+                should.exist(fstReview.id);
+                should.exist(fstReview.date);
+                should.exist(fstReview.score);
+                fstReview.score.should.equal(1);
+                fstReview.text.should.equal(validReview2.text);
+
+                should.exist(fstReview.movie);
+                var mov = fstReview.movie;
+
+                should.exist(mov.id);
+                should.exist(mov.title);
+                should.exist(mov.year);
+                should.exist(mov.posterPath);
 
                 done();
             })

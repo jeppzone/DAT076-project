@@ -2,6 +2,8 @@
  * Created by Oskar Jönefors on 2/22/17.
  */
 
+const MILLIS_PER_HOUR = 3600000;
+
 module.exports = {
     DB_ADDRESS: "mongodb://localhost:27017/moviesite",
     DB_TESTING_ADDRESS: "mongodb://localhost:27017/moviesite-test",
@@ -13,5 +15,8 @@ module.exports = {
     PROFILE_MAX_LENGTH: 3000,
     PROFILE_DEFAULT_TEXT: "The user has not written a profile text yet.",
     MAX_SCORE: 5,
-    NBR_REVIEWS_MOVIE_INFO: 10
+    NBR_REVIEWS_MOVIE_INFO: 10,
+    MOVIE_REFRESH_HOURS: 24, // If a movie has been fetched from TMDB in this time period, do not fetch again to update it.
+    MOVIE_REFRESH_MILLIS: this.MOVIE_REFRESH_HOURS * MILLIS_PER_HOUR,
+    LATEST_REVIEWS_MAX_LIMIT: 20
 };
