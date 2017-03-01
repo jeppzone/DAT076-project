@@ -5,6 +5,9 @@
 var Errors = require('../errors');
 var TokenVerification = require('../middleware/tokens').tokenVerification;
 var Users = require('../middleware/users');
+var Reviews = require('../middleware/reviews');
+
+var PublicUser = require('../models/external/user');
 
 module.exports = function(express) {
 
@@ -21,7 +24,7 @@ module.exports = function(express) {
      */
     router.get('/:username', function(req, res) {
         Users.getUser(req.params.username)
-            .then(function(pubUser) { res.send(pubUser); })
+            .then(function(user) { res.send(new PublicUser(user)); })
             .catch(function(err) {
                 Errors.sendErrorResponse(err, res);
             })
@@ -42,6 +45,27 @@ module.exports = function(express) {
                 res.send(pubUserAndProfile);
             })
             .catch(function(err) { Errors.sendErrorResponse(err, res) })
+    });
+
+
+    /**
+     * Get all reviews by the given user.
+     *
+     * Returns HTTP Status 200 if successful, together with the reviews in the response body.
+     *
+     * ## Errors (HTTP Status) ##
+     *   user not found (404)
+     *
+     */
+    router.get('/:username/reviews', function(req, res) {
+        Users.getUser(req.params.username)
+            .then(function(foundUser) {
+                return Reviews.getLatestReviews(foundUser._id)
+            })
+            .then(function(publicReviews) {
+                res.send({ reviews: publicReviews });
+            })
+            .catch(function(err) { Errors.sendErrorResponse(err, res) });
     });
 
     return router;

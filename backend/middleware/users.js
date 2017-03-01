@@ -113,7 +113,7 @@ function getUser(username) {
             if (!foundUser) {
                 throw Errors.NOT_FOUND;
             }
-            return new PublicUser(foundUser);
+            return foundUser;
         })
 
 }

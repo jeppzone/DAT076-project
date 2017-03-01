@@ -46,7 +46,7 @@ function getLatestReviews(userId, limit) {
 
     return Review.find(query)
         .sort({ date: -1 })
-        .limit(limit ? limit : Cfg.LATEST_REVIEWS_MAX_LIMIT)
+        .limit(limit ? limit : 0)
         .populate('author movie')
         .then(function(reviews) {
             return reviews.map(function(r) {

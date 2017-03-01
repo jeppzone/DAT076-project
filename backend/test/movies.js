@@ -247,7 +247,7 @@ describe("Post and read reviews", function() {
 
                 should.exist(res.body);
                 var body = res.body;
-
+                console.log(body);
                 should.exist(body.reviews);
                 body.reviews.length.should.equal(2);
 
@@ -258,7 +258,7 @@ describe("Post and read reviews", function() {
                 should.exist(fstReview.score);
                 fstReview.score.should.equal(1);
                 fstReview.text.should.equal(validReview2.text);
-
+                console.log(fstReview.author);
                 should.exist(fstReview.movie);
                 var mov = fstReview.movie;
 
@@ -293,6 +293,41 @@ describe("Post and read reviews", function() {
                 should.exist(fstReview.score);
                 fstReview.score.should.equal(1);
                 fstReview.text.should.equal(validReview2.text);
+
+                should.exist(fstReview.movie);
+                var mov = fstReview.movie;
+
+                should.exist(mov.id);
+                should.exist(mov.title);
+                should.exist(mov.year);
+                should.exist(mov.posterPath);
+
+                done();
+            })
+    });
+
+    it('Should be able to get latest reviews by a specific user.', function(done) {
+        request(BASE_URL + "/users")
+            .get("/" + validUser.username + "/reviews")
+            .send()
+            .end(function(err, res) {
+                if (err) { throw err }
+
+                res.status.should.equal(Status.OK);
+
+                should.exist(res.body);
+                var body = res.body;
+
+                should.exist(body.reviews);
+                body.reviews.length.should.equal(1);
+
+                var fstReview = body.reviews[0];
+
+                should.exist(fstReview.id);
+                should.exist(fstReview.date);
+                should.exist(fstReview.score);
+                fstReview.score.should.equal(5);
+                fstReview.text.should.equal(validReview.text);
 
                 should.exist(fstReview.movie);
                 var mov = fstReview.movie;
