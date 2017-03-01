@@ -36,8 +36,9 @@ function getMovie(movieId) {
                                 foundMovie.releaseDate = response.releaseDate;
                                 foundMovie.posterPath = response.posterPath;
                                 foundMovie.tmdbHash = newHash;
-                                return foundMovie.save();
                             }
+                            foundMovie.lastActivity = Date.now();
+                            return foundMovie.save();
                             console.log('Movie not updated');
                         })
                 }
