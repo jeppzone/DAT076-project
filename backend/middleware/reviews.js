@@ -3,6 +3,7 @@
  */
 
 var Cfg = require('../configuration');
+var Errors = require('../errors');
 var Movies = require('./movies');
 var Review = require('../models/internal/review');
 var PublicReview = require('../models/external/review');
@@ -12,7 +13,8 @@ module.exports = {
     getAverageScore: getAverageScore,
     getLatestReviews: getLatestReviews,
     getReviews: getReviews,
-    postReview: postReview
+    postReview: postReview,
+    deleteReview: deleteReview
 };
 
 /**
@@ -82,6 +84,19 @@ function postReview(score, text, user, tmdbMovieId) {
         .then(function(savedReview) {
             savedReview.author = user;
             return new PublicReview(savedReview);
+        })
+}
+
+function deleteReview(user, reviewId) {
+    return Review.findById(reviewId)
+        .then(function(foundReview) {
+            if (!foundReview) {
+                throw Errors.NOT_FOUND;
+            } else if (!user._id.equals(foundReview.author)) {
+                throw Errors.FORBIDDEN;
+            } else {
+                return foundReview.remove();
+            }
         })
 }
 

@@ -302,6 +302,8 @@ describe("Post and read reviews", function() {
             })
     });
 
+    var reviewId;
+
     it('Should be able to get latest reviews by a specific user.', function(done) {
         request(BASE_URL + "/users")
             .get("/" + validUser.username + "/reviews")
@@ -320,6 +322,7 @@ describe("Post and read reviews", function() {
                 var fstReview = body.reviews[0];
 
                 should.exist(fstReview.id);
+                reviewId = fstReview.id;
                 should.exist(fstReview.date);
                 should.exist(fstReview.score);
                 fstReview.score.should.equal(5);
@@ -332,6 +335,42 @@ describe("Post and read reviews", function() {
                 should.exist(mov.title);
                 should.exist(mov.year);
                 should.exist(mov.posterPath);
+
+                done();
+            })
+    });
+
+    it('Should not be able to remove review you did not write', function(done) {
+        request(BASE_URL + "/reviews/" + reviewId)
+            .delete("/")
+            .set('authorization', user2Token)
+            .send()
+            .end(function(err, res) {
+                if (err) { throw err }
+                res.status.should.equal(Errors.FORBIDDEN);
+                done();
+            })
+    });
+
+    it('Should not be able to remove review that does not exist', function(done) {
+        request(BASE_URL + "/reviews/58b7362358013877f5c9a2dc")
+            .delete("/")
+            .set('authorization', user2Token)
+            .send()
+            .end(function(err, res) {
+                if (err) { throw err }
+                res.status.should.equal(Errors.NOT_FOUND);
+                done();
+            })
+    });
+
+    it('Should be able to remove review', function(done) {
+        request(BASE_URL + "/reviews/" + reviewId)
+            .delete("/")
+            .set('authorization', userToken)
+            .send()
+            .end(function(err, res) {
+                if (err) { throw err }
 
                 done();
             })
