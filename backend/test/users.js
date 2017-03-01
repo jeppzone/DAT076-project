@@ -19,6 +19,7 @@ var UsersMW = require('../middleware/users');
 
 describe("Get users", function() {
 
+    const BASE_URL = "http://localhost:3000";
     const URL = "http://localhost:3000/users";
 
     const validUser = {
@@ -36,16 +37,18 @@ describe("Get users", function() {
     const validProfileText = "Welcome to my awesome profile!";
     const tooLongProfileText = new Array(4000).join("X");
 
-    var userToken;
-    var user2Token;
+    var userToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNThiNzIyNWQyN2VjNGYzNDE5MGU1NTZjIiwiaWF0IjoxNDg4Mzk2ODkzLCJleHAiOjE0OTA5ODg4OTN9.dTVwasHRFu_hmyY569zqPHOEcGvuSdneYeLcMK_0Qi8";
+    var user2Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNThiNzIyNWQyN2VjNGYzNDE5MGU1NTZlIiwiaWF0IjoxNDg4Mzk2ODkzLCJleHAiOjE0OTA5ODg4OTN9.HkCA8b93oDdarkHJ3oeQayY1czxGdDp0cNWnnUW0uYM";
 
     before(Helpers.connectTestingDb);
+
     before(Helpers.clearUsers);
     before(Helpers.clearProfiles);
     before(function (done) {
         UsersMW.register(validUser)
             .then(function (pubUser) {
                 userToken = pubUser.token;
+                console.log(userToken);
                 done();
             })
     });
@@ -54,9 +57,12 @@ describe("Get users", function() {
         UsersMW.register(validUser2)
             .then(function (pubUser) {
                 user2Token = pubUser.token;
+                console.log(user2Token);
                 done();
             })
     });
+
+
 
     after(Helpers.disconnectDb);
 
@@ -380,6 +386,60 @@ describe("Get users", function() {
             })
     });
 
+    it('Should be able to follow user', function(done) {
+        request(BASE_URL)
+            .put('/following?user=' + encodeURIComponent(validUser2.username))
+            .set('authorization', userToken)
+            .send()
+            .end(function(err, res) {
+                if (err) { throw err }
+                res.status.should.equal(Status.OK);
+                done();
+            })
+    });
 
+    it('Should be able to see who you are following', function(done) {
+        request(BASE_URL)
+            .get('/following')
+            .set('authorization', userToken)
+            .send()
+            .end(function(err, res) {
+                if (err) { throw err }
+                res.status.should.equal(Status.OK);
+                var body = res.body;
+
+                console.log(body);
+                should.exist(body.following);
+                body.following.length.should.equal(1);
+                fstFollow = body.following[0];
+
+                body.following.username.should.equal(validUser2.username);
+                done();
+            })
+    });
+
+    it('Should be able to unfollow user', function(done) {
+        request(BASE_URL)
+            .delete('/following?user=' + encodeURIComponent(validUser2.username))
+            .set('authorization', userToken)
+            .send()
+            .end(function(err, res) {
+                if (err) { throw err }
+                res.status.should.equal(Status.OK);
+                done();
+            })
+    });
+
+    it('Should not be able to follow yourself', function(done) {
+        request(BASE_URL)
+            .put('/following?user=' + encodeURIComponent(validUser.username))
+            .set('authorization', userToken)
+            .send()
+            .end(function(err, res) {
+                if (err) { throw err }
+                res.status.should.equal(Errors.FORBIDDEN);
+                done();
+            })
+    })
 
 });

@@ -7,6 +7,7 @@ var TokenVerification = require('../middleware/tokens').tokenVerification;
 var Users = require('../middleware/users');
 
 var PublicMe = require('../models/external/me');
+var PublicUser = require('../models/external/user');
 
 module.exports = function(express) {
 
@@ -124,6 +125,84 @@ module.exports = function(express) {
                     res.send(pubUserAndProfile);
                 })
                 .catch(function(err) { Errors.sendErrorResponse(err, res) })
+        }
+
+    });
+
+    /**
+     * Get all followed users.
+     *
+     * Returns HTTP Status 200 if successful.
+     *
+     * ## Errors (HTTP Status) ##
+     *   token was missing (400)
+     *   token was invalid (401)
+     *
+     */
+    router.get('/following', function(req, res) {
+        if (!req.user) {
+            Errors.sendErrorResponse(Errors.BAD_REQUEST, res);
+        } else {
+            Users.getFollowedUsers(req.user)
+                .then(function(followedUsers) {
+                    res.send({ following: followedUsers.map(function(u) { return new PublicUser(u) }) })
+                })
+                .catch(function(err) { Errors.sendErrorResponse(err, res) })
+        }
+    });
+
+    /**
+     * Add user to follow. Accepts a username in query parameter "user"
+     *
+     * Returns HTTP Status 200 if successful.
+     *
+     * ## Errors (HTTP Status) ##
+     *   query parameter or token was missing (400)
+     *   token was invalid (401)
+     *   user tried to add itself (403)
+     *   user could not be found (404)
+     *
+     */
+    router.put('/following', function(req, res) {
+
+        if (!req.user || !req.query.user) {
+            Errors.sendErrorResponse(Errors.BAD_REQUEST, res);
+        } else if (req.query.user.toLowerCase().trim() === req.user.usernameLower) {
+            Errors.sendErrorResponse(Errors.FORBIDDEN, res);
+        } else {
+            Users.followUser(req.user, req.query.user)
+                .then(function() {
+                    // Success
+                    res.send();
+                })
+                .catch(function(err) { Errors.sendErrorResponse(err, res) });
+        }
+
+    });
+
+    /**
+     * Remove followed user. Accepts a username in query parameter "user"
+     *
+     * Returns HTTP Status 200 if successful.
+     *
+     * ## Errors (HTTP Status) ##
+     *   query parameter or token was missing (400)
+     *   token was invalid (401)
+     *   user tried to add itself (403)
+     *   user could not be found (404)
+     *
+     */
+    router.delete('/following', function(req, res) {
+
+        if (!req.user || !req.query.user) {
+            Errors.sendErrorResponse(Errors.BAD_REQUEST, res);
+        } else {
+            Users.unfollowUser(req.user, req.query.user)
+                .then(function() {
+                    // Success
+                    res.send();
+                })
+                .catch(function(err) { Errors.sendErrorResponse(err, res) });
         }
 
     });

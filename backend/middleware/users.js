@@ -19,7 +19,10 @@ module.exports = {
     updateProfile: updateProfile,
     login: login,
     register: register,
-    search: search
+    search: search,
+    getFollowedUsers: getFollowedUsers,
+    followUser: followUser,
+    unfollowUser: unfollowUser
 };
 
 /**
@@ -187,4 +190,31 @@ function search(searchString) {
     return User.find({ usernameLower: new RegExp(qry, "i") })
         .limit(Cfg.SEARCH_MIN_LENGTH)
 
+}
+
+function getFollowedUsers(user) {
+    return User.findById(user._id).populate('following')
+        .then(function(populatedUser) {
+            return populatedUser.following;
+        });
+}
+
+function followUser(user, usernameToFollow) {
+    return getUser(usernameToFollow)
+        .then(function(userToFollow) {
+            if (user.following.indexOf(userToFollow._id) < 0) {
+                user.following.push(userToFollow._id);
+            }
+            return user.save();
+        })
+}
+
+function unfollowUser(user, usernameToUnfollow) {
+    return getUser(usernameToUnfollow)
+        .then(function(userToUnfollow) {
+            user.following = user.following.filter(function(u) {
+                return !u.equals(userToUnfollow._id);
+            });
+            return user.save();
+        })
 }

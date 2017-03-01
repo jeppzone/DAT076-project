@@ -32,7 +32,8 @@ var UserSchema = new mongoose.Schema({
         sparse: true,
         lowercase: true
     },
-    password: String
+    password: String,
+    following: [{type: ObjectId, ref: 'User'}]
 });
 
 UserSchema.pre('save', function(next) {
