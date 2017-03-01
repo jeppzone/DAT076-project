@@ -24,6 +24,7 @@ function ProfileController(UserFactory){
   var vm = this;
   vm.user = angular.copy(UserFactory.userInfo);
   vm.save = save;
+  vm.followedUsers = ['jeppzone', 'jöneforsaren'];
 
   function save() {
     console.log('Saving the user profile');

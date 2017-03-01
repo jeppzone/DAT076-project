@@ -31,6 +31,7 @@ angular
     'moviez.add-review',
     'moviez.review-factory',
     'moviez.users',
+    'moviez.follow-user',
     'moviez.profile',
     'moviez.register-factory',
     "moviez.login-factory",

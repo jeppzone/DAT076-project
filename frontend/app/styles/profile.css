@@ -1,13 +1,13 @@
 .card {
     box-shadow: 0 4px 8px 0 #666;
-    width: 30%;
+    width: 100%;
     height: auto;
 }
 
 .card img {
   display: block;
   margin: auto;
-  margin-top: 20px;
+  padding-top: 20px;
 }
 
 .container {

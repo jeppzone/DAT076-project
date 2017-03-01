@@ -1,0 +1,31 @@
+.user-card {
+  box-shadow: 0 4px 8px 0 #666;
+  width: 100%
+  box-shadow: 0 4px 8px 0 #666;
+  background-color: #EEE;
+  color: #000;
+  margin-bottom: 20px;
+  margin-top: 10px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  display: flex;
+  flex-direction:row;
+  justify-content: space-around;
+}
+
+.user-card-username {
+  display:flex;
+  flex-direction:column;
+  margin-left: 10px;
+}
+
+.user-card-button input {
+  width: 200px;
+  height: 45px;
+}
+
+.user-card-button {
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: 10px;
+}
