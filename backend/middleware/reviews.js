@@ -36,13 +36,13 @@ function getReviews(tmdbMovieId, limit) {
 }
 
 /**
- * Get the latest reviews, possibly by a single author.
- * @param userId - If unset, reviews by all authors will be returned.
+ * Get the latest reviews, possibly by a group of authors.
+ * @param userIds - If unset, reviews by all authors will be returned.
  * @param limit - The number of reviews to return.
  * @returns {Promise}
  */
-function getLatestReviews(userId, limit) {
-    var query = userId ? { author: userId } : {};
+function getLatestReviews(userIds, limit) {
+    var query = userIds ? { author: { $in: userIds } } : {};
 
     return Review.find(query)
         .sort({ date: -1 })

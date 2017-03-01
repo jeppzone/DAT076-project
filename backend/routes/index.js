@@ -5,6 +5,7 @@ var Status = require('http-status-codes');
 var TokenVerification = require('../middleware/tokens').tokenVerification;
 
 var Users = require('../middleware/users');
+var Reviews = require('../middleware/reviews');
 
 var PublicMe = require('../models/external/me');
 var PublicUser = require('../models/external/user');

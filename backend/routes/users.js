@@ -88,7 +88,7 @@ module.exports = function(express) {
     router.get('/:username/reviews', function(req, res) {
         Users.getUser(req.params.username)
             .then(function(foundUser) {
-                return Reviews.getLatestReviews(foundUser._id)
+                return Reviews.getLatestReviews([foundUser._id])
             })
             .then(function(publicReviews) {
                 res.send({ reviews: publicReviews });

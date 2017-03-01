@@ -14,8 +14,6 @@ var Errors = require('../errors');
 var Helpers = require('./test-helpers');
 var Status = require('http-status-codes');
 
-var MovieAPI = require('../middleware/movie-api');
-var Tokens = require('../middleware/tokens');
 var UsersMW = require('../middleware/users');
 
 describe("Post and read reviews", function() {
@@ -247,7 +245,6 @@ describe("Post and read reviews", function() {
 
                 should.exist(res.body);
                 var body = res.body;
-                console.log(body);
                 should.exist(body.reviews);
                 body.reviews.length.should.equal(2);
 
@@ -258,7 +255,6 @@ describe("Post and read reviews", function() {
                 should.exist(fstReview.score);
                 fstReview.score.should.equal(1);
                 fstReview.text.should.equal(validReview2.text);
-                console.log(fstReview.author);
                 should.exist(fstReview.movie);
                 var mov = fstReview.movie;
 
