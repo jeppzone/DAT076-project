@@ -14,16 +14,18 @@ module.exports = {
     getLatestReviews: getLatestReviews,
     getReviews: getReviews,
     postReview: postReview,
-    deleteReview: deleteReview
+    deleteReview: deleteReview,
+    voteOnReview: voteOnReview
 };
 
 /**
  * Get all reviews for the given movie
  * @param tmdbMovieId - TMDB movie id. Must be a number
- * @limit limit - How many reviews to return.
+ * @param limit - How many reviews to return.
+ * @param userId - Optional. If supplied, details regarding the user votes on reviews will be supplied.
  * @returns {Promise|*} - An array of reviews without movie information.
  */
-function getReviews(tmdbMovieId, limit) {
+function getReviews(tmdbMovieId, limit, userId) {
     return Review.find({
         tmdbMovieId: tmdbMovieId
     })
@@ -32,7 +34,7 @@ function getReviews(tmdbMovieId, limit) {
         .populate('author')
         .then(function(reviews) {
             return reviews.map(function(r) {
-                return new PublicReview(r);
+                return new PublicReview(r, userId);
             })
         })
 }
@@ -41,9 +43,10 @@ function getReviews(tmdbMovieId, limit) {
  * Get the latest reviews, possibly by a group of authors.
  * @param userIds - If unset, reviews by all authors will be returned.
  * @param limit - The number of reviews to return.
+ * @param recipientId - If supplied, reviews will contain information about the user votes.
  * @returns {Promise}
  */
-function getLatestReviews(userIds, limit) {
+function getLatestReviews(userIds, limit, recipientId) {
     var query = userIds ? { author: { $in: userIds } } : {};
 
     return Review.find(query)
@@ -52,7 +55,7 @@ function getLatestReviews(userIds, limit) {
         .populate('author movie')
         .then(function(reviews) {
             return reviews.map(function(r) {
-                return new PublicFullReview(r);
+                return new PublicFullReview(r, recipientId);
             })
         })
 }
@@ -74,16 +77,19 @@ function postReview(score, text, user, tmdbMovieId) {
             })
             .then(function(foundReview) {
                 if (!foundReview) {
-                    foundReview = new Review({ author: user._id, tmdbMovieId: tmdbMovieId, movie: movie._id });
+                    foundReview = new Review({ author: user._id, tmdbMovieId: tmdbMovieId, movie: movie._id,
+                    upvotes: [user._id]});
                 }
                 foundReview.score = score ? score : undefined;
                 foundReview.text = text;
+                foundReview.downvotes = [];
+                foundReview.upvotes = [user._id];
                 return foundReview.save();
             })
         })
         .then(function(savedReview) {
             savedReview.author = user;
-            return new PublicReview(savedReview);
+            return new PublicReview(savedReview, user._id);
         })
 }
 
@@ -115,4 +121,36 @@ function getAverageScore(mId) {
                 return 0
             }
         })
+}
+
+/**
+ * Vote on the given review
+ * @param votingUser - The user voting
+ * @param reviewId - Id of the review to vote on
+ * @param vote - 1 or -1 depending on if it is an upvote or a downvote
+ */
+function voteOnReview(votingUser, reviewId, vote) {
+    if (vote !== 1 && vote !== -1 ) {
+        throw Errors.BAD_REQUEST;
+    }
+
+    return Review.findById(reviewId)
+        .then(function(foundReview) {
+            if (!foundReview) {
+                throw Errors.NOT_FOUND;
+            }
+
+            foundReview.upvotes = returnWithoutElement(foundReview.upvotes, votingUser._id);
+            foundReview.downvotes = returnWithoutElement(foundReview.downvotes, votingUser._id);
+
+            (vote === 1 ? foundReview.upvotes : foundReview.downvotes).push(votingUser._id);
+
+            return foundReview.save();
+        })
+}
+
+function returnWithoutElement(array, element) {
+    return array.filter(function(el) {
+        return !el.equals(element);
+    })
 }

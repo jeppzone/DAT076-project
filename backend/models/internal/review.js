@@ -12,7 +12,9 @@ var ReviewSchema = new mongoose.Schema({
     author: { type: ObjectId, ref: 'User', required: true },
     date: { type: Date, default: Date.now },
     score: { type: Number, min: 1, max: 5 },
-    text: { type: String }
+    text: { type: String },
+    upvotes: [{ type: ObjectId, ref: 'User'} ],
+    downvotes: [{ type: ObjectId, ref: 'User' }]
 });
 
 ReviewSchema.index({ author: 1, movieId: -1}, {unique: true});

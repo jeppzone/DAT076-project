@@ -407,13 +407,11 @@ describe("Get users", function() {
                 if (err) { throw err }
                 res.status.should.equal(Status.OK);
                 var body = res.body;
-
-                console.log(body);
                 should.exist(body.following);
                 body.following.length.should.equal(1);
                 fstFollow = body.following[0];
 
-                body.following.username.should.equal(validUser2.username);
+                fstFollow.username.should.equal(validUser2.username);
                 done();
             })
     });
