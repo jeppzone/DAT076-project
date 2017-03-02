@@ -69,5 +69,34 @@ module.exports = function(express) {
 
     });
 
+    /**
+     * Vote on reviews. Send a vote with value 1, -1 or 0 in the query parameter "vote"
+     * to upvote, downvote, or reset your vote.
+     *
+     * Returns HTTP Status 200 if successful.
+     *
+     * ## Errors (HTTP Status) ##
+     *   token was missing, vote was missing or had the wrong value (400)
+     *   token was invalid (401)
+     *   review could not be found (404)
+     *
+     */
+    router.put('/:reviewId', function(req, res) {
+
+        if (!req.user || !req.query.vote || isNaN(parseInt(req.query.vote))) {
+            Errors.sendErrorResponse(Errors.BAD_REQUEST, res);
+        } else if (!Util.isValidObjectId(req.params.reviewId)) {
+            Errors.sendErrorResponse(Errors.NOT_FOUND, res);
+        } else {
+            Reviews.voteOnReview(req.user, req.params.reviewId, parseInt(req.query.vote))
+                .then(function() {
+                    //Success
+                    res.send();
+                })
+                .catch(function(err) { Errors.sendErrorResponse(err, res) });
+        }
+
+    });
+
     return router;
 };

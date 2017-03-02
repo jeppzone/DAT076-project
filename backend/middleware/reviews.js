@@ -130,7 +130,7 @@ function getAverageScore(mId) {
  * @param vote - 1 or -1 depending on if it is an upvote or a downvote
  */
 function voteOnReview(votingUser, reviewId, vote) {
-    if (vote !== 1 && vote !== -1 ) {
+    if (vote !== 1 && vote !== -1 && vote !== 0 ) {
         throw Errors.BAD_REQUEST;
     }
 
@@ -143,7 +143,9 @@ function voteOnReview(votingUser, reviewId, vote) {
             foundReview.upvotes = returnWithoutElement(foundReview.upvotes, votingUser._id);
             foundReview.downvotes = returnWithoutElement(foundReview.downvotes, votingUser._id);
 
-            (vote === 1 ? foundReview.upvotes : foundReview.downvotes).push(votingUser._id);
+            if (vote !== 0) { // Count the vote unless it was 0, in which case the user vote should be unset.
+                (vote === 1 ? foundReview.upvotes : foundReview.downvotes).push(votingUser._id);
+            }
 
             return foundReview.save();
         })
