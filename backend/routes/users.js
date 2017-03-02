@@ -13,6 +13,7 @@ var PublicUser = require('../models/external/user');
 module.exports = function(express) {
 
     var router = express.Router();
+    router.use(TokenVerification);
 
     /**
      * Search for users. Search string is passed in the query parameter "search".
@@ -80,15 +81,17 @@ module.exports = function(express) {
      * Get all reviews by the given user.
      *
      * Returns HTTP Status 200 if successful, together with the reviews in the response body.
+     * Supply token to receive details regarding user votes on reviews.
      *
      * ## Errors (HTTP Status) ##
+     *   token was invalid (401)
      *   user not found (404)
      *
      */
     router.get('/:username/reviews', function(req, res) {
         Users.getUser(req.params.username)
             .then(function(foundUser) {
-                return Reviews.getLatestReviews([foundUser._id])
+                return Reviews.getLatestReviews([foundUser._id], 0, (req.user ? req.user._id : undefined))
             })
             .then(function(publicReviews) {
                 res.send({ reviews: publicReviews });
