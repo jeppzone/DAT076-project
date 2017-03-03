@@ -9,21 +9,32 @@ ReviewFactory.$inject = ['ApiBase', '$http', '$state', '$cookies', 'UserFactory'
 function ReviewFactory(ApiBase, $http) {
   var service = {
     getMovie: getMovie,
+    getUserReviews: getUserReviews,
+    getLatestReviews: getLatestReviews,
     createReview: createReview,
     editReview: editReview,
-    deleteReview: deleteReview
+    deleteReview: deleteReview,
+    voteOnReview: voteOnReview
   };
 
   return service;
 
   function getMovie(movieId){
-    var url = ApiBase + '/movies/' + movieId;
-    console.log(url);
     return $http.get(ApiBase + '/movies/' + movieId);
   }
 
+  function getUserReviews(username) {
+    return $http.get(ApiBase + '/' + username + '/reviews');
+  }
+
+  function getLatestReviews(nbrOfReviews){
+    return $http.get(ApiBase + '/reviews/latest', {
+      params: {limit: nbrOfReviews}
+    });
+  }
+
   function createReview(review, rating, movieId) {
-    return $http.post(ApiBase + '/movies/'+movieId + '/review', {
+    return $http.post(ApiBase + '/movies/' + movieId + '/review', {
       text: review,
       score: rating
     });
@@ -34,7 +45,14 @@ function ReviewFactory(ApiBase, $http) {
   }
 
   function deleteReview(reviewId) {
-    //return $http.delete(ApiBase + '/reviews/' + reviewId)
+    return $http.delete(ApiBase + '/reviews/' + reviewId);
+  }
+
+  function voteOnReview(reviewId, vote){
+    return $http.put(ApiBase + '/reviews/' + reviewId, {},
+    {
+      params: {vote: vote}
+    });
   }
 
 }

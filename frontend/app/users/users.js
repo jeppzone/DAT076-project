@@ -8,6 +8,11 @@ angular.module('moviez.users', [])
 usersConfig.$inject = ['$stateProvider'];
 function usersConfig($stateProvider){
   $stateProvider.state('menu.users', {
+    resolve: {
+      users: function(UserFactory){
+        return UserFactory.searchUsers('testing'); //Change this to getAllUsers when available in backend
+      }
+    },
     url: '/users',
     views: {
       'main':{
@@ -19,7 +24,9 @@ function usersConfig($stateProvider){
   });
 }
 
-UsersController.$inject = [];
-function UsersController(){
-
+UsersController.$inject = ['users'];
+function UsersController(users) {
+  var vm = this;
+  vm.users = users.data;
+  console.log(vm.users);
 }

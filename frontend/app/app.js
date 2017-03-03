@@ -42,7 +42,7 @@ angular
   .run(['$rootScope', 'UserFactory', '$cookies', function($rootScope, UserFactory, $cookies){
     $rootScope.$on('$stateChangeStart', function(evt, toState, toParams, fromState, fromParams) {
       if($cookies.get('auth')){
-        UserFactory.verifyUser(); // Get the user info every time state is changed
+        UserFactory.getMe(); // Get the user info every time state is changed
       }
     });
   }])

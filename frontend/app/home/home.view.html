@@ -25,7 +25,7 @@
     </div>
     <div class="movie-container-home">
       <div ng-repeat="review in vm.latestReviews" class="reviews">
-        <review review="review"></review>
+        <review review="review" title="review.movie.title"></review>
       </div>
     </div>
   </div>

@@ -47,11 +47,11 @@ function ReviewController(UserFactory, $scope, ReviewFactory, $timeout){
   vm.cancel = cancel;
   vm.save = save;
   vm.deleteReview = deleteReview;
+  vm.vote = vote;
   vm.editedText = $scope.review.text;
   vm.editedScore = $scope.review.score;
   vm.loggedInUser = UserFactory.userInfo;
   vm.showOverlay = true;
-
   formatDate($scope.review.date);
 
   function save() {
@@ -80,9 +80,19 @@ function ReviewController(UserFactory, $scope, ReviewFactory, $timeout){
   }
 
   function deleteReview() {
-    //ReviewFactory.deleteReview($scope.review.reviewId)
+    ReviewFactory.deleteReview($scope.review.id)
     let index = $scope.$parent.vm.reviews.indexOf($scope.review);
     $scope.$parent.vm.reviews.splice(index, 1);
+  }
+
+  function vote(vote) {
+    ReviewFactory.voteOnReview($scope.review.id, vote).then((result) => {
+      console.log(result);
+      vm.showOverlay = false;
+      $timeout(function () {
+        vm.showOverlay = true;
+      }, 1500);
+    })
   }
 
   /* Format the date on the format 1 Mar 07:47 */

@@ -1,7 +1,6 @@
 .user-card {
-  box-shadow: 0 4px 8px 0 #666;
-  width: 100%
-  box-shadow: 0 4px 8px 0 #666;
+  box-shadow: 0 4px 8px #666;
+  width: 100%;
   background-color: #EEE;
   color: #000;
   margin-bottom: 20px;

@@ -10,11 +10,15 @@ function homeConfig($stateProvider){
   $stateProvider.state('menu.home', {
     resolve: {
       popularMovies: function(MovieFactory){
-         return MovieFactory.getPopularMovies();
-       },
-       latestReviews: function(ReviewFactory){
-          return ReviewFactory.getMovie('341174'); //For testing purposes, change this later
-        },
+        return MovieFactory.getPopularMovies();
+      },
+      followedUsers: function(UserFactory){
+        return UserFactory.getFollowedUsers();
+      },
+      latestReviews: function(ReviewFactory){
+        return ReviewFactory.getLatestReviews(1); //For testing purposes, change this later
+      }
+
     },
     url: '/home',
     views: {
@@ -27,10 +31,12 @@ function homeConfig($stateProvider){
   });
 }
 
-HomeController.$inject = ['popularMovies', 'latestReviews'];
-function HomeController(popularMovies, latestReviews){
+HomeController.$inject = ['popularMovies', 'followedUsers', 'latestReviews'];
+function HomeController(popularMovies, followedUsers, latestReviews){
   var vm = this;
   vm.movies = popularMovies.data.results;
+  vm.followedUsers = followedUsers.data.following;
   vm.latestReviews = latestReviews.data.reviews;
   console.log(vm.latestReviews);
+  console.log(vm.followedUsers);
 }

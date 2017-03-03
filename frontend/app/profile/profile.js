@@ -8,6 +8,14 @@ angular.module('moviez.profile', [])
 profileConfig.$inject = ['$stateProvider'];
 function profileConfig($stateProvider){
   $stateProvider.state('menu.profile', {
+    resolve: {
+      followedUsers: function(UserFactory) {
+        return UserFactory.getFollowedUsers();
+      }/*,
+      myReviews: function(UserFactory, ReviewFactory){
+        return ReviewFactory.getUserReviews(UserFactory.userInfo.username);
+      }*/
+    },
     url: '/profile',
     views: {
       'main':{
@@ -19,15 +27,21 @@ function profileConfig($stateProvider){
   });
 }
 
-ProfileController.$inject = ['UserFactory'];
-function ProfileController(UserFactory){
+ProfileController.$inject = ['UserFactory', 'followedUsers', 'myReviews'];
+function ProfileController(UserFactory, followedUsers, myReviews){
   var vm = this;
-  vm.user = angular.copy(UserFactory.userInfo);
   vm.save = save;
-  vm.followedUsers = ['jeppzone', 'jöneforsaren'];
+  vm.cancel = cancel;
+  vm.user = angular.copy(UserFactory.userInfo);
+  //vm.myReviews = myReviews.data;
+  console.log(vm.myReviews);
+  vm.followedUsers = followedUsers.data.following;
 
   function save() {
-    console.log('Saving the user profile');
+    vm.editing = false;
   }
-  console.log(vm.user);
+
+  function cancel() {
+    vm.editing = false;
+  }
 }
