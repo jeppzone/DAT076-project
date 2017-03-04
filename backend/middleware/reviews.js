@@ -126,11 +126,11 @@ function getAverageScore(mId) {
 
 /**
  * Vote on the given review
- * @param votingUser - The user voting
+ * @param votingUserId - The id of the user voting
  * @param reviewId - Id of the review to vote on
  * @param vote - 1 or -1 depending on if it is an upvote or a downvote
  */
-function voteOnReview(votingUser, reviewId, vote) {
+function voteOnReview(votingUserId, reviewId, vote) {
     if (vote !== 1 && vote !== -1 && vote !== 0 ) {
         throw Errors.BAD_REQUEST;
     }
@@ -141,14 +141,17 @@ function voteOnReview(votingUser, reviewId, vote) {
                 throw Errors.NOT_FOUND;
             }
 
-            foundReview.upvotes = returnWithoutElement(foundReview.upvotes, votingUser._id);
-            foundReview.downvotes = returnWithoutElement(foundReview.downvotes, votingUser._id);
+            foundReview.upvotes = returnWithoutElement(foundReview.upvotes, votingUserId);
+            foundReview.downvotes = returnWithoutElement(foundReview.downvotes, votingUserId);
 
             if (vote !== 0) { // Count the vote unless it was 0, in which case the user vote should be unset.
-                (vote === 1 ? foundReview.upvotes : foundReview.downvotes).push(votingUser._id);
+                (vote === 1 ? foundReview.upvotes : foundReview.downvotes).push(votingUserId);
             }
 
             return foundReview.save();
+        })
+        .then(function(savedReview) {
+            return new PublicReview(savedReview, votingUserId);
         })
 }
 

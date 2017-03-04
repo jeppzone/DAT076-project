@@ -99,7 +99,7 @@ module.exports = function(express) {
      * Vote on reviews. Send a vote with value 1, -1 or 0 in the query parameter "vote"
      * to upvote, downvote, or reset your vote.
      *
-     * Returns HTTP Status 200 if successful.
+     * Returns HTTP Status 200 if successful, together with the review in the body.
      *
      * ## Errors (HTTP Status) ##
      *   token was missing, vote was missing or had the wrong value (400)
@@ -114,10 +114,10 @@ module.exports = function(express) {
         } else if (!Util.isValidObjectId(req.params.reviewId)) {
             Errors.sendErrorResponse(Errors.NOT_FOUND, res);
         } else {
-            Reviews.voteOnReview(req.user, req.params.reviewId, parseInt(req.query.vote))
-                .then(function() {
+            Reviews.voteOnReview(req.user._id, req.params.reviewId, parseInt(req.query.vote))
+                .then(function(savedPubReview) {
                     //Success
-                    res.send();
+                    res.send(savedPubReview);
                 })
                 .catch(function(err) { Errors.sendErrorResponse(err, res) });
         }
