@@ -41,6 +41,22 @@ module.exports = function(express) {
     });
 
     /**
+     * Return all reviews. Supply token to show details of user votes on reviews.
+     *
+     * Returns HTTP Status 200 if successful, with review array in body attribute "reviews"
+     *
+     * ## Errors (HTTP Status) ##
+     *   token was invalid (401)
+     */
+    router.get('/all', function(req, res) {
+        Reviews.getLatestReviews(undefined, 0, req.user)
+            .then(function(pubReviews) {
+                res.send({reviews: pubReviews});
+            })
+            .catch(function(err) { Errors.sendErrorResponse(err, res) });
+    });
+
+    /**
      * Delete review with the given id.
      *
      * Returns HTTP Status 200 if successful.
