@@ -12,6 +12,7 @@ function UserFactory($http, ApiBase) {
     getUser: getUser,
     getUserProfile: getUserProfile,
     updateUser: updateUser,
+    getAllUsers: getAllUsers,
     searchUsers: searchUsers,
     getFollowedUsers: getFollowedUsers,
     followUser: followUser,
@@ -48,6 +49,10 @@ function UserFactory($http, ApiBase) {
     for(var key in user) {
       service.userInfo[key] = user[key];
     }
+  }
+
+  function getAllUsers(){
+    return $http.get(ApiBase + '/users/all');
   }
 
   function searchUsers(searchString){

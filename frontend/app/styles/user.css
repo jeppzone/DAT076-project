@@ -19,12 +19,21 @@
 }
 
 .user-card-button input {
-  width: 200px;
+  width: 100px;
   height: 45px;
 }
 
 .user-card-button {
   margin-top: 10px;
+  margin-bottom: 10px;
   margin-left: auto;
   margin-right: 10px;
+}
+
+
+
+.users-container .user-container {
+  display: inline-block;
+  margin-left: 20px;
+  width: 20%;
 }

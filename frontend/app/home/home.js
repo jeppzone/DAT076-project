@@ -10,7 +10,7 @@ function homeConfig($stateProvider){
   $stateProvider.state('menu.home', {
     resolve: {
       popularMovies: function(MovieFactory){
-        return MovieFactory.getPopularMovies();
+        return MovieFactory.getPopularMovies(1);
       },
       latestReleases: function(MovieFactory){
         return MovieFactory.getLatestReleases();

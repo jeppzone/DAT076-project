@@ -1,1 +1,8 @@
-USERS
+<div class="movie-header">
+  <h1>Users</h1>
+</div>
+<div class="users-container">
+  <div ng-repeat="user in vm.users" class="user-container">
+      <follow-user user="user"></follow-user>
+  </div>
+</div>

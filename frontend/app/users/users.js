@@ -10,7 +10,7 @@ function usersConfig($stateProvider){
   $stateProvider.state('menu.users', {
     resolve: {
       users: function(UserFactory){
-        return UserFactory.searchUsers('testing'); //Change this to getAllUsers when available in backend
+        return UserFactory.getAllUsers();
       }
     },
     url: '/users',
@@ -27,6 +27,6 @@ function usersConfig($stateProvider){
 UsersController.$inject = ['users'];
 function UsersController(users) {
   var vm = this;
-  vm.users = users.data;
+  vm.users = users.data.users;
   console.log(vm.users);
 }

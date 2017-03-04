@@ -16,8 +16,8 @@ function MovieFactory(ApiBase, $http, TmdbFactory) {
 
   return service;
 
-  function getPopularMovies() {
-    var data = 'movie?sort_by=popularity.desc';
+  function getPopularMovies(page) {
+    var data = 'movie?sort_by=popularity.desc&page=' + page;
     return TmdbFactory.executeTMDbRequest('discover', data, true);
   }
 

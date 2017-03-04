@@ -24,9 +24,12 @@ function moviesConfig($stateProvider){
   });
 }
 
-MoviesController.$inject = ['$scope', 'SearchFactory', 'popularMovies'];
-function MoviesController($scope, SearchFactory, popularMovies){
+MoviesController.$inject = ['$scope', 'SearchFactory', 'MovieFactory', 'popularMovies'];
+function MoviesController($scope, SearchFactory, MovieFactory, popularMovies){
   var vm = this;
+  vm.loadMoreMovies = loadMoreMovies;
+  vm.totalPages = popularMovies.data.total_pages;
+  vm.pageToLoad = 1;
   vm.searchString = SearchFactory.searchString;
 
   if(!SearchFactory.searchString || SearchFactory.searchResult.length < 1){
@@ -46,4 +49,15 @@ function MoviesController($scope, SearchFactory, popularMovies){
       vm.shownMovies = popularMovies.data.results;
     }
   });
+
+  function loadMoreMovies () {
+    if(!vm.searchString){
+      vm.pageToLoad ++;
+      if(vm.pageToLoad < vm.totalPages){
+        MovieFactory.getPopularMovies(vm.pageToLoad).then((result) => {
+          vm.shownMovies = vm.shownMovies.concat(result.data.results);
+        });
+      }
+    }
+  }
 }

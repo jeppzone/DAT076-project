@@ -56,7 +56,8 @@ function ReviewController(UserFactory, $scope, ReviewFactory, $timeout){
   formatDate($scope.review.date);
 
   function save() {
-    ReviewFactory.createReview(vm.editedText, vm.editedScore, $scope.review.movie.id)
+    var movieId = $scope.review.movie ? $scope.review.movie.id : $scope.$parent.vm.movie.id;
+    ReviewFactory.createReview(vm.editedText, vm.editedScore, movieId)
       .then((result) => {
         $scope.review.author = result.data.author
         $scope.review.text = result.data.text;
