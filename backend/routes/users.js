@@ -111,7 +111,7 @@ module.exports = function(express) {
     router.get('/:username/reviews', function(req, res) {
         Users.getUser(req.params.username)
             .then(function(foundUser) {
-                return Reviews.getLatestReviews([foundUser._id], 0, (req.user ? req.user._id : undefined))
+                return Reviews.getReviews([foundUser._id], 0, (req.user ? req.user._id : undefined))
             })
             .then(function(publicReviews) {
                 res.send({ reviews: publicReviews });

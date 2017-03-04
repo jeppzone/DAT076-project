@@ -74,7 +74,7 @@ function postReview(score, text, user, tmdbMovieId) {
         .then(function(movie) {
             return Review.findOne({
                 author: user._id,
-                tmdbMovieId: movie.tmdbMovieId
+                tmdbMovieId: movie.tmdbId
             })
             .then(function(foundReview) {
                 if (!foundReview) {

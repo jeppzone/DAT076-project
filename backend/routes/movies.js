@@ -53,7 +53,7 @@ module.exports = function(express) {
         } else {
             Reviews.getReviews(req.params.movieId)
                 .then(function(reviews) {
-                    req.send(reviews);
+                    res.send(reviews);
                 })
                 .catch(function(err) {
                     Errors.sendErrorResponse(err, res);

@@ -6,7 +6,7 @@ var Cfg = require('../configuration');
 var Errors = require('../errors');
 
 const BASE_URL = 'https://api.themoviedb.org/3';
-const API_KEY = 'INSERT_TMDB_API_KEY_HERE';
+const API_KEY = 'f2975c7499d3ec3abb0aef5401787eb2';
 
 
 module.exports = {
