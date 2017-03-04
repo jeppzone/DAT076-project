@@ -59,7 +59,7 @@ module.exports = function(express) {
                 (req.query.sortby === 'votes' ? { voteScore: sortOrder } : {});
         }
 
-        Reviews.getReviews(undefined, 0, req.user, sortQuery)
+        Reviews.getReviews(undefined, 0, req.user._id, sortQuery)
             .then(function(pubReviews) {
                 res.send({reviews: pubReviews});
             })
