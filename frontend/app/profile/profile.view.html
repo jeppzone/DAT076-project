@@ -1,5 +1,8 @@
 <div class="col-md-12">
   <div class="col-md-4">
+    <div class="header-home">
+      <h3> My profile </h3>
+    </div>
     <div class="card">
       <img src="download.jpg" alt="Avatar">
       <div class="container" ng-if="!vm.editing">
@@ -26,13 +29,20 @@
     </div>
   </div>
   <div class="col-md-4">
-    Your reviews
+    <div>
+      <h3> My reviews </h3>
+    </div>
+    <div ng-repeat="review in vm.myReviews">
+      <review review="review" title="review.movie.title">
+    </div>
   </div>
   <div class="col-md-4">
-    People you follow
-    <div ng-repeat="user in vm.followedUsers">
+    <div>
+      <h3> People I follow </h3>
+    </div>
+    <div ng-repeat="user in vm.followedUsers" class="slide">
       <table>
-        <follow-user user="user"></follow-user>
+        <follow-user user="user" is-profile="true"></follow-user>
       </table>
     </div>
   </div>

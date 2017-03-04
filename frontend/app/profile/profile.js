@@ -33,8 +33,7 @@ function ProfileController(UserFactory, followedUsers, myReviews){
   vm.save = save;
   vm.cancel = cancel;
   vm.user = angular.copy(UserFactory.userInfo);
-  vm.myReviews = myReviews.data;
-  console.log(vm.myReviews);
+  vm.myReviews = myReviews.data.reviews;
   vm.followedUsers = followedUsers.data.following;
 
   function save() {

@@ -16,7 +16,7 @@ function UserFactory($http, ApiBase) {
     searchUsers: searchUsers,
     getFollowedUsers: getFollowedUsers,
     followUser: followUser,
-    unFollowUser: unFollowUser,
+    unfollowUser: unfollowUser,
     userInfo: {},
     loggedIn: false
   };
@@ -61,12 +61,12 @@ function UserFactory($http, ApiBase) {
   }
 
   function followUser(username){
-    return $http.put(ApiBase + '/following', {
+    return $http.put(ApiBase + '/following', {}, {
       params: {user: username}
     });
   }
 
-  function unFollowUser(username){
+  function unfollowUser(username){
     return $http.delete(ApiBase + '/following', {
       params: {user: username}
     });
