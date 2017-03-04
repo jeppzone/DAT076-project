@@ -32,6 +32,7 @@ function loginRegisterModal($uibModal) {
       vm.validateUsername = validateUsername;
       vm.validateEmail = validateEmail;
       vm.validatePassword = validatePassword;
+      vm.error = false;
 
       vm.activeFunction = {
         login: true,
@@ -64,16 +65,13 @@ function loginRegisterModal($uibModal) {
 
       function login() {
         LoginFactory.loginUser(vm.credentials).then((result) => {
-          if(result.status === 200){
-            UserFactory.updateUser(result.data);
-            LoginFactory.setCredentials(result.data.token);
-            uibModalInstance.close();
-          }else if(result.status === 401){
-            /*TODO Implement error handling */
-          }else if(result.status === 404){
-            /*TODO Implement error handling */
-          }
-        })
+          vm.error = false;
+          UserFactory.updateUser(result.data);
+          LoginFactory.setCredentials(result.data.token);
+          uibModalInstance.close();
+        }, (error) => {
+          vm.error = true;
+        });
       }
 
       function register() {

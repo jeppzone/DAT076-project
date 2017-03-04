@@ -3,6 +3,7 @@
   <form ng-submit="vm.login()">
 		<input type="text" name="user" placeholder="Username or E-mail" ng-model="vm.credentials.username">
 		<input type="password" name="pass" placeholder="Password" ng-model="vm.credentials.password">
+		<span class="login-error" ng-show="vm.error">Invalid credentials</span>
 		<input type="submit" name="login" class="login loginmodal-submit" value="Login">
   </form>
 

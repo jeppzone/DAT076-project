@@ -17,6 +17,7 @@
   width: 90%;
   display: block;
   margin-bottom: 10px;
+  margin-top: 5px;
   margin-left: 20px;
   position: relative;
 }
@@ -116,4 +117,9 @@
 
 .input-correct {
   color: #2D9CDB !important;
+}
+
+.login-error {
+  color: #db0a33;
+  padding-left: 35%;
 }
