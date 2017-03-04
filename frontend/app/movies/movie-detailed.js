@@ -15,7 +15,10 @@ movieDetailedConfig.$inject = ['$stateProvider'];
 function movieDetailedConfig($stateProvider){
   $stateProvider.state('menu.movie-detail', {
     resolve: {
-      result: function($stateParams, ReviewFactory){
+      movie: function(MovieFactory, $stateParams) {
+        return MovieFactory.getMovieById($stateParams.movieId);
+      },
+      reviews: function($stateParams, ReviewFactory){
          return ReviewFactory.getMovie($stateParams.movieId);
        }
     },
@@ -30,13 +33,15 @@ function movieDetailedConfig($stateProvider){
   });
 }
 
-MovieDetailedController.$inject = ['$scope', 'MovieFactory', '$stateParams', 'ReviewFactory', 'result'];
-function MovieDetailedController ($scope, MovieFactory, $stateParams, ReviewFactory, result){
+MovieDetailedController.$inject = ['$scope', 'movie', 'reviews'];
+function MovieDetailedController ($scope, movie, reviews){
   var vm = this;
   vm.fullPosterPath = '';
-  vm.movie = {};
-  vm.reviews = result.data.reviews;
-  vm.averageRating = Math.floor(result.data.averageScore);
+  vm.movie = movie.data;
+  vm.fullPosterPath = 'http://image.tmdb.org/t/p/w300' + vm.movie.poster_path;
+  vm.movie.release_date = vm.movie.release_date.substring(0,4);
+  vm.reviews = reviews.data.reviews;
+  vm.averageRating = Math.floor(reviews.data.averageScore);
 
   $scope.$watch(function(){
     return vm.reviews;
@@ -47,10 +52,4 @@ function MovieDetailedController ($scope, MovieFactory, $stateParams, ReviewFact
       });
       vm.averageRating = Math.floor(totalRating / vm.reviews.length);
   }, true);
-
-  MovieFactory.getMovieById($stateParams.movieId).then((result) => {
-    vm.movie = result.data;
-    vm.fullPosterPath = 'http://image.tmdb.org/t/p/w300' + vm.movie.poster_path;
-    vm.movie.release_date = vm.movie.release_date.substring(0,4);
-  });
 }

@@ -98,3 +98,7 @@
     height: 100%;
     left: 47%;
 }
+
+.release-date {
+  color: black !important;
+}

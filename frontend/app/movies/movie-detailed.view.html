@@ -1,5 +1,5 @@
 <div class="col-md-12 movie-detailed">
-  <h2>{{vm.movie.title}} ({{vm.movie.release_date}})</h2>
+  <h2>{{vm.movie.title}} <span class="release-date" ng-show="vm.movie.release_date">({{vm.movie.release_date}})</span></h2>
   <h2></span><span uib-rating ng-model="vm.averageRating" read-only="true"></span></h2>
   <div class="col-md-3">
     <img ng-src="{{vm.fullPosterPath}}"></img>
@@ -7,7 +7,7 @@
   <div class="col-md-4 movie-detailed-info">
     <h4> {{vm.movie.overview}} </h4><br><br>
     <h4 ng-repeat=" genre in vm.movie.genres"> <b>{{genre.name}}</b></h4>
-    <h3> {{vm.movie.runtime}} minutes </h3>
+    <h3 ng-show="vm.movie.runtime"> {{vm.movie.runtime}} minutes </h3>
     <add-review class="add-review" movie="vm.movie"></add-review>
   </div>
   <div class="col-md-4">
