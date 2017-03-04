@@ -22,7 +22,8 @@ module.exports = {
     search: search,
     getFollowedUsers: getFollowedUsers,
     followUser: followUser,
-    unfollowUser: unfollowUser
+    unfollowUser: unfollowUser,
+    getAllUsers: getAllUsers
 };
 
 /**
@@ -217,4 +218,16 @@ function unfollowUser(user, usernameToUnfollow) {
             });
             return user.save();
         })
+}
+
+/**
+ * Get all users, with optional exceptions.
+ * @param omittedIds - id:s of users to omit from results.
+ * @returns {*}
+ */
+function getAllUsers(omittedIds) {
+
+    omittedIds = omittedIds && omittedIds.length ? omittedIds : [];
+
+    return User.find({ _id: { $nin: omittedIds }});
 }

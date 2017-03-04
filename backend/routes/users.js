@@ -43,6 +43,26 @@ module.exports = function(express) {
     });
 
     /**
+     * Return all users. If token is supplied, the requesting user will be omitted from results.
+     *
+     * Returns HTTP Status 200 if successful together with the user array in body parameter "users".
+     *
+     * ## Errors (HTTP Status) ##
+     *   token was invalid (401)
+     *
+     */
+    router.get('/all', function(req, res) {
+        return Users.getAllUsers(req.user ? [req.user._id] : [])
+            .then(function(users) {
+                res.send({
+                    users: users.map(function(u) {
+                        return new PublicUser(u);
+                    })
+                })
+            })
+    });
+
+    /**
      * Return the user with the given username.
      *
      * Returns HTTP Status 200 if successful, together with the requested user.

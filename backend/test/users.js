@@ -438,6 +438,44 @@ describe("Get users", function() {
                 res.status.should.equal(Errors.FORBIDDEN);
                 done();
             })
+    });
+
+    it('Should be able to see listing of all users', function(done) {
+        request(URL)
+            .get('/all')
+            .send()
+            .end(function(err, res) {
+                if (err) { throw err }
+                res.status.should.equal(Status.OK);
+                should.exist(res.body);
+                var body = res.body;
+                should.exist (body.users);
+                body.users.length.should.equal(2);
+                done();
+            })
+    });
+
+    it('Should be able to see listing of all users', function(done) {
+        request(URL)
+            .get('/all')
+            .set('authorization', userToken)
+            .send()
+            .end(function(err, res) {
+                if (err) { throw err }
+                res.status.should.equal(Status.OK);
+                should.exist(res.body);
+                var body = res.body;
+                should.exist (body.users);
+                body.users.length.should.equal(1);
+
+                var userOmitted = body.users.every(function(u) {
+                    return u.username !== validUser.username;
+                });
+
+                userOmitted.should.equal(true);
+
+                done();
+            })
     })
 
 });
