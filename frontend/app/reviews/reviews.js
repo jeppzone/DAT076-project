@@ -28,5 +28,4 @@ ReviewsController.$inject = ['reviews', '$scope'];
 function ReviewsController(reviews, $scope){
   var vm = this;
   vm.reviews = reviews.data.reviews;
-  console.log(vm.reviews);
 }

@@ -18,5 +18,4 @@ function AddList(){
 
 AddListController.$inject = ['$scope'];
 function AddListController($scope){
-  console.log('In controller');
 }

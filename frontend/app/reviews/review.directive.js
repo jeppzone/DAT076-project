@@ -45,7 +45,6 @@ ReviewController.$inject = ['UserFactory', '$scope', 'ReviewFactory', '$timeout'
 function ReviewController(UserFactory, $scope, ReviewFactory, $timeout){
   var vm = this;
   vm.cancel = cancel;
-  console.log($scope.review);
   vm.save = save;
   vm.deleteReview = deleteReview;
   vm.vote = vote;

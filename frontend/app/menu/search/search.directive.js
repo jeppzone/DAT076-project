@@ -16,9 +16,8 @@ function Search(){
   return directive;
 }
 
-SearchController.$inject = ['SearchFactory', '$state', '$scope', 'MovieFactory', 'UserFactory'];
-function SearchController(SearchFactory, $state, $scope, MovieFactory, UserFactory){
-  console.log('In searchController');
+SearchController.$inject = ['SearchFactory', '$state', '$scope', 'MovieFactory'];
+function SearchController(SearchFactory, $state, $scope, MovieFactory){
   $scope.searchString = '';
   $scope.searchType = 'Movies';
   SearchFactory.searchType = 'Movies';

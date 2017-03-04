@@ -64,7 +64,6 @@ function UsersController(users, followedUsers, SearchFactory, $scope) {
     vm.users = [];
     vm.allUsers.forEach((user) => {
       if(user.username.indexOf(searchString) !== -1){
-        console.log('Pushing user');
         vm.users.push(user);
       }
     });
