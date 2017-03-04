@@ -3,10 +3,10 @@
  */
 
 module.exports = function(movie) {
-    return {
-        id: movie.tmdbId,
-        title: movie.title,
-        year: movie.releaseDate.split('-')[0],
-        posterPath: movie.posterPath
+    this.id = movie.tmdbId;
+    this.title = movie.title;
+    if (movie.releaseDate) {
+        this.year = movie.releaseDate.split('-')[0];
     }
+    this.posterPath = movie.posterPath;
 };

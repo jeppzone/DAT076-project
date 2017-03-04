@@ -315,7 +315,7 @@ describe("Post and read reviews", function() {
 
                 should.exist(res.body);
                 var body = res.body;
-
+                
                 should.exist(body.reviews);
                 body.reviews.length.should.equal(1);
 

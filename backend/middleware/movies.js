@@ -33,7 +33,9 @@ function getMovie(movieId) {
                             if (tmdbHash !== foundMovie.tmdbHash) {
                                 console.log('Movie updated');
                                 foundMovie.title = response.title;
-                                foundMovie.releaseDate = response.releaseDate;
+                                if (response.releaseDate) {
+                                    foundMovie.releaseDate = response.releaseDate;
+                                }
                                 foundMovie.posterPath = response.posterPath;
                                 foundMovie.tmdbHash = newHash;
                             }
