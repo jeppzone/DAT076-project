@@ -24,12 +24,7 @@ function UserFactory($http, ApiBase) {
   return service;
 
   function getMe() {
-    return $http.get(ApiBase + '/profile').then((result) => {
-      updateUser(result.data.user);
-      if(service.userInfo.username){
-        service.loggedIn = true;
-      }
-    });
+    return $http.get(ApiBase + '/profile');
   }
 
   function getUser(username) {

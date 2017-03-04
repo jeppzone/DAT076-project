@@ -25,7 +25,7 @@ function ReviewFactory(ApiBase, $http) {
   }
 
   function getUserReviews(username) {
-    return $http.get(ApiBase + '/' + username + '/reviews');
+    return $http.get(ApiBase + '/users/' + username + '/reviews');
   }
 
   function getAllReviews() {

@@ -39,10 +39,23 @@ angular
     'moviez.login-register',
     'moviez.user-factory',
   ])
-  .run(['$rootScope', 'UserFactory', '$cookies', function($rootScope, UserFactory, $cookies){
+  .run(['$rootScope', 'UserFactory', '$cookies', '$state', function($rootScope, UserFactory, $cookies, $state){
     $rootScope.$on('$stateChangeStart', function(evt, toState, toParams, fromState, fromParams) {
+      /* Everytime a state is changed, fetch the user and validate before continuing */
+      if($rootScope.stateChangeByPass){
+        $rootScope.stateChangeByPass = false;
+        return;
+      }
       if($cookies.get('auth')){
-        UserFactory.getMe(); // Get the user info every time state is changed
+        evt.preventDefault();
+        UserFactory.getMe().then((result) => {
+          if(result.data.user){
+            UserFactory.updateUser(result.data.user);
+            UserFactory.loggedIn = true;
+            $rootScope.stateChangeByPass = true;
+            $state.go(toState, toParams);
+          }
+        })
       }
     });
   }])

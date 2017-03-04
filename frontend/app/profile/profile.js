@@ -11,10 +11,10 @@ function profileConfig($stateProvider){
     resolve: {
       followedUsers: function(UserFactory) {
         return UserFactory.getFollowedUsers();
-      }/*,
+      },
       myReviews: function(UserFactory, ReviewFactory){
         return ReviewFactory.getUserReviews(UserFactory.userInfo.username);
-      }*/
+      }
     },
     url: '/profile',
     views: {
@@ -33,7 +33,7 @@ function ProfileController(UserFactory, followedUsers, myReviews){
   vm.save = save;
   vm.cancel = cancel;
   vm.user = angular.copy(UserFactory.userInfo);
-  //vm.myReviews = myReviews.data;
+  vm.myReviews = myReviews.data;
   console.log(vm.myReviews);
   vm.followedUsers = followedUsers.data.following;
 
