@@ -12,11 +12,11 @@ function homeConfig($stateProvider){
       popularMovies: function(MovieFactory){
         return MovieFactory.getPopularMovies();
       },
-      followedUsers: function(UserFactory){
-        return UserFactory.getFollowedUsers();
+      latestReleases: function(MovieFactory){
+        return MovieFactory.getLatestReleases();
       },
       latestReviews: function(ReviewFactory){
-        return ReviewFactory.getLatestReviews(1); //For testing purposes, change this later
+        return ReviewFactory.getLatestReviews(10); //For testing purposes, change this later
       }
 
     },
@@ -31,12 +31,10 @@ function homeConfig($stateProvider){
   });
 }
 
-HomeController.$inject = ['popularMovies', 'followedUsers', 'latestReviews'];
-function HomeController(popularMovies, followedUsers, latestReviews){
+HomeController.$inject = ['popularMovies', 'latestReleases', 'latestReviews'];
+function HomeController(popularMovies, latestReleases, latestReviews){
   var vm = this;
   vm.movies = popularMovies.data.results;
-  vm.followedUsers = followedUsers.data.following;
+  vm.latestReleases = latestReleases.data.results;
   vm.latestReviews = latestReviews.data.reviews;
-  console.log(vm.latestReviews);
-  console.log(vm.followedUsers);
 }

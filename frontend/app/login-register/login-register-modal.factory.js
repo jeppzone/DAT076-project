@@ -62,12 +62,11 @@ function loginRegisterModal($uibModal) {
         })
       }
 
-      function login(credentials) {
+      function login() {
         LoginFactory.loginUser(vm.credentials).then((result) => {
           if(result.status === 200){
             UserFactory.updateUser(result.data);
             LoginFactory.setCredentials(result.data.token);
-            UserFactory.verifyUser();
             uibModalInstance.close();
           }else if(result.status === 401){
             /*TODO Implement error handling */

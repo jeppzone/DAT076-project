@@ -10,6 +10,7 @@ function ReviewFactory(ApiBase, $http) {
   var service = {
     getMovie: getMovie,
     getUserReviews: getUserReviews,
+    getAllReviews: getAllReviews,
     getLatestReviews: getLatestReviews,
     createReview: createReview,
     editReview: editReview,
@@ -25,6 +26,10 @@ function ReviewFactory(ApiBase, $http) {
 
   function getUserReviews(username) {
     return $http.get(ApiBase + '/' + username + '/reviews');
+  }
+
+  function getAllReviews() {
+    return $http.get(ApiBase + '/reviews/all');
   }
 
   function getLatestReviews(nbrOfReviews){

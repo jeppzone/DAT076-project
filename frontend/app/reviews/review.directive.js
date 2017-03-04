@@ -45,6 +45,7 @@ ReviewController.$inject = ['UserFactory', '$scope', 'ReviewFactory', '$timeout'
 function ReviewController(UserFactory, $scope, ReviewFactory, $timeout){
   var vm = this;
   vm.cancel = cancel;
+  console.log($scope.review);
   vm.save = save;
   vm.deleteReview = deleteReview;
   vm.vote = vote;
@@ -55,11 +56,12 @@ function ReviewController(UserFactory, $scope, ReviewFactory, $timeout){
   formatDate($scope.review.date);
 
   function save() {
-    ReviewFactory.createReview(vm.editedText, vm.editedScore, $scope.$parent.vm.movie.id)
+    ReviewFactory.createReview(vm.editedText, vm.editedScore, $scope.review.movie.id)
       .then((result) => {
         $scope.review.author = result.data.author
         $scope.review.text = result.data.text;
         $scope.review.score = result.data.score;
+        $scope.review.voteScore = result.data.voteScore;
         formatDate(result.data.date);
       });
     vm.showOverlay = false;
@@ -87,7 +89,7 @@ function ReviewController(UserFactory, $scope, ReviewFactory, $timeout){
 
   function vote(vote) {
     ReviewFactory.voteOnReview($scope.review.id, vote).then((result) => {
-      console.log(result);
+      $scope.review.voteScore += vote;
       vm.showOverlay = false;
       $timeout(function () {
         vm.showOverlay = true;

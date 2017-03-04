@@ -1,6 +1,9 @@
 .reviews {
   display: block;
 }
+.reviews-browse {
+  display: inline-block;
+}
 .review-card-parent {
   display: inline-block;
   position: relative;

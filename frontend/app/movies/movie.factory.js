@@ -9,14 +9,21 @@ MovieFactory.$inject = ['ApiBase', '$http', 'TmdbFactory'];
 function MovieFactory(ApiBase, $http, TmdbFactory) {
   var service = {
     getPopularMovies: getPopularMovies,
+    getLatestReleases: getLatestReleases,
     searchMovie: searchMovie,
     getMovieById: getMovieById
   };
 
   return service;
 
-  function getPopularMovies(movie) {
-    var data = 'movie?sort_by=popularity.desc'
+  function getPopularMovies() {
+    var data = 'movie?sort_by=popularity.desc';
+    return TmdbFactory.executeTMDbRequest('discover', data, true);
+  }
+
+  function getLatestReleases() {
+    var data = 'movie?primary_release_date.gte=2017-03-01&primary_release_date'+
+    '.lte=2017-03-04';
     return TmdbFactory.executeTMDbRequest('discover', data, true);
   }
 

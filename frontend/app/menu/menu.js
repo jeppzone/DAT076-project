@@ -27,7 +27,6 @@ MenuController.$inject = ['LoginFactory', 'UserFactory', '$scope', '$location', 
 */
 function MenuController(LoginFactory, UserFactory, $scope, $location, SearchFactory){
   // Get state from URL, in order to change the active tab accordingly on page reload
-  let state = $location.path().split('/')[1];
   $scope.setActiveTab = setActiveTab;
   $scope.tabClasses = {
     home: '',
@@ -36,7 +35,13 @@ function MenuController(LoginFactory, UserFactory, $scope, $location, SearchFact
     reviews: '',
     profile: ''
   };
-  setActiveTab(state);
+
+  /*Watch to see if the URL changes, and set the active tab to the current state*/
+  $scope.$watch(function(){
+    return $location.path().split('/')[1];
+  }, function(newValue){
+    setActiveTab(newValue);
+  });
 
   /*Watch to see if userInfo is changed, in order to control know if the user
   is logged in our out */

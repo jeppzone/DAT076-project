@@ -36,7 +36,6 @@ function MovieDetailedController ($scope, MovieFactory, $stateParams, ReviewFact
   vm.fullPosterPath = '';
   vm.movie = {};
   vm.reviews = result.data.reviews;
-  console.log(vm.reviews);
   vm.averageRating = Math.floor(result.data.averageScore);
 
   $scope.$watch(function(){

@@ -16,8 +16,8 @@
     <input type="button" class="review-card-edit" value="Delete" ng-click="vm.deleteReview()"></input>
   </div>
   <div class="overlay" ng-show="vm.showOverlay && review.author.username != vm.loggedInUser.username && vm.loggedInUser.username">
-    <input type="button" class="review-card-upvote" value="Upvote" ng-click="vm.vote('1')"></input>
-    <input type="button" class="review-card-upvote" value="Follow"></input>
+    <input type="button" class="review-card-upvote" value="Upvote" ng-click="vm.vote(1)"></input>
+    <input type="button" class="review-card-upvote" value="Downvote" ng-click="vm.vote(-1)"></input>
   </div>
 </div>
 
