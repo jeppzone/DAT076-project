@@ -28,7 +28,7 @@ module.exports = function(express) {
         } else {
             Promise.all([
                 Reviews.getAverageScore(parseInt(req.params.movieId)),
-                Reviews.getReviews(parseInt(req.params.movieId), Cfg.NBR_REVIEWS_MOVIE_INFO)
+                Reviews.getReviewsByMovie(parseInt(req.params.movieId), Cfg.NBR_REVIEWS_MOVIE_INFO)
             ])
                 .spread(function(averageScore, reviews) {
                     res.send({ averageScore: averageScore, reviews: reviews });

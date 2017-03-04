@@ -14,9 +14,16 @@ var ReviewSchema = new mongoose.Schema({
     score: { type: Number, min: 1, max: 5 },
     text: { type: String },
     upvotes: [{ type: ObjectId, ref: 'User'} ],
-    downvotes: [{ type: ObjectId, ref: 'User' }]
+    downvotes: [{ type: ObjectId, ref: 'User' }],
+    voteScore: Number
 });
 
 ReviewSchema.index({ author: 1, movieId: -1}, {unique: true});
+
+ReviewSchema.pre('save', function(next) {
+    var review = this;
+    review.voteScore = review.upvotes.length - review.downvotes.length;
+    next();
+});
 
 module.exports = mongoose.model('Review', ReviewSchema);

@@ -11,8 +11,8 @@ var PublicFullReview = require('../models/external/full-review');
 
 module.exports = {
     getAverageScore: getAverageScore,
-    getLatestReviews: getLatestReviews,
     getReviews: getReviews,
+    getReviewsByMovie: getReviewsByMovie,
     postReview: postReview,
     deleteReview: deleteReview,
     voteOnReview: voteOnReview
@@ -25,7 +25,7 @@ module.exports = {
  * @param userId - Optional. If supplied, details regarding the user votes on reviews will be supplied.
  * @returns {Promise|*} - An array of reviews without movie information.
  */
-function getReviews(tmdbMovieId, limit, userId) {
+function getReviewsByMovie(tmdbMovieId, limit, userId) {
     return Review.find({
         tmdbMovieId: tmdbMovieId
     })
@@ -44,13 +44,14 @@ function getReviews(tmdbMovieId, limit, userId) {
  * @param userIds - If unset, reviews by all authors will be returned.
  * @param limit - The number of reviews to return.
  * @param recipientId - If supplied, reviews will contain information about the user votes.
+ * @param sortQuery - How to sort the reviews.
  * @returns {Promise}
  */
-function getLatestReviews(userIds, limit, recipientId) {
+function getReviews(userIds, limit, recipientId, sortQuery) {
     var query = userIds ? { author: { $in: userIds } } : {};
 
     return Review.find(query)
-        .sort({ date: -1 })
+        .sort(sortQuery ? sortQuery : {})
         .limit(limit ? limit : 0)
         .populate('author movie')
         .then(function(reviews) {

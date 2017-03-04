@@ -28,6 +28,6 @@ module.exports = function(internalReview, recipientId) {
         }
     }
 
-    this.voteScore = internalReview.upvotes.length - internalReview.downvotes.length;
+    this.voteScore = internalReview.voteScore;
 
 };

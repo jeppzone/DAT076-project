@@ -33,7 +33,7 @@ module.exports = function(express) {
             limit = !isNaN(iLimit) && iLimit < Cfg.LATEST_REVIEWS_MAX_LIMIT ? iLimit : limit;
         }
 
-        Reviews.getLatestReviews(req.user && showFeed ? req.user.following : undefined, limit, req.user ? req.user._id : undefined)
+        Reviews.getReviews(req.user && showFeed ? req.user.following : undefined, limit, req.user ? req.user._id : undefined)
             .then(function(pubReviews) {
                 res.send({reviews: pubReviews});
             })
@@ -42,6 +42,8 @@ module.exports = function(express) {
 
     /**
      * Return all reviews. Supply token to show details of user votes on reviews.
+     * Optionally, query parameter "sortby" can be set to "date" or "votes", and query parameter "sortorder" can be
+     * set to "desc" or "asc" to specify sorting parameter and sort order.
      *
      * Returns HTTP Status 200 if successful, with review array in body attribute "reviews"
      *
@@ -49,6 +51,14 @@ module.exports = function(express) {
      *   token was invalid (401)
      */
     router.get('/all', function(req, res) {
+
+        var sortQuery = {};
+        if (req.query.sortby) {
+            var sortOrder = req.query.sortorder && req.query.sortorder === 'desc' ? -1 : 1;
+            sortQuery = req.query.sortby === 'date' ? { date: sortOrder } :
+                (req.query.sortby === 'votes' ? { voteScore: sortOrder } : {});
+        }
+
         Reviews.getLatestReviews(undefined, 0, req.user)
             .then(function(pubReviews) {
                 res.send({reviews: pubReviews});
