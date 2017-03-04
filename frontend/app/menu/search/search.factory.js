@@ -9,16 +9,15 @@ SearchFactory.$inject = ['ApiBase', '$http'];
 function SearchFactory(ApiBase, $http) {
   var service = {
     search: search,
+    searchType: '',
     searchString: '',
     searchResult: []
   };
 
   return service;
 
-  function search(searchString) {
-    console.log(searchString);
+  function search(searchString, searchType) {
     service.searchString = searchString;
-    service.searchResult = [searchString]; //Only for testing purposes;
-    /* TODO Call to API */
+    service.searchType = searchType;
   }
 }

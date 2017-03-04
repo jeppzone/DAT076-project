@@ -39,7 +39,8 @@
 }
 
 .searchbar {
-  width: 600px;
+  display: inline;
+  width: 800px;
   border: 1px solid #ccc;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
@@ -48,11 +49,15 @@
   -webkit-box-shadow: 1px 1px 1px #AAA;
   box-shadow: 1px 1px 1px #AAA;
   font-size: 14px;
+  margin-top: 9px;
+  margin-left: 5px;
   padding: 4px 8px;
-  margin-top: 10px;
-  margin-left: 200px;
   outline: 0;
   -webkit-appearance: none;
+}
+
+select {
+  margin-left: 10px;
 }
 
 .search-icon{

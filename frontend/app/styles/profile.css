@@ -1,6 +1,6 @@
 .card {
     box-shadow: 0 4px 8px #666;
-    width: 100%;
+    width: 70%;
     height: auto;
 }
 
@@ -48,14 +48,6 @@
   height: 44px;
   font-size: 16px;
   width: 50%;
-  -webkit-appearance: none;
-  background: #fff;
-  border: 1px solid #d9d9d9;
-  border-top: 1px solid #c0c0c0;
-  /* border-radius: 2px; */
-  padding: 0 8px;
-  box-sizing: border-box;
-  -moz-box-sizing: border-box;
 }
 .edit-container input[type="email"] {
   margin-left: 38px;

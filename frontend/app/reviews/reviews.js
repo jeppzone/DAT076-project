@@ -8,6 +8,11 @@ angular.module('moviez.reviews', [])
 reviewsConfig.$inject = ['$stateProvider'];
 function reviewsConfig($stateProvider){
   $stateProvider.state('menu.reviews', {
+    resolve: {
+      reviews: function(ReviewFactory) {
+        return ReviewFactory.getAllReviews();
+      }
+    },
     url: '/reviews',
     views: {
       'main':{
@@ -19,11 +24,9 @@ function reviewsConfig($stateProvider){
   });
 }
 
-ReviewsController.$inject = ['ReviewFactory', '$scope'];
-function ReviewsController(ReviewFactory, $scope){
+ReviewsController.$inject = ['reviews', '$scope'];
+function ReviewsController(reviews, $scope){
   var vm = this;
-  ReviewFactory.getAllReviews().then((result) => {
-    vm.reviews = result.data.reviews;
-  });
-
+  vm.reviews = reviews.data.reviews;
+  console.log(vm.reviews);
 }

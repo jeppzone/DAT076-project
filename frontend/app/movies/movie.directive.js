@@ -10,7 +10,9 @@ function Movie(){
     restrict: 'E',
     templateUrl: 'movies/movie.view.html',
     scope: {
-      movie: '='
+      movie: '=',
+      posterWidth: '=',
+      inList: '='
     },
     controller: 'MovieController',
     controllerAs: 'vm'
@@ -23,7 +25,7 @@ MovieController.$inject = ['$scope'];
 function MovieController($scope){
   let noImage = 'poster-not-available.jpg';
   if($scope.movie.poster_path){
-    $scope.posterFullPath = 'http://image.tmdb.org/t/p/w300' + $scope.movie.poster_path;
+    $scope.posterFullPath = 'http://image.tmdb.org/t/p/w' + $scope.posterWidth + $scope.movie.poster_path;
   }else{
     $scope.posterFullPath = noImage;
   }

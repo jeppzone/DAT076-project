@@ -16,7 +16,7 @@ function homeConfig($stateProvider){
         return MovieFactory.getLatestReleases();
       },
       latestReviews: function(ReviewFactory){
-        return ReviewFactory.getLatestReviews(10); //For testing purposes, change this later
+        return ReviewFactory.getLatestReviews(7);
       }
 
     },
@@ -36,5 +36,6 @@ function HomeController(popularMovies, latestReleases, latestReviews){
   var vm = this;
   vm.movies = popularMovies.data.results;
   vm.latestReleases = latestReleases.data.results;
-  vm.latestReviews = latestReviews.data.reviews;
+  vm.latestReviews = latestReviews.data.reviews.reverse();
+  console.log(latestReviews);
 }

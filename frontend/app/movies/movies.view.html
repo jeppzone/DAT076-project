@@ -1,11 +1,11 @@
 <div class="movie-header">
-  <h1 ng-if="!vm.searchString">Browse movies</h1>
-  <h1 ng-if="vm.searchString"> Search results for: {{vm.searchString}} </h1>
+  <h1 ng-if="!vm.searchString || vm.searchType != 'Movies'">Browse movies</h1>
+  <h1 ng-if="vm.searchString && vm.searchType == 'Movies'"> Search results for: {{vm.searchString}} </h1>
 </div>
 <div class="movie-container">
   <div infinite-scroll="vm.loadMoreMovies()">
     <div class="movies" ng-repeat="movie in vm.shownMovies">
-      <movie movie="movie"></movie>
+      <movie movie="movie" poster-width="300"></movie>
     </div>
   </div>
 </div>

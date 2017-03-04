@@ -38,6 +38,9 @@ angular
     'moviez.login-register-modal',
     'moviez.login-register',
     'moviez.user-factory',
+    'moviez.lists',
+    'moviez.list',
+    'moviez.add-list'
   ])
   .run(['$rootScope', 'UserFactory', '$cookies', '$state', function($rootScope, UserFactory, $cookies, $state){
     $rootScope.$on('$stateChangeStart', function(evt, toState, toParams, fromState, fromParams) {
@@ -49,6 +52,7 @@ angular
       evt.preventDefault();
       if($cookies.get('auth')){
         UserFactory.getMe().then((result) => {
+          //We have a user, proceed to state
           if(result.data.user){
             UserFactory.updateUser(result.data.user);
             UserFactory.loggedIn = true;
@@ -59,13 +63,18 @@ angular
             $state.go('home');
           }
         }, () => {
-          $rootScope.stateChangeByPass = true;
-          $state.go('home');
+          //We don't have a user and tried to access users or profile. Redirect to home
+          if(toState === 'users' || toState === 'profile'){
+            $rootScope.stateChangeByPass = true;
+            $state.go('home');
+          }
         });
       }else {
+        //Auth cookie is empty, but we tried to access users or profile. Redirect to home
         if(toState === 'users' || toState === 'profile'){
           $rootScope.stateChangeByPass = true;
           $state.go('home');
+        //Auth cookie is empty, but we didn't try to access a state that needs authentication. Proceed to state
         }else{
           $rootScope.stateChangeByPass = true;
           $state.go(toState, toParams);

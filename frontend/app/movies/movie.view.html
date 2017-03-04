@@ -1,4 +1,5 @@
 <div class="movie-item" ui-sref="menu.movie-detail({movieId: movie.id})">
+  <h4 class="list-movie-title" ng-show="inList">{{movie.title}}</h4>
   <div class="movie-poster">
     <img ng-src="{{posterFullPath}}"></img>
   </div>

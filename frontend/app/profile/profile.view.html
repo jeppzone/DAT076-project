@@ -27,12 +27,13 @@
         <input type="button" name="save" class="profile-edit-button" value="Save" ng-click="vm.save()">
       </div>
     </div>
+    <h3> My lists </h3>
   </div>
   <div class="col-md-4">
     <div>
       <h3> My reviews </h3>
     </div>
-    <div ng-repeat="review in vm.myReviews">
+    <div ng-repeat="review in vm.reviews">
       <review review="review" title="review.movie.title">
     </div>
   </div>

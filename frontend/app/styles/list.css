@@ -1,0 +1,61 @@
+.lists{
+  display: inline-block;
+}
+
+.list-header {
+  text-align: center;
+}
+
+.list {
+  background-color: #EEE;
+  margin-right: 50px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.list .movie-poster {
+  width: 94px;
+}
+.list .movie-item {
+  width: 250px;
+  margin-bottom: 10px;
+  height: 120px;
+}
+
+.list span img {
+  width: 94px;
+  height: 120px;
+}
+
+.list span h4 {
+  display: inline;
+}
+
+.list .title-overlay h4 {
+  font-size: 10px;
+  color: #000
+}
+
+.list .title-overlay{
+  display: none;
+}
+
+.list .movie-item:hover .movie-poster{
+  opacity: 1;
+}
+
+.list-name,
+.list-author {
+  margin-left: 5px;
+  color: #2D9CDB;
+  font-weight: bold;
+}
+
+
+.list-movie-title {
+  width: 150px;
+  padding-left: 10px;
+  position: absolute;
+  float: right;
+  right: 0;
+}

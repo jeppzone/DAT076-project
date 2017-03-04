@@ -31,19 +31,20 @@ function MoviesController($scope, SearchFactory, MovieFactory, popularMovies){
   vm.totalPages = popularMovies.data.total_pages;
   vm.pageToLoad = 1;
   vm.searchString = SearchFactory.searchString;
+  vm.searchType = SearchFactory.searchType;
 
-  if(!SearchFactory.searchString || SearchFactory.searchResult.length < 1){
+  if(!SearchFactory.searchString || !SearchFactory.searchResult || SearchFactory.searchResult.length < 1){
     vm.shownMovies = popularMovies.data.results;
   }else{
     vm.shownMovies = SearchFactory.searchResult;
   }
 
-  $scope.$watch(function(){
+  $scope.$watch(function() {
     return SearchFactory.searchResult;
   }, function(newValue){
     vm.searchString = SearchFactory.searchString;
-    if(newValue && newValue.length > 0 && vm.searchString){
-      vm.allMovies = newValue;
+    vm.searchType = SearchFactory.searchType;
+    if(vm.searchType === 'Movies' && newValue && newValue.length > 0 && vm.searchString){
       vm.shownMovies = newValue;
     }else{
       vm.shownMovies = popularMovies.data.results;

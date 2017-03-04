@@ -1,2 +1,11 @@
-<li><input type="text" class="searchbar" ng-model="searchString"></li>
+<li>
+  <form class="form-inline">
+  <select class="form-control" ng-model="searchType">
+    <option value="Movies"> Movies </option>
+    <option value="Users"> Users </option>
+  </select>
+  </ul>
+  <input type="search" class="searchbar" ng-model="searchString">
+</form>
+</li>
 <li><span class="glyphicon glyphicon-search search-icon"></span></li>

@@ -55,6 +55,13 @@ function ReviewController(UserFactory, $scope, ReviewFactory, $timeout){
   vm.showOverlay = true;
   formatDate($scope.review.date);
 
+  //Update the loggedInUser in order for the overlays to be shown correctly
+  $scope.$watch(function(){
+    return UserFactory.userInfo;
+  }, function(newValue){
+    vm.loggedInUser = newValue;
+  }, true);
+
   function save() {
     var movieId = $scope.review.movie ? $scope.review.movie.id : $scope.$parent.vm.movie.id;
     ReviewFactory.createReview(vm.editedText, vm.editedScore, movieId)
@@ -89,9 +96,10 @@ function ReviewController(UserFactory, $scope, ReviewFactory, $timeout){
   }
 
   function vote(vote) {
+    vm.showOverlay = false;
     ReviewFactory.voteOnReview($scope.review.id, vote).then((result) => {
-      $scope.review.voteScore += vote;
-      vm.showOverlay = false;
+      $scope.review.voteScore = result.data.voteScore;
+      $scope.review.myVote = result.data.myVote;
       $timeout(function () {
         vm.showOverlay = true;
       }, 1500);

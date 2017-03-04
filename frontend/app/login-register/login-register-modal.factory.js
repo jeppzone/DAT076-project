@@ -17,7 +17,7 @@ function loginRegisterModal($uibModal) {
     var uibModalInstance = $uibModal.open({
       animation: true,
       size: 'md',
-      templateUrl: 'login-register/login-register-modal.html',
+      templateUrl: 'login-register/login-register-modal.view.html',
       controller: LoginRegisterModalCtrl,
       controllerAs: 'vm'
     });

@@ -21,11 +21,11 @@ function menuConfig($stateProvider){
   });
 }
 
-MenuController.$inject = ['LoginFactory', 'UserFactory', '$scope', '$location', 'SearchFactory'];
+MenuController.$inject = ['LoginFactory', 'UserFactory', '$scope', '$location'];
 
 /* Using $scope in this controller instead of vm=this, beacuse controllerAs did for some reason not work here
 */
-function MenuController(LoginFactory, UserFactory, $scope, $location, SearchFactory){
+function MenuController(LoginFactory, UserFactory, $scope, $location){
   // Get state from URL, in order to change the active tab accordingly on page reload
   $scope.setActiveTab = setActiveTab;
   $scope.tabClasses = {
@@ -33,6 +33,7 @@ function MenuController(LoginFactory, UserFactory, $scope, $location, SearchFact
     movies: '',
     users: '',
     reviews: '',
+    lists: '',
     profile: ''
   };
 
@@ -40,7 +41,7 @@ function MenuController(LoginFactory, UserFactory, $scope, $location, SearchFact
   $scope.$watch(function(){
     return $location.path().split('/')[1];
   }, function(newValue){
-    setActiveTab(newValue);
+      setActiveTab(newValue);
   });
 
   /*Watch to see if userInfo is changed, in order to control know if the user
@@ -51,22 +52,11 @@ function MenuController(LoginFactory, UserFactory, $scope, $location, SearchFact
     $scope.user = newValue;
     if(isEmpty($scope.user)){
       $scope.loggedIn = false;
+      $scope.tabClasses.profile = '';
     }else{
       $scope.loggedIn = true;
     }
-
-    if(isEmpty($scope.user) && !isEmpty(oldValue)){
-      setActiveTab('home'); //User has logged out, set the active tab to home
-    }
   }, true);
-
-  $scope.$watch(function(){
-    return SearchFactory.searchString;
-  }, function(newValue){
-      if(newValue){
-        setActiveTab('movies'); //User has searched, set active tab to movies
-      }
-  });
 
   /*Set the active tab to the parameter tab. If the tab is profile, but the
   user is not logged in, the profile tab should not be active. */

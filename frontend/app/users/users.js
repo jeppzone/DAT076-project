@@ -27,12 +27,48 @@ function usersConfig($stateProvider){
   });
 }
 
-UsersController.$inject = ['users', 'followedUsers'];
-function UsersController(users, followedUsers) {
+UsersController.$inject = ['users', 'followedUsers', 'SearchFactory', '$scope'];
+function UsersController(users, followedUsers, SearchFactory, $scope) {
   var vm = this;
-  vm.users = users.data.users;
+  vm.allUsers = users.data.users;
+  vm.users = [];
   vm.followedUsers = followedUsers.data.following;
-  setFollowedUsers();
+  vm.searchString = SearchFactory.searchString;
+  vm.searchType = SearchFactory.searchType;
+
+  $scope.$watch(function() {
+    return SearchFactory.searchString;
+  }, function(newValue){
+    vm.searchString = newValue;
+    vm.searchType = SearchFactory.searchType;
+    if(newValue){
+      if(vm.searchType === 'Users'){
+        filterUsers(newValue);
+        setFollowedUsers();
+      }
+    }else{
+      vm.users = users.data.users;
+    }
+  });
+
+  $scope.$watch(function() {
+    return SearchFactory.searchType;
+  }, function(newValue){
+    if(newValue === 'Users' && SearchFactory.searchString){
+      filterUsers(SearchFactory.searchString);
+      setFollowedUsers();
+    }
+  });
+
+  function filterUsers(searchString) {
+    vm.users = [];
+    vm.allUsers.forEach((user) => {
+      if(user.username.indexOf(searchString) !== -1){
+        console.log('Pushing user');
+        vm.users.push(user);
+      }
+    });
+  }
 
   function setFollowedUsers() {
     vm.followedUsers.forEach((user) => {
