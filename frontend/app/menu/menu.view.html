@@ -7,7 +7,7 @@
       <li ng-class="tabClasses.home"><a ui-sref="menu.home"ng-click="setActiveTab('home')">Home</a></li>
       <li ng-class="tabClasses.movies"><a ui-sref="menu.movies" ng-click="setActiveTab('movies')">Movies</a></li>
       <li ng-class="tabClasses.reviews"><a ui-sref="menu.reviews" ng-click="setActiveTab('reviews')">Reviews</a></li>
-      <li ng-class="tabClasses.users"><a ui-sref="menu.users" ng-click="setActiveTab('users')">Users</a></li>
+      <li ng-if="loggedIn" ng-class="tabClasses.users"><a ui-sref="menu.users" ng-click="setActiveTab('users')">Users</a></li>
       <search class="nav navbar-nav"></search>
     </ul>
     <ul class="nav navbar-nav navbar-right">

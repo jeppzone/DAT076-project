@@ -46,16 +46,30 @@ angular
         $rootScope.stateChangeByPass = false;
         return;
       }
+      evt.preventDefault();
       if($cookies.get('auth')){
-        evt.preventDefault();
         UserFactory.getMe().then((result) => {
           if(result.data.user){
             UserFactory.updateUser(result.data.user);
             UserFactory.loggedIn = true;
             $rootScope.stateChangeByPass = true;
             $state.go(toState, toParams);
+          }else{
+            $rootScope.stateChangeByPass = true;
+            $state.go('home');
           }
-        })
+        }, () => {
+          $rootScope.stateChangeByPass = true;
+          $state.go('home');
+        });
+      }else {
+        if(toState === 'users' || toState === 'profile'){
+          $rootScope.stateChangeByPass = true;
+          $state.go('home');
+        }else{
+          $rootScope.stateChangeByPass = true;
+          $state.go(toState, toParams);
+        }
       }
     });
   }])
