@@ -86,6 +86,7 @@ angular
   .constant('ApiBase', 'http://localhost:3000')
   .constant('TMDbApiBase', 'http://api.themoviedb.org/3/')
   .constant('ApiKey', 'api_key=f2975c7499d3ec3abb0aef5401787eb2')
+  .directive('loading', Loading)
   .controller('AppController', AppController );
 
   appConfig.$inject = ['$urlRouterProvider', '$httpProvider', '$locationProvider', '$qProvider'];
@@ -111,6 +112,27 @@ angular
           }
         };
     }]);
+  }
+
+  Loading.$inject = ['$http'];
+  function Loading($http){
+    var directive = {
+      restrict: 'A',
+      link: function(scope, element, attrs){
+        scope.isLoading = function() {
+          return $http.pendingRequests.length > 0;
+        };
+        scope.$watch(scope.isLoading, function(value) {
+          if(value){
+            element.removeClass('ng-hide');
+          }else{
+            element.addClass('ng-hide');
+          }
+        });
+      }
+    };
+
+    return directive;
   }
 
   AppController.$inject = ['$scope', '$state'];

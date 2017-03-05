@@ -1,5 +1,8 @@
 'use strict';
 
+/* Module containing the directive that is responsible for the functionality
+of following and unfollowing a user. The directive is used in the Users tab
+and the Profile tab */
 angular.module('moviez.follow-user', [])
 
 .directive('followUser', followUser)
@@ -26,7 +29,8 @@ function FollowUserController($scope, UserFactory){
   vm.follow = follow;
   vm.unfollow = unfollow;
 
-  //If we are in the profile view, then the button should show 'Unfollow'
+  /*If we are in the profile view, then the button should show 'Unfollow' since the
+  profile is displaying followed users */
   if($scope.isProfile) {
     $scope.user.follows = true;
   }

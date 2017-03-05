@@ -50,20 +50,19 @@
   box-shadow: 1px 1px 1px #AAA;
   font-size: 14px;
   margin-top: 9px;
-  margin-left: 5px;
   padding: 4px 8px;
   outline: 0;
   -webkit-appearance: none;
 }
 
 select {
-  margin-left: 10px;
+  margin-left: 40px;
 }
 
 .search-icon{
-  padding-left: 15px;
+  padding-left: 10px;
   cursor: pointer;
-  padding-top: 16px;
+  padding-top: 13px;
   font-size: 20px;
   color: #2D9CDB;
 }
