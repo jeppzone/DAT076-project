@@ -36,5 +36,5 @@ function HomeController(popularMovies, latestReleases, latestReviews){
   var vm = this;
   vm.movies = popularMovies.data.results;
   vm.latestReleases = latestReleases.data.results;
-  vm.latestReviews = latestReviews.data.reviews.reverse();
+  vm.reviews = latestReviews.data.reviews.reverse();
 }
