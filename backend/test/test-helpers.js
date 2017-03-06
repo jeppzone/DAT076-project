@@ -11,8 +11,10 @@ var User = require('../models/internal/user');
 var Profile = require('../models/internal/profile');
 var Review = require('../models/internal/review');
 var Movie = require('../models/internal/movie');
+var MovieList = require('../models/internal/movie-list');
 
 module.exports = {
+    clearLists: clearLists,
     clearMovies: clearMovies,
     clearReviews: clearReviews,
     clearUsers: clearUsers,
@@ -38,6 +40,10 @@ function clearReviews(done) {
 
 function clearProfiles(done) {
     clearCollection(Profile, done);
+}
+
+function clearLists(done) {
+    clearCollection(MovieList, done);
 }
 
 function clearMovies(done) {

@@ -19,5 +19,10 @@ module.exports = {
     MOVIE_REFRESH_HOURS: 24, // If a movie has been fetched from TMDB in this time period, do not fetch again to update it.
     MOVIE_REFRESH_MILLIS: this.MOVIE_REFRESH_HOURS * MILLIS_PER_HOUR,
     LATEST_REVIEWS_MAX_LIMIT: 20,
-    SEARCH_MIN_LENGTH: 3
+    SEARCH_MIN_LENGTH: 3,
+
+    MOVIE_LIST_MAX_LENGTH: 500,
+    MOVIE_LIST_DESCRIPTION_MAX_LENGTH: 3000,
+    MOVIE_LIST_TITLE_MIN_LENGTH: 3,
+    MOVIE_LIST_TITLE_MAX_LENGTH: 140
 };

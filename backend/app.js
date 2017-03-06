@@ -16,6 +16,7 @@ var index = require('./routes/index');
 var movies = require('./routes/movies');
 var reviews = require('./routes/reviews');
 var users = require('./routes/users');
+var lists = require('./routes/lists');
 
 var app = express();
 
@@ -55,6 +56,7 @@ app.use('/', index(express));
 app.use('/movies', movies(express));
 app.use('/reviews', reviews(express));
 app.use('/users', users(express));
+app.use('/lists', lists(express));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
