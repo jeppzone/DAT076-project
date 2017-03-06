@@ -7,6 +7,7 @@ var Errors = require('../errors');
 var TokenVerification = require('../middleware/tokens').tokenVerification;
 var Users = require('../middleware/users');
 var Reviews = require('../middleware/reviews');
+var MovieLists = require('../middleware/movie-lists');
 
 var PublicUser = require('../models/external/user');
 
@@ -117,6 +118,24 @@ module.exports = function(express) {
                 res.send({ reviews: publicReviews });
             })
             .catch(function(err) { Errors.sendErrorResponse(err, res) });
+    });
+
+    /**
+     * Get all lists by a user.
+     *
+     * Returns HTTP status 200 if successful, with the lists in the response attribute "lists"
+     *
+     * ## Errors (HTTP Status) ##
+     *   user can't be found (404)
+     */
+    router.get('/:username/lists', function(req, res) {
+        MovieLists.getListsByAuthor(req.params.username)
+            .then(function(lists) {
+                res.send({lists: lists})
+            })
+            .catch(function(err) {
+                Errors.sendErrorResponse(err, res);
+            })
     });
 
     return router;

@@ -18,6 +18,7 @@ var UsersMW = require('../middleware/users');
 
 describe("Post and read lists", function() {
 
+    const USERS_URL = "http://localhost:3000/users/";
     const URL = "http://localhost:3000/lists";
 
     const validUser = {
@@ -146,6 +147,19 @@ describe("Post and read lists", function() {
 
                 done();
             })
+    });
+
+    it('Should be able to get all lists by a user', function(done) {
+       request(USERS_URL)
+           .get('/' + validUser.username + '/lists')
+           .send()
+           .end(function(err, res) {
+               if (err) { throw err }
+               res.status.should.equal(Status.OK);
+               should.exist(res.body);
+               console.log(res.body);
+               done();
+           })
     });
 
     it('Should not be able to remove list you do not own', function(done) {
