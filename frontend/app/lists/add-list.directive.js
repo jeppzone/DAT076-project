@@ -8,7 +8,7 @@ angular.module('moviez.add-list', [])
 function AddList(){
   var directive = {
     restrict: 'E',
-    templateUrl: 'lists/add-list.view.html',
+    templateUrl: 'lists/add-list-modal.view.html',
     controller: 'AddListController',
     controllerAs: 'vm'
   }
@@ -16,6 +16,18 @@ function AddList(){
   return directive;
 }
 
-AddListController.$inject = ['$scope'];
-function AddListController($scope){
+AddListController.$inject = ['$scope', 'MovieFactory'];
+function AddListController($scope, MovieFactory){
+  var vm = this;
+  vm.movies = [];
+  vm.list = [];
+  vm.posterBase = 'http://image.tmdb.org/t/p/w92b'
+  vm.models = {
+    selected: null,
+    lists: {'movies': vm.movies, "list": vm.list}
+  };
+
+  $scope.$watch('searchString',
+    (newValue, oldValue) => {
+  });
 }

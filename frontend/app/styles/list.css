@@ -1,9 +1,11 @@
 .lists{
-  display: inline-block;
+  display: block;
 }
 
 .list-header {
+  display: inline;
   text-align: center;
+  margin-left: 37%;
 }
 
 .list {
@@ -14,21 +16,23 @@
 }
 
 .list .movie-poster {
+  margin-top: 5px;
   width: 94px;
 }
 .list .movie-item {
-  width: 250px;
-  margin-bottom: 10px;
-  height: 120px;
+  width: 150px;
+  height: 200px;
+  display: inline-block;
 }
 
 .list span img {
-  width: 94px;
-  height: 120px;
+  width: 84px;
+  height: 110px;
+  margin-left: 10px;
 }
 
 .list span h4 {
-  display: inline;
+  display: block;
 }
 
 .list .title-overlay h4 {
@@ -53,9 +57,190 @@
 
 
 .list-movie-title {
-  width: 150px;
-  padding-left: 10px;
+  width: 110px;
   position: absolute;
-  float: right;
-  right: 0;
+  bottom: 0;
+}
+
+.drag-drop-container {
+  padding: 30px;
+  width: 100% !important;
+  background-color: #F7F7F7;
+  margin: 0 auto;
+  border-radius: 2px;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.drag-drop-container .save {
+  width: 80px;
+  text-align: center;
+  cursor: pointer;
+  border: 0px;
+  color: #fff;
+  text-shadow: 0 1px rgba(0,0,0,0.1);
+  background-color: #4d90fe;
+  padding: 17px 0px;
+  font-size: 14px;
+}
+
+.drag-drop-container .searchbar {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.drag-drop-container .poster {
+  height: 40px;
+}
+
+.drag-drop-list {
+  min-height: 150px;
+}
+
+/**
+ * For the correct positioning of the placeholder element, the dnd-list and
+ * it's children must have position: relative
+ */
+ ul[dnd-list],
+ ul[dnd-list] > li {
+  position: relative;
+}
+
+/**
+ * The dnd-list should always have a min-height,
+ * otherwise you can't drop to it once it's empty
+ */
+ ul[dnd-list] {
+  min-height: 42px;
+  max-height: 400px;
+  padding-left: 0px;
+  overflow-y: auto;
+}
+
+/**
+ * The dndDraggingSource class will be applied to
+ * the source element of a drag operation. It makes
+ * sense to hide it to give the user the feeling
+ * that he's actually moving it.
+ */
+ ul[dnd-list] .dndDraggingSource {
+  display: none;
+}
+
+/**
+ * An element with .dndPlaceholder class will be
+ * added to the dnd-list while the user is dragging
+ * over it.
+ */
+ ul[dnd-list] .dndPlaceholder {
+  display: block;
+  background-color: #ddd;
+  padding: 10px 15px;
+  min-height: 42px;
+}
+
+/**
+ * The dnd-lists's child elements currently MUST have
+ * position: relative. Otherwise we can not determine
+ * whether the mouse pointer is in the upper or lower
+ * half of the element we are dragging over. In other
+ * browsers we can use event.offsetY for this.
+ */
+ ul[dnd-list] li {
+  height: 62px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-top-right-radius: 4px;
+  border-top-left-radius: 4px;
+  display: block;
+  margin-bottom: -1px;
+
+  /* Disable text selection if item is not draggable */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/**
+ * The dnd-list should always have a min-height,
+ * otherwise you can't drop to it once it's empty
+ */
+ ul[dnd-list] {
+    min-height: 42px;
+    padding-left: 0px;
+}
+
+/**
+ * The dndDraggingSource class will be applied to
+ * the source element of a drag operation. It makes
+ * sense to hide it to give the user the feeling
+ * that he's actually moving it.
+ */
+ ul[dnd-list] .dndDraggingSource {
+    display: none;
+}
+
+/**
+ * An element with .dndPlaceholder class will be
+ * added to the dnd-list while the user is dragging
+ * over it.
+ */
+ ul[dnd-list] .dndPlaceholder {
+    background-color: #ddd;
+    display: block;
+    min-height: 42px;
+}
+
+ ul[dnd-list] li {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    cursor: pointer;
+}
+/**
+ * Show selected elements in green
+ */
+ ul[dnd-list] li.selected {
+    background-color: #dff0d8;
+    color: #3c763d;
+}
+
+.drag-drop-list {
+  margin-right: 20px;
+  border: 1px dashed black;
+  border-spacing: 100px;
+}
+
+.list-title{
+  width: 86% !important;
+  margin-left: 0px !important;
+}
+
+.list-overview {
+  margin-right: 10px;
+  padding-top: 30px;
+  margin-left: 5px;
+}
+.list-overview h4 {
+  display: inline;
+}
+
+.add-list-button {
+  width: 100px;
+  text-align: center;
+  cursor: pointer;
+  border: 0px;
+  color: #fff;
+  text-shadow: 0 1px rgba(0,0,0,0.1);
+  background-color: #4d90fe;
+  padding: 17px 0px;
+  font-size: 14px;
+  margin-left: 20px;
 }

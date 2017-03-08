@@ -44,9 +44,19 @@ function MoviesController($scope, SearchFactory, MovieFactory, popularMovies){
   }, function(newValue){
     vm.searchString = SearchFactory.searchString;
     vm.searchType = SearchFactory.searchType;
+    console.log(vm.searchString);
     if(vm.searchType === 'Movies' && newValue && newValue.length > 0 && vm.searchString){
       vm.shownMovies = newValue;
     }else{
+      vm.shownMovies = popularMovies.data.results;
+    }
+  });
+
+  $scope.$watch(function() {
+    return SearchFactory.searchString;
+  }, function(newValue){
+    if(!newValue && SearchFactory.searchType === 'Movies'){
+      vm.searchString = newValue;
       vm.shownMovies = popularMovies.data.results;
     }
   });

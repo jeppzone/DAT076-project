@@ -17,6 +17,7 @@ angular
     'ngSanitize',
     'ui.bootstrap',
     'ui.router',
+    'dndLists',
     'moviez.menu',
     'moviez.search',
     'moviez.search-factory',
@@ -40,7 +41,9 @@ angular
     'moviez.user-factory',
     'moviez.lists',
     'moviez.list',
-    'moviez.add-list'
+    'moviez.list-factory',
+    'moviez.add-list',
+    'moviez.add-list-modal'
   ])
   .run(['$rootScope', 'UserFactory', '$cookies', '$state', function($rootScope, UserFactory, $cookies, $state){
     $rootScope.$on('$stateChangeStart', function(evt, toState, toParams, fromState, fromParams) {

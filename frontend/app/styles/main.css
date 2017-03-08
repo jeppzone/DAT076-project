@@ -42,4 +42,4 @@ input[type=text]:hover, input[type=password]:hover, input[type=email]:hover {
     margin-left: -32px; /* -1 * image width / 2 */
     margin-top: -32px;  /* -1 * image height / 2 */
     display: block;
-  }
+}

@@ -71,9 +71,9 @@
   text-align: center;
 }
 
-.modal-dialog {
+/*.modal-dialog {
   max-width: 450px;
-}
+}*/
 
 .loginmodal-container .has-error > input {
   border: 2px solid #F00;

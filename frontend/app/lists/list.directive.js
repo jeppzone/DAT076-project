@@ -10,7 +10,7 @@ function List() {
     restrict: 'E',
     templateUrl: 'lists/list.view.html',
     scope: {
-      list: '='
+      listId: '='
     },
     controller: 'ListController',
     controllerAs: 'vm'
@@ -19,12 +19,12 @@ function List() {
   return directive;
 }
 
-ListController.$inject = ['MovieFactory'];
-function ListController(MovieFactory) {
+ListController.$inject = ['$scope', 'ListFactory'];
+function ListController($scope, ListFactory) {
   var vm = this;
-  vm.movies = [];
-  MovieFactory.getPopularMovies(1).then((result) => {
-    vm.movies = result.data.results;
-  })
+  ListFactory.getListById($scope.listId).then((result) => {
+    console.log(result);
+    vm.movies = result.data.movies;
+  });
 
 }

@@ -1,0 +1,41 @@
+<div class="drag-drop-container">
+  <input type="text" class="list-title" placeholder="title" ng-model="vm.title"></input>
+  <div class="col-md-5 drag-drop-list">
+     <h4>Movies</h4>
+     <input class="searchbar" placeholder="Search for movies..." ng-model="vm.searchString">
+     <ul dnd-list="vm.movies">
+      <li ng-repeat="item in vm.movies"
+          dnd-draggable="item"
+          dnd-moved="vm.movies.splice($index, 1)"
+          dnd-effect-allowed="move"
+          dnd-selected="vm.models.selected = item"
+          ng-class="{'selected': vm.models.selected === item}"
+          >
+          <span class="testtest">
+          <b>{{item.title}}</b>
+          <img ng-if="item.poster_path" class="poster" ng-src="{{vm.posterBase}}{{item.poster_path}}" align="right">
+          <img ng-if="!item.poster_path" class="poster" src="poster-not-available.jpg" align="right">
+        </span>
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-5 drag-drop-list">
+     <h4>List</h4>
+     <ul dnd-list="vm.list">
+      <li ng-repeat="item in vm.list"
+          dnd-draggable="item"
+          dnd-moved="vm.list.splice($index, 1)"
+          dnd-effect-allowed="move"
+          dnd-selected="vm.models.selected = item"
+          ng-class="{'selected': vm.models.selected === item}"
+          >
+          {{item.title}}
+          <img ng-if="item.poster_path" class="poster" ng-src="{{vm.posterBase}}{{item.poster_path}}" align="right">
+          <img ng-if="!item.poster_path" class="poster" src="poster-not-available.jpg" align="right">
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-1">
+    <input type="button" class="save" value="Save" ng-click="vm.save()"></input>
+  </div>
+</div>

@@ -31,8 +31,8 @@ function homeConfig($stateProvider){
   });
 }
 
-HomeController.$inject = ['popularMovies', 'latestReleases', 'latestReviews'];
-function HomeController(popularMovies, latestReleases, latestReviews){
+HomeController.$inject = ['popularMovies', 'latestReleases', 'latestReviews', '$scope'];
+function HomeController(popularMovies, latestReleases, latestReviews, $scope){
   var vm = this;
   vm.movies = popularMovies.data.results;
   vm.latestReleases = latestReleases.data.results;
