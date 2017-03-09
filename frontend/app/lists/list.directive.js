@@ -36,8 +36,8 @@ function ListController($scope, ListFactory, UserFactory, AddListModal) {
   }
 
   function openListModal() {
-    AddListModal.showModal(vm.detailedList.movies, vm.detailedList.title).result.then((result) => {
-      ListFactory.getListById(result.data.listId).then((result) => {
+    AddListModal.showModal(vm.detailedList.movies, vm.detailedList.title, $scope.list.id, true).result.then((result) => {
+      ListFactory.getListById($scope.list.id).then((result) => {
         var index = $scope.$parent.vm.lists.indexOf($scope.list);
         $scope.$parent.vm.lists[index] = result.data;
       });

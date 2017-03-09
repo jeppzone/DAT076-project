@@ -14,6 +14,9 @@ function profileConfig($stateProvider){
       },
       myReviews: function(UserFactory, ReviewFactory){
         return ReviewFactory.getUserReviews(UserFactory.userInfo.username);
+      },
+      lists: function(UserFactory, ListFactory) {
+        return ListFactory.getListsByUser(UserFactory.userInfo.username);
       }
     },
     url: '/profile',
@@ -27,20 +30,26 @@ function profileConfig($stateProvider){
   });
 }
 
-ProfileController.$inject = ['UserFactory', 'followedUsers', 'myReviews'];
-function ProfileController(UserFactory, followedUsers, myReviews){
+ProfileController.$inject = ['UserFactory', 'followedUsers', 'myReviews', 'lists'];
+function ProfileController(UserFactory, followedUsers, myReviews, lists){
   var vm = this;
   vm.save = save;
   vm.cancel = cancel;
   vm.user = angular.copy(UserFactory.userInfo);
+  vm.editedDescription = vm.user.text;
   vm.reviews = myReviews.data.reviews;
   vm.followedUsers = followedUsers.data.following;
+  vm.lists = lists.data.lists;
 
   function save() {
-    vm.editing = false;
+    UserFactory.editUserProfile(vm.user.text).then((result) => {
+      UserFactory.updateUser(Object.assign(result.data.user, result.data.profile));
+      vm.editing = false;
+    });
   }
 
   function cancel() {
     vm.editing = false;
+    vm.editedDescription = vm.user.text;
   }
 }

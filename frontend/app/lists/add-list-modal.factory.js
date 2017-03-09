@@ -13,8 +13,7 @@ function AddListModal($uibModal) {
 
   return service;
 
-  function showModal(movies, listTitle) {
-    console.log('In controller');
+  function showModal(movies, listTitle, listId, editing) {
     var uibModalInstance = $uibModal.open({
       animation: true,
       size: 'lg',
@@ -27,19 +26,26 @@ function AddListModal($uibModal) {
         },
         listTitle: function() {
           return listTitle;
+        },
+        listId: function() {
+          return listId;
+        },
+        editing: function() {
+          return editing;
         }
       }
     });
 
     return uibModalInstance;
-    AddListModalController.$inject = ['$uibModalInstance', 'ListFactory', 'MovieFactory', '$scope', 'movies', 'listTile'];
-    function AddListModalController($uibModalInstance, ListFactory, MovieFactory, $scope, movies, listTitle){
+    AddListModalController.$inject = ['$uibModalInstance', 'ListFactory', 'MovieFactory', '$scope', 'movies', 'listTile', 'listId', 'editing'];
+    function AddListModalController($uibModalInstance, ListFactory, MovieFactory, $scope, movies, listTitle, listId, editing){
       var vm = this
       vm.save = save;
       vm.movies = [];
       vm.title = listTitle;
       //Copy the list so the contents are not changed automatically in the background
       vm.list = angular.copy(movies) || [];
+      vm.listId = listId;
       vm.posterBase = 'http://image.tmdb.org/t/p/w92';
       vm.models = {
         selected: null,
@@ -47,11 +53,19 @@ function AddListModal($uibModal) {
       };
 
       function save() {
-        ListFactory.createList(vm.title, vm.description, getMovieIdsFromList())
-        .then((result) => {
-          console.log(result);
-          $uibModalInstance.close(result);
-        })
+        console.log(editing);
+        if(editing){
+          ListFactory.editList(vm.listId, vm.title, vm.description, getMovieIdsFromList()).then((result) => {
+            console.log(result);
+            $uibModalInstance.close(result);
+          })
+        }else{
+          ListFactory.createList(vm.title, vm.description, getMovieIdsFromList())
+          .then((result) => {
+            console.log(result);
+            $uibModalInstance.close(result);
+          });
+        }
       }
 
       $scope.$watch('vm.searchString', (newValue) => {

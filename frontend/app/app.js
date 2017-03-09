@@ -57,7 +57,7 @@ angular
         UserFactory.getMe().then((result) => {
           //We have a user, proceed to state
           if(result.data.user){
-            UserFactory.updateUser(result.data.user);
+            UserFactory.updateUser(Object.assign(result.data.user, result.data.profile));
             UserFactory.loggedIn = true;
             $rootScope.stateChangeByPass = true;
             $state.go(toState, toParams);

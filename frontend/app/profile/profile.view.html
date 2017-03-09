@@ -8,6 +8,7 @@
       <div class="container" ng-if="!vm.editing">
         <h4><b>{{vm.user.username}}</b></h4>
         <h4><b>{{vm.user.email}}</b></h4>
+        <h5><b>{{vm.user.text}}</b></h5>
         <input type="button" name="edit" class="profile-edit-button" value="Edit" ng-click="vm.editing=true">
       </div>
       <div class="edit-container" ng-if="vm.editing">
@@ -23,21 +24,24 @@
           <h4>password</h4>
           <input type="password" name="password" ng-model="vm.user.password">
         </div>
-        <input type="button" name="cancel" class="profile-edit-button" value="Cancel" ng-click="vm.editing=false">
+        <div class="profile-description">
+          <h4>description </h4>
+          <textarea ng-model="vm.editedDescription"></textarea>
+        </div>
+        <input type="button" name="cancel" class="profile-edit-button" value="Cancel" ng-click="vm.cancel()">
         <input type="button" name="save" class="profile-edit-button" value="Save" ng-click="vm.save()">
       </div>
     </div>
-    <h3> My lists </h3>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-4" ng-if="vm.reviews && vm.reviews.length > 0">
     <div>
       <h3> My reviews </h3>
     </div>
-    <div ng-repeat="review in vm.reviews">
+    <div ng-repeat="review in vm.reviews" class="slide">
       <review review="review" title="review.movie.title">
     </div>
   </div>
-  <div class="col-md-4">
+  <div class="col-md-4" ng-if="vm.followedUsers && vm.followedUsers.length > 0">
     <div>
       <h3> People I follow </h3>
     </div>
@@ -46,6 +50,13 @@
         <follow-user user="user" is-profile="true"></follow-user>
       </table>
     </div>
+  </div>
+</div>
+<div class="col-md-12 profile-lists" ng-if="vm.lists && vm.lists.length > 0">
+  <h3> My lists </h3>
+  <div ng-repeat="list in vm.lists" class="slide">
+    <h4><i>{{list.title}} </i></h4>
+    <list list = "list">
   </div>
 </div>
 <div class="loader" data-loading>

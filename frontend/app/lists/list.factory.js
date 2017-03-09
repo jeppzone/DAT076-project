@@ -47,6 +47,7 @@ function ListFactory(ApiBase, $http) {
   }
 
   function editList(listId, title, description, movies) {
+    console.log('Editing');
     return $http.put(ApiBase + '/lists/' + listId, {
       title: title,
       description: description,
