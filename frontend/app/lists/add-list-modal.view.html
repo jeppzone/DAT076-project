@@ -11,7 +11,6 @@
           dnd-selected="vm.models.selected = item"
           ng-class="{'selected': vm.models.selected === item}"
           >
-          <span class="testtest">
           <b>{{item.title}}</b>
           <img ng-if="item.poster_path" class="poster" ng-src="{{vm.posterBase}}{{item.poster_path}}" align="right">
           <img ng-if="!item.poster_path" class="poster" src="poster-not-available.jpg" align="right">
@@ -31,7 +30,8 @@
           >
           {{item.title}}
           <img ng-if="item.poster_path" class="poster" ng-src="{{vm.posterBase}}{{item.poster_path}}" align="right">
-          <img ng-if="!item.poster_path" class="poster" src="poster-not-available.jpg" align="right">
+          <img ng-if="item.posterPath" class="poster" ng-src="{{vm.posterBase}}{{item.posterPath}}" align="right">
+          <img ng-if="!item.poster_path && !item.posterPath" class="poster" src="poster-not-available.jpg" align="right">
       </li>
     </ul>
   </div>

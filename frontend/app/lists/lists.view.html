@@ -2,9 +2,9 @@
   <input type="button" class="add-list-button" value="Create list" ng-click="vm.showListModal()"></input>
   <h1 class="list-header"> Movie Lists </h1>
 </div>
-<div class="list-overview" ng-repeat="list in vm.lists">
+<div class="list-overview slide" ng-repeat="list in vm.lists">
   <h4><i>{{list.title}} </i></h4> by
   <h4><b> {{list.author.username}} </b></h4>
   <br></br>
-  <list list-id="list.id"></list>
+  <list list="list"></list>
 </div>

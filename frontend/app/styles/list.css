@@ -232,7 +232,9 @@
   display: inline;
 }
 
-.add-list-button {
+.add-list-button,
+.delete-list-button,
+.edit-list-button {
   width: 100px;
   text-align: center;
   cursor: pointer;
@@ -243,4 +245,16 @@
   padding: 17px 0px;
   font-size: 14px;
   margin-left: 20px;
+}
+
+.delete-list-button {
+  position: absolute;
+  right: 0;
+  margin-right: 80px;
+}
+
+.edit-list-button {
+  position: absolute;
+  right: 0;
+  margin-right: 200px;
 }

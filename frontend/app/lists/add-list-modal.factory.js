@@ -13,22 +13,33 @@ function AddListModal($uibModal) {
 
   return service;
 
-  function showModal() {
+  function showModal(movies, listTitle) {
+    console.log('In controller');
     var uibModalInstance = $uibModal.open({
       animation: true,
       size: 'lg',
       templateUrl: 'lists/add-list-modal.view.html',
       controller: AddListModalController,
       controllerAs: 'vm',
+      resolve: {
+        movies: function() {
+          return movies;
+        },
+        listTitle: function() {
+          return listTitle;
+        }
+      }
     });
 
     return uibModalInstance;
-    AddListModalController.$inject = ['$uibModalInstance', 'ListFactory', 'MovieFactory', '$scope'];
-    function AddListModalController($uibModalInstance, ListFactory, MovieFactory, $scope){
-      var vm = this;
+    AddListModalController.$inject = ['$uibModalInstance', 'ListFactory', 'MovieFactory', '$scope', 'movies', 'listTile'];
+    function AddListModalController($uibModalInstance, ListFactory, MovieFactory, $scope, movies, listTitle){
+      var vm = this
       vm.save = save;
       vm.movies = [];
-      vm.list = [];
+      vm.title = listTitle;
+      //Copy the list so the contents are not changed automatically in the background
+      vm.list = angular.copy(movies) || [];
       vm.posterBase = 'http://image.tmdb.org/t/p/w92';
       vm.models = {
         selected: null,
@@ -50,7 +61,6 @@ function AddListModal($uibModal) {
             vm.list.forEach((selectedMovie) => {
               vm.movies.forEach((searchResult) => {
                 if(selectedMovie.id === searchResult.id){
-                  console.log('FOund match');
                   vm.movies.splice(vm.movies.indexOf(searchResult), 1);
                 }
               });
