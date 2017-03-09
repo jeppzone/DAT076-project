@@ -9,11 +9,21 @@
   position: relative;
   width: 30vw;
   height: 250px;
-  margin-right: 10px;
+  margin-right: 20px;
   margin-top: 20px;
 }
 
-.review-card {
+.review-card-parent-editing {
+  display: inline-block !important;
+  position: relative;
+  width: 30vw;
+  height: 293px;
+  margin-right: 20px;
+  margin-top: 20px;
+}
+
+.review-card,
+.review-card-editing {
   box-shadow: 0 4px 8px 0 #666;
   background-color: #EEE;
   color: #000;
@@ -31,29 +41,35 @@
   overflow-y: auto;
 }
 
-.review-card h5,
-.review-card h4,
-.review-card h3 {
+.review-card-editing {
+  width: 100%;
+  height: 100%;
+  overflow-y: hidden;
+}
+
+.review-card h5, .review-card-editing h5,
+.review-card h4, .review-card-editing h4,
+.review-card h3, .review-card-editing h3 {
   font-size: 20px;
   padding-left: 10px;
   padding-right: 10px;
   word-wrap: break-word;
 }
 
-.review-card hr{
+.review-card hr, .review-card-editing hr{
   border-top: 2px solid #2D9CDB;
   width: 100%;
   margin-bottom: 0;
 }
 
-.review-card input {
+.review-card input, .review-card-editing input {
   margin:auto;
   width: 20%;
   height: 22%;
   text-align: center;
 }
 
-.review-card h3 span {
+.review-card h3 span, .review-card-editing h3 span {
   color: #f4bf42;
 }
 
@@ -87,15 +103,15 @@
   font-size: 16px;
 }
 
-.review-card textarea {
+.review-card-editing textarea {
   width: 73%;
-  max-height: 55%;
-  height: 183px;
+  max-height: 63%;
+  height: 190px;
   padding-left: 10px;
   padding-top: 5px;
 }
 
-.review-card textarea:focus {
+.review-card-editing textarea:focus {
   outline-offset: 0;
 }
 
@@ -113,11 +129,11 @@
 }
 
 .save {
-  bottom: 75px;
+  bottom: 100px;
 }
 
 .cancel {
-  bottom: 8px;
+  bottom: 12px;
 }
 
 .animate-enter-setup, .animate-leave-setup {
