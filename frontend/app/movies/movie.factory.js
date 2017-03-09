@@ -22,8 +22,11 @@ function MovieFactory(ApiBase, $http, TmdbFactory) {
   }
 
   function getLatestReleases() {
-    var data = 'movie?primary_release_date.gte=2017-03-01&primary_release_date'+
-    '.lte=2017-03-04';
+    var today = new Date();
+    var yesterday = new Date(today);
+    yesterday.setDate(today.getDate() - 1);
+    var data = 'movie?primary_release_date.gte=' + getDateAsString(yesterday) + '&primary_release_date'+
+    '.lte=' + getDateAsString(today);
     return TmdbFactory.executeTMDbRequest('discover', data, true);
   }
 
@@ -35,5 +38,13 @@ function MovieFactory(ApiBase, $http, TmdbFactory) {
   function getMovieById(id){
     var data='movie/' + id;
     return TmdbFactory.executeTMDbRequest('', data, false);
+  }
+
+  function getDateAsString(date){
+    var day = date.getDate() > 9 ? date.getDate() : '0' + date.getDate();
+    var month = date.getMonth() + 1 > 9 ? date.getMonth() + 1: '0' + (date.getMonth() + 1);
+    var year = date.getFullYear();
+
+    return year.toString() + '-' + month.toString() + '-' + day.toString();
   }
 }

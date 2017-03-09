@@ -6,7 +6,7 @@
         <span uib-rating ng-model="review.score" read-only="true"></span>
         <span ng-if="review.voteScore > 0" class="vote-score"> +{{review.voteScore}} </span>
         <span ng-if="review.voteScore <= 0" class="vote-score"> {{review.voteScore}} </span>
-        <span class="author-name"> {{review.author.username}}</span>
+        <span class="author-name" ui-sref="menu.other-user({username: review.author.username})"> {{review.author.username}}</span>
       </h3>
       <hr>
     </div>

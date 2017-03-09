@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 
 angular.module('moviez.add-list-modal', [])
 
-.factory('AddListModal', AddListModal)
+.factory('AddListModal', AddListModal);
 
 AddListModal.$inject = ['$uibModal'];
 
@@ -39,7 +39,7 @@ function AddListModal($uibModal) {
     return uibModalInstance;
     AddListModalController.$inject = ['$uibModalInstance', 'ListFactory', 'MovieFactory', '$scope', 'movies', 'listTile', 'listId', 'editing'];
     function AddListModalController($uibModalInstance, ListFactory, MovieFactory, $scope, movies, listTitle, listId, editing){
-      var vm = this
+      var vm = this;
       vm.save = save;
       vm.movies = [];
       vm.title = listTitle;
@@ -58,7 +58,7 @@ function AddListModal($uibModal) {
           ListFactory.editList(vm.listId, vm.title, vm.description, getMovieIdsFromList()).then((result) => {
             console.log(result);
             $uibModalInstance.close(result);
-          })
+          });
         }else{
           ListFactory.createList(vm.title, vm.description, getMovieIdsFromList())
           .then((result) => {

@@ -1,0 +1,18 @@
+<div class="other-user-container col-md-12">
+  <div class="col-md-3">
+    <h1> {{vm.user.username}} </h1>
+    <h4> {{vm.user.text}} </h4>
+  </div>
+  <div class="col-md-4">
+  <h2> Reviews </h2>
+  <div ng-repeat="review in vm.reviews">
+    <review review="review" title="review.movie.title">
+  </div>
+</div>
+<div class="col-md-5">
+  <h2> Lists </h2>
+  <div ng-repeat="list in vm.lists">
+    <h4><i>{{list.title}} </i></h4>
+    <list list="list"></list>
+  </div>
+</div>

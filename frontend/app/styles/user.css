@@ -18,6 +18,10 @@
   margin-left: 10px;
 }
 
+.user-card h3 {
+  cursor: pointer;
+}
+
 .user-card-button input {
   width: 100px;
   height: 45px;

@@ -39,6 +39,7 @@ angular
     'moviez.login-register-modal',
     'moviez.login-register',
     'moviez.user-factory',
+    'moviez.other-user',
     'moviez.lists',
     'moviez.list',
     'moviez.list-factory',
