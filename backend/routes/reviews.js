@@ -70,7 +70,8 @@ module.exports = function(express) {
                 (req.query.sortby === 'votes' ? { voteScore: sortOrder } : {});
         }
 
-        Reviews.getReviews(undefined, limit, req.user ? req.user._id : undefined, sortQuery)
+        Reviews.getReviews(req.user && showFeed ? req.user.following : undefined, limit,
+            req.user ? req.user._id : undefined, sortQuery)
             .then(function(pubReviews) {
                 res.send({reviews: pubReviews});
             })
