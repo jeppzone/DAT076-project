@@ -138,6 +138,42 @@ module.exports = function(express) {
             })
     });
 
+
+    /**
+     * Update user account details such as username, password or email.
+     *
+     * Returns HTTP status 200 if successful, with the updates information in the response body.
+     *
+     * Accepted body attributes:
+     *   email
+     *   username - 3-50 characters
+     *   password - 6-50 characters
+     *
+     * ## Errors (HTTP Status) ##
+     *   session token was not supplied (400)
+     *   none of the expected attributes were supplied (400)
+     *   username, password or email was malformed (400)
+     *   session token was invalid (401)
+     *   email or username was already registered to another user (409)
+     *   username was malformed (420)
+     *   email was malformed (421)
+     *   password was malformed (422)
+     *
+     */
+    router.put('/me', function(req, res) {
+        if (!req.user || !req.body || (!req.body.email && !req.body.username && !req.body.password)) {
+            Errors.sendErrorResponse(Errors.BAD_REQUEST, res);
+        } else {
+            Users.updateUser(req.user, req.body)
+                .then(function(savedUser) {
+                    res.send(savedUser);
+                })
+                .catch(function(req, res) {
+                    Errors.sendErrorResponse(err, res);
+                })
+        }
+    });
+
     return router;
 
 };

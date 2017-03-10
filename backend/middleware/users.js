@@ -23,6 +23,7 @@ module.exports = {
     getFollowedUsers: getFollowedUsers,
     followUser: followUser,
     unfollowUser: unfollowUser,
+    updateUser: updateUser,
     getAllUsers: getAllUsers
 };
 
@@ -183,6 +184,43 @@ function getProfile(userId) {
             }
             return foundProfile;
         });
+}
+
+/**
+ * Update the user with the given user data
+ * @param user
+ * @param userData - should contain any of the attributes email, password or username
+ */
+function updateUser(user, userData) {
+    user.email = userData.email ? userData.email : user.email;
+    user.username = userData.username ? userData.username.trim() : user.username;
+    user.usernameLower = user.username.toLowerCase();
+    user.password = userData.password ? userData.password : user.password;
+
+    return user.save()
+        .catch(function (err) {
+            //noinspection FallThroughInSwitchStatementJS
+            switch (err.name) {
+                case 'ValidationError':
+                    if (err.errors.email) {
+                        throw Errors.EMAIL_MALFORMED;
+                    } else if (err.errors.username || err.errors.usernameLower) {
+                        throw Errors.USERNAME_MALFORMED;
+                    } else {
+                        throw Errors.UNKNOWN_ERROR;
+                    }
+                case 'MongoError':
+                    if (err.errmsg.indexOf('duplicate key error') >= 0) {
+                        console.log("COLLISION");
+                        throw Errors.COLLISION;
+                    }
+                default:
+                    throw Errors.UNKNOWN_ERROR;
+            }
+        })
+        .then(function(savedUser) {
+            return new PublicMe(savedUser);
+        })
 }
 
 function search(searchString) {
