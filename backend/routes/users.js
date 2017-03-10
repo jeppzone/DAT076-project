@@ -168,7 +168,7 @@ module.exports = function(express) {
                 .then(function(savedUser) {
                     res.send(savedUser);
                 })
-                .catch(function(req, res) {
+                .catch(function(err) {
                     Errors.sendErrorResponse(err, res);
                 })
         }
