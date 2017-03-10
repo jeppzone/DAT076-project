@@ -91,9 +91,9 @@ function getListsByAuthor(username) {
         })
 }
 
-function getLists(sortQuery, limit) {
-    return MovieList.find({})
-        .sort(sortQuery)
+function getLists(searchQuery, sortQuery, limit) {
+    return MovieList.find(searchQuery ? searchQuery : {})
+        .sort(sortQuery ? sortQuery : {})
         .limit(limit ? limit : 0)
         .populate('author')
         .then(function(movieLists) {

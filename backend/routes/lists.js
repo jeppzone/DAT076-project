@@ -22,12 +22,33 @@ module.exports = function(express) {
                 (req.query.sortby === 'title' ? { title: sortOrder } : {});
         }
 
-        MovieLists.getLists(sortQuery)
+        MovieLists.getLists({}, sortQuery)
             .then(function(pubLists) {
                 res.send({lists: pubLists})
             })
             .catch(function(err) {Errors.sendErrorResponse(err, res) })
 
+    });
+
+    /**
+     * Get all lists by the users you are following.
+     * Returns HTTP Status 201 if successful, together with the reviews in response body attribute "lists".
+     *
+     * ## Errors (HTTP Status) ##
+     *   session token was missing (400)
+     *   session token was invalid (401)
+     *
+     */
+    router.get('/following', function(req, res) {
+        if (!req.user) {
+            Errors.sendErrorResponse(Errors.BAD_REQUEST, res);
+        } else {
+            MovieLists.getLists({ author: {$in: req.user.following} }, { date: -1 })
+                .then(function(pubLists) {
+                    res.send({lists: pubLists})
+                })
+                .catch(function(err) {Errors.sendErrorResponse(err, res)})
+        }
     });
 
     /**
