@@ -18,7 +18,7 @@ var ReviewSchema = new mongoose.Schema({
     voteScore: Number
 });
 
-ReviewSchema.index({ author: 1, movieId: -1}, {unique: true});
+ReviewSchema.index({ author: 1, tmdbMovieId: -1}, {unique: true });
 
 ReviewSchema.pre('save', function(next) {
     var review = this;
