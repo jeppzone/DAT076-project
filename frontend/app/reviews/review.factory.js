@@ -32,9 +32,9 @@ function ReviewFactory(ApiBase, $http) {
     return $http.get(ApiBase + '/reviews/all');
   }
 
-  function getLatestReviews(nbrOfReviews){
+  function getLatestReviews(nbrOfReviews, show){
     return $http.get(ApiBase + '/reviews/latest', {
-      params: {limit: nbrOfReviews}
+      params: {limit: nbrOfReviews, show: show}
     });
   }
 

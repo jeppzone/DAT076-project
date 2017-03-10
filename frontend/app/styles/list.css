@@ -5,7 +5,7 @@
 .list-header {
   display: inline;
   text-align: center;
-  margin-left: 37%;
+  margin-left: 33%;
 }
 
 .list {
@@ -257,4 +257,8 @@
   position: absolute;
   right: 0;
   margin-right: 200px;
+}
+
+.list-header-buttons {
+  margin-left: 10px;
 }

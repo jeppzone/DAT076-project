@@ -1,4 +1,5 @@
-<div class="row">
+<div class="row list-header-buttons">
+  <toggle ng-model="vm.showAllReviews" ng-change="vm.filter()" on="All" off="Followed users"></toggle>
   <input type="button" class="add-list-button" value="Create list" ng-click="vm.showListModal()"></input>
   <h1 class="list-header"> Movie Lists </h1>
 </div>

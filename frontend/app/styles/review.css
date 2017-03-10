@@ -201,3 +201,13 @@
 .reviews.ng-enter-active {
     opacity: 1;
 }
+
+.btn-default .active {
+  background-color: #096040;
+  color: #ffffff;
+}
+
+.btn-default .active:hover {
+  background-color: #094f08;
+  color: #ffffff;
+}

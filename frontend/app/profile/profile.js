@@ -42,9 +42,10 @@ function ProfileController(UserFactory, followedUsers, myReviews, lists){
   vm.lists = lists.data.lists;
 
   function save() {
-    UserFactory.editUserProfile(vm.user.text).then((result) => {
+    UserFactory.editUserProfile(vm.editedDescription).then((result) => {
       UserFactory.updateUser(Object.assign(result.data.user, result.data.profile));
       vm.editing = false;
+      vm.user = result.data.user;
     });
   }
 

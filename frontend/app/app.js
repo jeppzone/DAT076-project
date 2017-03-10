@@ -17,6 +17,7 @@ angular
     'ngSanitize',
     'ui.bootstrap',
     'ui.router',
+    'ui.toggle',
     'dndLists',
     'moviez.menu',
     'moviez.search',

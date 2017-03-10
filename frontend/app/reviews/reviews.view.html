@@ -1,5 +1,6 @@
 <div class="movie-header">
   <h1> Reviews </h1>
+  <toggle ng-show="vm.loggedIn" ng-model="vm.showAllReviews" ng-change="vm.filter()" on="All" off="Followed users"></toggle>
 </div>
 <div class="reviews-browse slide" ng-repeat="review in vm.reviews">
   <review review="review" title="review.movie.title"></review>

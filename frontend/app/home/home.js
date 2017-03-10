@@ -16,7 +16,7 @@ function homeConfig($stateProvider){
         return MovieFactory.getLatestReleases();
       },
       latestReviews: function(ReviewFactory){
-        return ReviewFactory.getLatestReviews(7);
+        return ReviewFactory.getLatestReviews(10);
       }
 
     },
