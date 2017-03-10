@@ -1,6 +1,6 @@
 'use strict';
 
-/* Module responsible for creating and editing lists of movies.
+/* Module responsible for controlling the modal where lists can be added and edited.
 */
 angular.module('moviez.add-list-modal', [])
 
@@ -55,7 +55,6 @@ function AddListModal($uibModal) {
       };
 
       function save() {
-        console.log(editing);
         if(editing){
           ListFactory.editList(vm.listId, vm.title, vm.description, getMovieIdsFromList()).then((result) => {
             console.log(result);
@@ -64,12 +63,14 @@ function AddListModal($uibModal) {
         }else{
           ListFactory.createList(vm.title, vm.description, getMovieIdsFromList())
           .then((result) => {
-            console.log(result);
             $uibModalInstance.close(result);
           });
         }
       }
 
+      /* Watch to see if the searchString is changed. If a movie in the search result
+      is already in the list, remove it from the search result to avoid duplicates
+      */
       $scope.$watch('vm.searchString', (newValue) => {
         if(newValue){
           MovieFactory.searchMovie(newValue).then((result) => {
@@ -87,6 +88,8 @@ function AddListModal($uibModal) {
         }
       });
 
+      /* The backend only wants an array of TMDB IDs, therefore we loop through
+      the list and create an array of TMDB IDs to send to the backend */
       function getMovieIdsFromList() {
         var idArray = [];
         vm.list.forEach(function(movie){

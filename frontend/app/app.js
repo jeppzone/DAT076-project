@@ -44,7 +44,6 @@ angular
     'moviez.lists',
     'moviez.list',
     'moviez.list-factory',
-    'moviez.add-list',
     'moviez.add-list-modal'
   ])
   .run(['$rootScope', 'UserFactory', '$cookies', '$state', function($rootScope, UserFactory, $cookies, $state){
