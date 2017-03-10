@@ -33,7 +33,8 @@ module.exports = function(express) {
             limit = !isNaN(iLimit) && iLimit < Cfg.LATEST_REVIEWS_MAX_LIMIT ? iLimit : limit;
         }
 
-        Reviews.getReviews(req.user && showFeed ? req.user.following : undefined, limit, req.user ? req.user._id : undefined)
+        Reviews.getReviews(req.user && showFeed ? req.user.following : undefined, limit,
+            req.user ? req.user._id : undefined, { date: -1 })
             .then(function(pubReviews) {
                 res.send({reviews: pubReviews});
             })
