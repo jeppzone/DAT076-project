@@ -13,7 +13,7 @@ module.exports = function(express) {
     /**
      * Get the latest reviews by all users. At most 20 reviews,
      * but a lower number can be set in the query parameter "limit".
-     * To only show the reviews of users you are following, set the query parameter "show" to "feed"
+     *
      *
      * If token is submitted, details regarding the recipient user's votes will be returned.
      *
@@ -45,6 +45,8 @@ module.exports = function(express) {
      * Return all reviews. Supply token to show details of user votes on reviews.
      * Optionally, query parameter "sortby" can be set to "date" or "votes", and query parameter "sortorder" can be
      * set to "desc" or "asc" to specify sorting parameter and sort order.
+     * To only show the reviews of users you are following, set the query parameter "show" to "feed"
+     * Query parameter "limit" can be set to limit the number of results.
      *
      * Returns HTTP Status 200 if successful, with review array in body attribute "reviews"
      *
@@ -53,6 +55,14 @@ module.exports = function(express) {
      */
     router.get('/all', function(req, res) {
 
+        var showFeed = req.query.show && req.query.show === 'feed';
+
+        var limit = 0;
+        if (req.query.limit) {
+            var iLimit = parseInt(req.query.limit);
+            limit = !isNaN(iLimit) && iLimit < Cfg.LATEST_REVIEWS_MAX_LIMIT ? iLimit : limit;
+        }
+
         var sortQuery = {};
         if (req.query.sortby) {
             var sortOrder = req.query.sortorder && req.query.sortorder === 'desc' ? -1 : 1;
@@ -60,7 +70,7 @@ module.exports = function(express) {
                 (req.query.sortby === 'votes' ? { voteScore: sortOrder } : {});
         }
 
-        Reviews.getReviews(undefined, 0, req.user._id, sortQuery)
+        Reviews.getReviews(undefined, limit, req.user._id, sortQuery)
             .then(function(pubReviews) {
                 res.send({reviews: pubReviews});
             })
