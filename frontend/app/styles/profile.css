@@ -84,7 +84,7 @@
 }
 
 .profile-lists h4 {
-  margin-top: 50px;
+  margin-top: 55px;
 }
 
 .profile-description textarea {
@@ -95,4 +95,8 @@
   padding-bottom: 5px;
   height: 200px;
   width: 90%;
+}
+
+.profile-reviews div {
+  display: inline-block;
 }

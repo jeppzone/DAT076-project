@@ -10,7 +10,7 @@ function reviewsConfig($stateProvider){
   $stateProvider.state('menu.reviews', {
     resolve: {
       allReviews: function(ReviewFactory) {
-        return ReviewFactory.getAllReviews();
+        return ReviewFactory.getReviews(undefined, 'all', 'date', 'desc');
       }
     },
     url: '/reviews',
@@ -28,11 +28,11 @@ ReviewsController.$inject = ['allReviews','ReviewFactory', 'UserFactory', '$scop
 function ReviewsController(allReviews, ReviewFactory, UserFactory, $scope){
   var vm = this
   vm.filter = filter;
-  vm.reviews = allReviews.data.reviews.reverse();
+  vm.reviews = allReviews.data.reviews;
   vm.showAllReviews = true;
   vm.loggedIn = UserFactory.loggedIn;
-  ReviewFactory.getLatestReviews(20, 'feed').then((result) => {
-    vm.reviewsFromFollowed = result.data.reviews.reverse();
+  ReviewFactory.getReviews(undefined, 'feed', 'date', 'desc').then((result) => {
+    vm.reviewsFromFollowed = result.data.reviews
   });
 
   $scope.$watch(function(){
@@ -40,8 +40,8 @@ function ReviewsController(allReviews, ReviewFactory, UserFactory, $scope){
   }, function(newValue) {
     console.log('Got new value');
     vm.loggedIn = newValue;
-    ReviewFactory.getLatestReviews(20, 'feed').then((result) => {
-      vm.reviewsFromFollowed = result.data.reviews.reverse();
+    ReviewFactory.getReviews(undefined, 'feed', 'date', 'desc').then((result) => {
+      vm.reviewsFromFollowed = result.data.reviews
     });
   });
 

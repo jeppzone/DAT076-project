@@ -9,6 +9,7 @@ ListFactory.$inject = ['ApiBase', '$http'];
 function ListFactory(ApiBase, $http) {
   var service = {
     getAllLists: getAllLists,
+    getListsFromFollowedUsers: getListsFromFollowedUsers,
     getListById: getListById,
     getListsByUser: getListsByUser,
     createList: createList,
@@ -25,6 +26,10 @@ function ListFactory(ApiBase, $http) {
         sortorder: sortOrder
       }
     });
+  }
+
+  function getListsFromFollowedUsers() {
+    return $http.get(ApiBase + '/lists/following');
   }
 
   function getListById(listId){

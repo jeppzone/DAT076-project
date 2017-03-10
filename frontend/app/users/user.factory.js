@@ -11,6 +11,7 @@ function UserFactory($http, ApiBase) {
     getMe: getMe,
     getUser: getUser,
     getUserProfile: getUserProfile,
+    editUserCredentials: editUserCredentials,
     editUserProfile: editUserProfile,
     updateUser: updateUser,
     getAllUsers: getAllUsers,
@@ -32,21 +33,22 @@ function UserFactory($http, ApiBase) {
     return $http.get(ApiBase + '/users/' + username);
   }
 
-  function getUserProfile(username){
+  function getUserProfile(username) {
     return $http.get(ApiBase + '/users/' + username + '/profile');
+  }
+
+  function editUserCredentials(username, email, password) {
+    return $http.put(ApiBase + '/users/me', {
+      email: email,
+      username: username,
+      password: password
+    });
   }
 
   function editUserProfile(profileDescription) {
     return $http.put(ApiBase + '/profile', {
       text: profileDescription
     });
-  }
-
-  function updateUser(user){
-    console.log(user);
-    for(var key in user) {
-      service.userInfo[key] = user[key];
-    }
   }
 
   function getAllUsers(){
@@ -75,4 +77,10 @@ function UserFactory($http, ApiBase) {
     });
   }
 
+  function updateUser(user){
+    console.log(user);
+    for(var key in user) {
+      service.userInfo[key] = user[key];
+    }
+  }
 }

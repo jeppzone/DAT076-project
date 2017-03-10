@@ -27,13 +27,28 @@ function listsConfig($stateProvider) {
 ListsController.$inject = ['lists', 'AddListModal', 'ListFactory'];
 function ListsController(lists, AddListModal, ListFactory) {
   var vm = this;
+  vm.filter = filter;
   vm.showListModal = showListModal;
   vm.lists = lists.data.lists;
+  vm.listsFromFollowedUsers = [];
+  vm.showAllLists = true;
+  ListFactory.getListsFromFollowedUsers().then((result) => {
+    vm.listsFromFollowedUsers = result.data.lists;
+  });
+
   function showListModal() {
     AddListModal.showModal().result.then((result) => {
       ListFactory.getListById(result.data.listId).then((result) => {
         vm.lists.unshift(result.data);
       });
     });
+  }
+
+  function filter() {
+    if(vm.showAllLists){
+      vm.lists = lists.data.lists;
+    }else{
+      vm.lists = vm.listsFromFollowedUsers;
+    }
   }
 }

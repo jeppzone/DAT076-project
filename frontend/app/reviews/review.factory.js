@@ -8,10 +8,9 @@ ReviewFactory.$inject = ['ApiBase', '$http', '$state', '$cookies', 'UserFactory'
 
 function ReviewFactory(ApiBase, $http) {
   var service = {
+    getReviews: getReviews,
     getMovie: getMovie,
     getUserReviews: getUserReviews,
-    getAllReviews: getAllReviews,
-    getLatestReviews: getLatestReviews,
     createReview: createReview,
     editReview: editReview,
     deleteReview: deleteReview,
@@ -20,22 +19,18 @@ function ReviewFactory(ApiBase, $http) {
 
   return service;
 
+  function getReviews(limit, show, sortBy, sortOrder) {
+    return $http.get(ApiBase + '/reviews/all', {
+      params: {limit: limit, show: show, sortby: sortBy, sortorder: sortOrder}
+    });
+  }
+
   function getMovie(movieId){
     return $http.get(ApiBase + '/movies/' + movieId);
   }
 
   function getUserReviews(username) {
     return $http.get(ApiBase + '/users/' + username + '/reviews');
-  }
-
-  function getAllReviews() {
-    return $http.get(ApiBase + '/reviews/all');
-  }
-
-  function getLatestReviews(nbrOfReviews, show){
-    return $http.get(ApiBase + '/reviews/latest', {
-      params: {limit: nbrOfReviews, show: show}
-    });
   }
 
   function createReview(review, rating, movieId) {

@@ -14,15 +14,15 @@
       <div class="edit-container" ng-if="vm.editing">
         <div>
           <h4>username</h4>
-          <input type="text" name="username" ng-model="vm.user.username">
+          <input type="text" name="username" ng-model="vm.editedUsername">
         </div>
         <div>
           <h4>email</h4>
-          <input type="email" name="email" ng-model="vm.user.email">
+          <input type="email" name="email" ng-model="vm.editedEmail">
         </div>
         <div>
           <h4>password</h4>
-          <input type="password" name="password" ng-model="vm.user.password">
+          <input type="password" name="password" ng-model="vm.editedPassword">
         </div>
         <div class="profile-description">
           <h4>description </h4>
@@ -33,13 +33,7 @@
       </div>
     </div>
   </div>
-  <div class="col-md-4" ng-if="vm.reviews && vm.reviews.length > 0">
-    <div>
-      <h3> My reviews </h3>
-    </div>
-    <div ng-repeat="review in vm.reviews" class="slide">
-      <review review="review" title="review.movie.title">
-    </div>
+  <div class="col-md-1">
   </div>
   <div class="col-md-4" ng-if="vm.followedUsers && vm.followedUsers.length > 0">
     <div>
@@ -52,8 +46,14 @@
     </div>
   </div>
 </div>
+<div class="col-md-12 profile-reviews" ng-if="vm.reviews && vm.reviews.length > 0">
+    <h3> My reviews </h3>
+  <div ng-repeat="review in vm.reviews" class="slide">
+    <review review="review" title="review.movie.title">
+  </div>
+</div>
 <div class="col-md-12 profile-lists" ng-if="vm.lists && vm.lists.length > 0">
-  <h3> My lists </h3>
+  <h3 class="profile-list-header"> My lists </h3>
   <div ng-repeat="list in vm.lists" class="slide">
     <h4><i>{{list.title}} </i></h4>
     <list list = "list">

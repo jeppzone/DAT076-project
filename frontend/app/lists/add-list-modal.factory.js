@@ -1,5 +1,7 @@
 'use strict';
 
+/* Module responsible for creating and editing lists of movies.
+*/
 angular.module('moviez.add-list-modal', [])
 
 .factory('AddListModal', AddListModal);
