@@ -14,7 +14,6 @@ var Errors = require('../errors');
 var Helpers = require('./test-helpers');
 var Status = require('http-status-codes');
 
-var Tokens = require('../middleware/tokens');
 var UsersMW = require('../middleware/users');
 
 describe("Get users", function() {
@@ -48,7 +47,6 @@ describe("Get users", function() {
         UsersMW.register(validUser)
             .then(function (pubUser) {
                 userToken = pubUser.token;
-                console.log(userToken);
                 done();
             })
     });
@@ -57,7 +55,6 @@ describe("Get users", function() {
         UsersMW.register(validUser2)
             .then(function (pubUser) {
                 user2Token = pubUser.token;
-                console.log(user2Token);
                 done();
             })
     });

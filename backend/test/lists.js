@@ -83,7 +83,6 @@ describe("Post and read lists", function() {
                 should.exist(res.body);
                 should.exist(res.body.listId);
                 validList.id = res.body.listId;
-                console.log(res.body);
                 done();
             })
     });
@@ -98,7 +97,6 @@ describe("Post and read lists", function() {
                 res.status.should.equal(Status.OK);
                 should.exist(res.body);
                 var body = res.body;
-                console.log(res.body);
 
                 done();
             })
@@ -114,7 +112,6 @@ describe("Post and read lists", function() {
                 res.status.should.equal(Status.OK);
                 should.exist(res.body);
                 var body = res.body;
-                console.log(res.body);
 
                 done();
             })
@@ -143,7 +140,6 @@ describe("Post and read lists", function() {
                 res.status.should.equal(Status.OK);
                 should.exist(res.body);
                 var body = res.body;
-                console.log(res.body);
 
                 done();
             })
@@ -157,7 +153,6 @@ describe("Post and read lists", function() {
                if (err) { throw err }
                res.status.should.equal(Status.OK);
                should.exist(res.body);
-               console.log(res.body);
                done();
            })
     });

@@ -1,9 +1,8 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
 var logger = require('morgan');
-var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoSanitize = require('express-mongo-sanitize');
 
 var Cfg = require('./configuration');
 var Promise = require('bluebird');
@@ -19,6 +18,12 @@ var users = require('./routes/users');
 var lists = require('./routes/lists');
 
 var app = express();
+
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
+// Input sanitation to prevent MongoDB injection attacks
+app.use(mongoSanitize());
 
 // Connect to database. Testing database if "test" is supplied as an argument
 if (process.argv.some(function(arg) {
@@ -49,7 +54,6 @@ app.use(function (req, res, next) {
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index(express));
