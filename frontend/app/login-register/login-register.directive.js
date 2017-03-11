@@ -1,5 +1,8 @@
 'use strict';
-
+/**
+Module containing the login-register directive, which is displaying either
+'Sign in' or 'Sign out' depending on if the user is logged in or not. 
+**/
 angular.module('moviez.login-register', [])
 
 .directive('loginRegister', LoginRegister)

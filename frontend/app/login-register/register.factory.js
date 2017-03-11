@@ -1,5 +1,9 @@
 'use strict';
-
+/**
+Module containing the register factory, which is responsible for making all requests
+regarding registration to the backend. It also contains functions for validtaing the user
+input in the registration form.
+**/
 angular.module('moviez.register-factory', [])
 
 .factory('RegisterFactory', RegisterFactory);

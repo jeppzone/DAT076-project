@@ -1,5 +1,9 @@
 'use strict';
-
+/**
+Module containing the login factory, which is responsible for making all requests
+regarding authentication to the backend. It does also manage the creation and deletion
+of the 'auth' cookie.
+**/
 angular.module('moviez.login-factory', ['ngCookies'])
 
 .factory('LoginFactory', LoginFactory);

@@ -1,5 +1,8 @@
 'use strict';
-
+/**
+Module containing the list state, which is responsible for controlling the displaying
+of lists in the 'lists' tab. 
+**/
 angular.module('moviez.lists', [])
 
 .config(listsConfig)

@@ -1,5 +1,7 @@
 'use strict'
-
+/**
+Module containing the modal responsible for controlling log in and register.
+**/
 angular.module('moviez.login-register-modal', [])
 
 .factory('loginRegisterModal', loginRegisterModal)
@@ -69,7 +71,7 @@ function loginRegisterModal($uibModal) {
           UserFactory.updateUser(result.data);
           LoginFactory.setCredentials(result.data.token);
           uibModalInstance.close();
-        }, (error) => {
+        }, () => {
           vm.error = true;
         });
       }
@@ -95,7 +97,6 @@ function loginRegisterModal($uibModal) {
 
       function recoverPassword() {
         /*TODO Implement password recovery */
-
       }
 
 

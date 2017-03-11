@@ -1,5 +1,8 @@
 'use strict';
-
+/**
+  Module containing the list factory which is responsible for making all the requests
+  to the backend regarding lists.
+**/
 angular.module('moviez.list-factory', [])
 
 .factory('ListFactory', ListFactory);
@@ -19,6 +22,11 @@ function ListFactory(ApiBase, $http) {
 
   return service;
 
+  /**
+  Get all lists in the database
+  *@param sortBy - Could be either 'date' or 'title'
+  *@param sortOrder - Could be either 'asc' or 'desc'
+  **/
   function getAllLists(sortBy, sortOrder) {
     return $http.get(ApiBase + '/lists', {
       params: {
@@ -32,7 +40,7 @@ function ListFactory(ApiBase, $http) {
     return $http.get(ApiBase + '/lists/following');
   }
 
-  function getListById(listId){
+  function getListById(listId) {
     return $http.get(ApiBase + '/lists/' + listId);
   }
 
@@ -41,9 +49,6 @@ function ListFactory(ApiBase, $http) {
   }
 
   function createList(title, description, movies) {
-    console.log(title);
-    console.log(description);
-    console.log(movies);
     return $http.post(ApiBase + '/lists', {
       title: title,
       description: description,
@@ -52,7 +57,6 @@ function ListFactory(ApiBase, $http) {
   }
 
   function editList(listId, title, description, movies) {
-    console.log('Editing');
     return $http.put(ApiBase + '/lists/' + listId, {
       title: title,
       description: description,
