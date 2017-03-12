@@ -37,7 +37,7 @@ localhost:9000/
 ```
 Open it in a browser of your choice (We recommend Google Chrome for this application, as it has been used throughout development)  
 
-To run the tests for the backend, first start the backend using the test database:
+To run the tests, in the /backend directory, run the backend using the test database:  
 
 ```bash
 $ npm start test
