@@ -132,10 +132,7 @@ function voteOnReview(votingUserId, reviewId, vote) {
             }
 
             return foundReview.save();
-        })
-        .then(function(savedReview) {
-            return new PublicReview(savedReview, votingUserId);
-        })
+        });
 }
 
 function returnWithoutElement(array, element) {

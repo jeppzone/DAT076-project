@@ -7,6 +7,7 @@ var Cfg = require('../configuration');
 var Reviews = require('../middleware/reviews');
 var Util = require('../middleware/util');
 
+var PublicReview = require('../models/external/review');
 var PublicFullReview = require('../models/external/full-review');
 
 module.exports = function(express) {
@@ -99,9 +100,9 @@ module.exports = function(express) {
             Errors.sendErrorResponse(Errors.NOT_FOUND, res);
         } else {
             Reviews.voteOnReview(req.user._id, req.params.reviewId, parseInt(req.query.vote))
-                .then(function(savedPubReview) {
+                .then(function(savedReview) {
                     //Success
-                    res.send(savedPubReview);
+                    res.send(new PublicReview(savedReview, req.user._id));
                 })
                 .catch(function(err) { Errors.sendErrorResponse(err, res) });
         }
