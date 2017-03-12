@@ -1,5 +1,9 @@
 'use strict';
-
+/**
+Module containing the other-user state, which is responsible for displaying information
+about a user other than the user that is logged in. It will fetch the user profile,
+all the lists that user has created and all reviews that user has written before proceeding.
+**/
 angular.module('moviez.other-user', [])
 
 .config(otherUserConfig)
@@ -35,5 +39,4 @@ function OtherUserController(user, lists, reviews) {
   vm.user = Object.assign(user.data.user, user.data.profile);
   vm.lists = lists.data.lists;
   vm.reviews = reviews.data.reviews;
-  console.log(vm.reviews);
 }

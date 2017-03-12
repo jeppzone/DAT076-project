@@ -1,5 +1,8 @@
 'use strict';
-
+/**
+Module containing the review-factory, which is repsonsible for all communication
+to the backend regarding reviews.
+**/
 angular.module('moviez.review-factory', ['ngCookies'])
 
 .factory('ReviewFactory', ReviewFactory);
@@ -12,7 +15,6 @@ function ReviewFactory(ApiBase, $http) {
     getMovie: getMovie,
     getUserReviews: getUserReviews,
     createReview: createReview,
-    editReview: editReview,
     deleteReview: deleteReview,
     voteOnReview: voteOnReview
   };
@@ -38,10 +40,6 @@ function ReviewFactory(ApiBase, $http) {
       text: review,
       score: rating
     });
-  }
-
-  function editReview(reviewId, review) {
-    //return $http.put(ApiBase + '/reviews/' + reviewId, review)
   }
 
   function deleteReview(reviewId) {

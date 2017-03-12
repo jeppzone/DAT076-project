@@ -1,5 +1,10 @@
 'use strict';
-
+/**
+Module containing the reviews state, which is responsible for displaying all reviews
+that exist in the database. It is also responsible for fetching all reviews written by
+users that a logged in users follows. It will fetch all reviews in the database before proceeding
+into the state.
+**/
 angular.module('moviez.reviews', [])
 
 .config(reviewsConfig)
@@ -32,17 +37,21 @@ function ReviewsController(allReviews, ReviewFactory, UserFactory, $scope){
   vm.showAllReviews = true;
   vm.loggedIn = UserFactory.loggedIn;
   ReviewFactory.getReviews(undefined, 'feed', 'date', 'desc').then((result) => {
-    vm.reviewsFromFollowed = result.data.reviews
+    vm.reviewsFromFollowed = result.data.reviews;
   });
 
+  /* Watch to see if a user logs in or out. If it logs in, then fetch all the reviews
+  written by users that the logged in user follows.
+  */
   $scope.$watch(function(){
     return UserFactory.loggedIn;
   }, function(newValue) {
-    console.log('Got new value');
     vm.loggedIn = newValue;
-    ReviewFactory.getReviews(undefined, 'feed', 'date', 'desc').then((result) => {
-      vm.reviewsFromFollowed = result.data.reviews
-    });
+    if(vm.loggedIn){
+      ReviewFactory.getReviews(undefined, 'feed', 'date', 'desc').then((result) => {
+        vm.reviewsFromFollowed = result.data.reviews
+      });
+    }
   });
 
   function filter() {

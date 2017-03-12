@@ -43,6 +43,10 @@ function MovieDetailedController ($scope, movie, reviews){
   vm.reviews = reviews.data.reviews;
   vm.averageRating = Math.floor(reviews.data.averageScore);
 
+  /* Watch to see if a review is added or removed. Change the rating of the movie
+  accordingly. It will round off to the closest lower integer. E.g 3.8 becomes 3,
+  4.1 becomes 4.
+  */
   $scope.$watch(function(){
     return vm.reviews;
   }, function(){

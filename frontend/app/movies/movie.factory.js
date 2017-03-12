@@ -1,5 +1,8 @@
 'use strict';
-
+/**
+Module containing the movie-factory, which is responsible for all communication
+to the backend regarding movies. It also works as a wrapper to the tmdb-factory
+**/
 angular.module('moviez.movie-factory', [])
 
 .factory('MovieFactory', MovieFactory);

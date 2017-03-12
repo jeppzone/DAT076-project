@@ -1,5 +1,10 @@
 'use strict';
-
+/**
+Module containing the user factory, which is responsible for all requests to
+the backend regarding users and profiles. It also contains two important properties
+*@property loggedIn - Boolean telling whether a user is logged in or not
+*@property userInfo - Object containing all information about a user (except the password of course) 
+**/
 angular.module('moviez.user-factory', [])
 
 .factory('UserFactory', UserFactory);
@@ -78,7 +83,6 @@ function UserFactory($http, ApiBase) {
   }
 
   function updateUser(user){
-    console.log(user);
     for(var key in user) {
       service.userInfo[key] = user[key];
     }
