@@ -235,8 +235,8 @@ describe("Post and read reviews", function() {
     });
 
     it('Should be able to get latest reviews', function(done) {
-        request(BASE_URL + "/reviews")
-            .get("/latest")
+        request(BASE_URL + '/reviews')
+            .get('?sortby=date&sortorder=desc')
             .send()
             .end(function(err, res) {
                 if (err) { throw err }
@@ -269,7 +269,7 @@ describe("Post and read reviews", function() {
 
     it('Should be able to get a single latest review', function(done) {
         request(BASE_URL + "/reviews")
-            .get("/latest?limit=1")
+            .get("?sortby=date&sortorder=desc&limit=1")
             .send()
             .end(function(err, res) {
                 if (err) { throw err }

@@ -11,7 +11,7 @@ module.exports = function(express) {
     var router = express.Router();
 
     /**
-     * Return all reviews. Supply token to show details of user votes on reviews.
+     * Get reviews. Supply token to show details of user votes on reviews.
      * Optionally, query parameter "sortby" can be set to "date" or "votes", and query parameter "sortorder" can be
      * set to "desc" or "asc" to specify sorting parameter and sort order.
      * To only show the reviews of users you are following, set the query parameter "show" to "feed"
@@ -22,7 +22,7 @@ module.exports = function(express) {
      * ## Errors (HTTP Status) ##
      *   token was invalid (401)
      */
-    router.get('/all', function(req, res) {
+    router.get('/', function(req, res) {
 
         var showFeed = req.query.show && req.query.show === 'feed';
 
