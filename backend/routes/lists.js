@@ -3,10 +3,12 @@
  */
 var Errors = require('../errors');
 var Status = require('http-status-codes');
-var Promise = require('bluebird');
 var Cfg = require('../configuration');
 var MovieLists = require('../middleware/movie-lists');
 var TokenVerification = require('../middleware/tokens').tokenVerification;
+
+var PublicFullMovieList = require('../models/external/movie-list-full');
+var PublicMovieListOverview = require('../models/external/movie-list-overview');
 
 module.exports = function(express) {
 
@@ -44,8 +46,11 @@ module.exports = function(express) {
             Errors.sendErrorResponse(Errors.BAD_REQUEST, res);
         } else {
             MovieLists.getLists({ author: {$in: req.user.following} }, { date: -1 })
-                .then(function(pubLists) {
-                    res.send({lists: pubLists})
+                .then(function(lists) {
+                    var pubLists = lists.map(function(ml) {
+                        return new PublicMovieListOverview(ml);
+                    });
+                    res.send({lists: pubLists })
                 })
                 .catch(function(err) {Errors.sendErrorResponse(err, res)})
         }
@@ -59,8 +64,8 @@ module.exports = function(express) {
      */
     router.get('/:listId', function(req, res) {
         MovieLists.getMovieList(req.params.listId)
-            .then(function(pubList) {
-                res.send(pubList);
+            .then(function(movieList) {
+                res.send(new PublicFullMovieList(movieList));
             })
             .catch(function(err) { Errors.sendErrorResponse(err, res) })
     });

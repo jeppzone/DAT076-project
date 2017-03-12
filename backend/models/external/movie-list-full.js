@@ -1,5 +1,8 @@
 /**
  * Created by Oskar Jönefors on 3/6/17.
+ *
+ * External representation of a list of movies.
+ *
  */
 
 var PublicMovie = require('./movie');

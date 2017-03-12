@@ -5,18 +5,9 @@
 var Cfg = require('../configuration');
 var Errors = require('../errors');
 var User = require('../models/internal/user');
-var Profile = require('../models/internal/profile');
-var PublicMe = require('../models/external/me');
-var PublicProfile = require('../models/external/profile');
-var PublicUser = require('../models/external/user');
-
-var Tokens = require('./tokens');
 
 module.exports = {
     getUser: getUser,
-    getUserProfile: getUserProfile,
-    getUserAndProfile: getUserAndProfile,
-    updateProfile: updateProfile,
     login: login,
     register: register,
     search: search,
@@ -40,24 +31,21 @@ function login(userIdentifier, password) {
             {email: userIdentifier.toLowerCase().trim()}
         ]
     })
-        .then(function(user) {
-            if (user) {
-                return user.comparePassword(password.trim())
-                    .then(function(isMatch) {
-                        if (isMatch) {
-                            var pubUser = PublicMe(user);
-                            pubUser.token = Tokens.signSessionToken(user);
-                            return pubUser;
-                        } else {
-                            throw Errors.LOGIN_INVALID;
-                        }
-                    })
-            } else {
-                /* No user was found */
-                throw Errors.NOT_FOUND;
-            }
-        })
-
+    .then(function(user) {
+        if (user) {
+            return user.comparePassword(password.trim())
+                .then(function(isMatch) {
+                    if (isMatch) {
+                        return user;
+                    } else {
+                        throw Errors.LOGIN_INVALID;
+                    }
+                })
+        } else {
+            /* No user was found */
+            throw Errors.NOT_FOUND;
+        }
+    })
 
 }
 
@@ -76,37 +64,7 @@ function register(userData) {
     });
 
     return newUser.save()
-        .catch(function (err) {
-            //noinspection FallThroughInSwitchStatementJS
-            switch (err.name) {
-                case 'ValidationError':
-                    if (err.errors.email) {
-                        throw Errors.EMAIL_MALFORMED;
-                    } else if (err.errors.username || err.errors.usernameLower) {
-                        throw Errors.USERNAME_MALFORMED;
-                    } else {
-                        throw Errors.UNKNOWN_ERROR;
-                    }
-                case 'MongoError':
-                    if (err.errmsg.indexOf('duplicate key error') >= 0) {
-                        console.log("COLLISION");
-                        throw Errors.COLLISION;
-                    }
-                default:
-                    throw Errors.UNKNOWN_ERROR;
-            }
-        })
-        .then(function(savedUser) {
-            var userProfile = new Profile({ owner: savedUser._id });
-
-            return userProfile.save()
-                .then(function(savedProfile) {
-                    var pubUser = PublicMe(savedUser);
-                    pubUser.token = Tokens.signSessionToken(savedUser);
-                    return pubUser;
-                });
-        })
-
+        .catch(userSaveValidation);
 }
 
 /**
@@ -126,70 +84,10 @@ function getUser(username) {
 }
 
 /**
- * Return the public representation of the profile of the given user.
- * @param user
- * @returns {Promise}
- */
-function getUserProfile(user) {
-    return getProfile(user._id)
-        .then(function(foundProfile) {
-            return new PublicProfile(foundProfile);
-        });
-}
-
-function getUserAndProfile(username) {
-    return User.findOne({ usernameLower: username.toLowerCase().trim() })
-        .then(function(foundUser) {
-            if (!foundUser) {
-                throw Errors.NOT_FOUND;
-            }
-            return getUserProfile(foundUser)
-                .then(function(foundProfile) {
-                    return { user: new PublicUser(foundUser), profile: new PublicProfile(foundProfile) }
-                })
-        })
-}
-
-/**
- * Update the profile belonging to the given user with the given text.
- * @param user
- * @param text
- * @returns {Promise|*} The updated profile, or an error if the text had the wrong format.
- */
-function updateProfile(user, text) {
-    return Profile.findOne({ owner: user._id })
-        .then(function(foundProfile) {
-            foundProfile.text = text;
-            foundProfile.lastActivity = Date.now();
-            return foundProfile.save()
-                .catch(function(err) {
-                    throw Errors.UNKNOWN_ERROR;
-                });
-        })
-        .then(function(savedProfile) {
-            return { user: new PublicMe(user), profile: new PublicProfile(savedProfile) }
-        })
-}
-
-/**
- * Get the profile belonging to the user with the given id.
- * @param userId
- * @returns {Promise|*}
- */
-function getProfile(userId) {
-    return Profile.findOne({ owner: userId })
-        .then(function(foundProfile) {
-            if (!foundProfile) {
-                throw Errors.NOT_FOUND;
-            }
-            return foundProfile;
-        });
-}
-
-/**
  * Update the user with the given user data
  * @param user
  * @param userData - should contain any of the attributes email, password or username
+ * @return {Promise} - The updated user
  */
 function updateUser(user, userData) {
     user.email = userData.email ? userData.email : user.email;
@@ -198,29 +96,7 @@ function updateUser(user, userData) {
     user.password = userData.password ? userData.password : user.password;
 
     return user.save()
-        .catch(function (err) {
-            //noinspection FallThroughInSwitchStatementJS
-            switch (err.name) {
-                case 'ValidationError':
-                    if (err.errors.email) {
-                        throw Errors.EMAIL_MALFORMED;
-                    } else if (err.errors.username || err.errors.usernameLower) {
-                        throw Errors.USERNAME_MALFORMED;
-                    } else {
-                        throw Errors.UNKNOWN_ERROR;
-                    }
-                case 'MongoError':
-                    if (err.errmsg.indexOf('duplicate key error') >= 0) {
-                        console.log("COLLISION");
-                        throw Errors.COLLISION;
-                    }
-                default:
-                    throw Errors.UNKNOWN_ERROR;
-            }
-        })
-        .then(function(savedUser) {
-            return new PublicMe(savedUser);
-        })
+        .catch(userSaveValidation)
 }
 
 function search(searchString) {
@@ -231,6 +107,11 @@ function search(searchString) {
 
 }
 
+/**
+ * Return all users that the given user is following.
+ * @param user
+ * @returns {Promise} - A list of users
+ */
 function getFollowedUsers(user) {
     return User.findById(user._id).populate('following')
         .then(function(populatedUser) {
@@ -238,6 +119,12 @@ function getFollowedUsers(user) {
         });
 }
 
+/**
+ * Add the user matching the given username to the given user's follower list.
+ * @param user
+ * @param usernameToFollow
+ * @returns {Promise} - The updated user
+ */
 function followUser(user, usernameToFollow) {
     return getUser(usernameToFollow)
         .then(function(userToFollow) {
@@ -248,6 +135,12 @@ function followUser(user, usernameToFollow) {
         })
 }
 
+/**
+ * Remove the user matching the given username from the follower list of the given user
+ * @param user - The user who follows
+ * @param usernameToUnfollow - The user who is not to be followed anymore.
+ * @return {Promise} - The updated user
+ */
 function unfollowUser(user, usernameToUnfollow) {
     return getUser(usernameToUnfollow)
         .then(function(userToUnfollow) {
@@ -268,4 +161,29 @@ function getAllUsers(omittedIds) {
     omittedIds = omittedIds && omittedIds.length ? omittedIds : [];
 
     return User.find({ _id: { $nin: omittedIds }});
+}
+
+/**
+ * Handle errors arising from the saving of a user.
+ * @param err
+ */
+function userSaveValidation(err) {
+    //noinspection FallThroughInSwitchStatementJS
+    switch (err.name) {
+        case 'ValidationError':
+            if (err.errors.email) {
+                throw Errors.EMAIL_MALFORMED;
+            } else if (err.errors.username || err.errors.usernameLower) {
+                throw Errors.USERNAME_MALFORMED;
+            } else {
+                throw Errors.UNKNOWN_ERROR;
+            }
+        case 'MongoError':
+            if (err.errmsg.indexOf('duplicate key error') >= 0) {
+                console.log("COLLISION");
+                throw Errors.COLLISION;
+            }
+        default:
+            throw Errors.UNKNOWN_ERROR;
+    }
 }

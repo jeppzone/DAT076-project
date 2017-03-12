@@ -9,39 +9,41 @@ var md5 = require('md5');
 
 module.exports = { getMovie: getMovie };
 
+/**
+ * Get the movie with the given TMDB id. If the movie has not been fetched from TMDB before, it will be. Otherwise,
+ * the movie details will be fetched from the local database.
+ * @param movieId - TMDB movie id
+ * @returns {Promise|*} - A movie database object.
+ */
 function getMovie(movieId) {
     return Movie.findOne({ tmdbId: movieId })
         .then(function(foundMovie) {
             if (!foundMovie) {
+                // First time fetching the movie. Get movie details from TMDB API and save to local database.
                 return TMDB.getMovie(movieId)
                     .then(function(response) {
                         var newMovie = new Movie({
                             tmdbId: response.id,
                             title: response.title,
                             releaseDate: response.release_date,
-                            posterPath: response.poster_path,
-                            tmdbHash: md5(response)
+                            posterPath: response.poster_path
                         });
                         return newMovie.save();
                     })
             } else {
                 if (foundMovie.lastActivity.getTime() + Cfg.MOVIE_REFRESH_MILLIS < Date.now()) {
-                    console.log('Movie not refreshed in a while, fetching from TMDB.');
+                    // The movie has not been fetched in a while, so a new request will be sent to TMDB to update
+                    // the movie data. However, the data already stored in the database will be immediately returned,
+                    // and will not wait for the TMDB API to respond.
                     TMDB.getMovie(movieId)
                         .then(function(response) {
-                            var newHash = md5(response);
-                            if (tmdbHash !== foundMovie.tmdbHash) {
-                                console.log('Movie updated');
-                                foundMovie.title = response.title;
-                                if (response.releaseDate) {
-                                    foundMovie.releaseDate = response.releaseDate;
-                                }
-                                foundMovie.posterPath = response.posterPath;
-                                foundMovie.tmdbHash = newHash;
+                            foundMovie.title = response.title;
+                            if (response.releaseDate) {
+                                foundMovie.releaseDate = response.releaseDate;
                             }
+                            foundMovie.posterPath = response.posterPath;
                             foundMovie.lastActivity = Date.now();
                             return foundMovie.save();
-                            console.log('Movie not updated');
                         })
                 }
                 return foundMovie;

@@ -3,7 +3,7 @@
  */
 
 /**
- * Public representation of the personal user.
+ * External representation of the personal user.
  */
 
 module.exports = function(user) {

@@ -14,8 +14,9 @@ var Errors = require('../errors');
 var Helpers = require('./test-helpers');
 var Status = require('http-status-codes');
 
-var Tokens = require('../middleware/tokens');
 var UsersMW = require('../middleware/users');
+var Profiles = require('../middleware/profiles');
+var Tokens = require('../middleware/tokens');
 
 describe("Get users", function() {
 
@@ -46,19 +47,19 @@ describe("Get users", function() {
     before(Helpers.clearProfiles);
     before(function (done) {
         UsersMW.register(validUser)
-            .then(function (pubUser) {
-                userToken = pubUser.token;
-                console.log(userToken);
-                done();
+            .then(function (registeredUser) {
+                userToken = Tokens.signSessionToken(registeredUser);
+                return Profiles.createProfile(registeredUser._id)
+                    .then(function() { done() });
             })
     });
 
     before(function (done) {
         UsersMW.register(validUser2)
-            .then(function (pubUser) {
-                user2Token = pubUser.token;
-                console.log(user2Token);
-                done();
+            .then(function (registeredUser2) {
+                user2Token = Tokens.signSessionToken(registeredUser2);
+                return Profiles.createProfile(registeredUser2._id)
+                    .then(function() { done() });
             })
     });
 
@@ -319,8 +320,8 @@ describe("Get users", function() {
 
                 var body = res.body;
 
-                should.exist(body.searchResults);
-                var results = body.searchResults;
+                should.exist(body.users);
+                var results = body.users;
 
                 results.length.should.equal(1);
 
@@ -343,8 +344,8 @@ describe("Get users", function() {
 
                 var body = res.body;
 
-                should.exist(body.searchResults);
-                var results = body.searchResults;
+                should.exist(body.users);
+                var results = body.users;
 
                 results.length.should.equal(1);
 
@@ -367,8 +368,8 @@ describe("Get users", function() {
 
                 var body = res.body;
 
-                should.exist(body.searchResults);
-                var results = body.searchResults;
+                should.exist(body.users);
+                var results = body.users;
 
                 results.length.should.equal(0);
                 done();
@@ -409,7 +410,7 @@ describe("Get users", function() {
                 var body = res.body;
                 should.exist(body.following);
                 body.following.length.should.equal(1);
-                fstFollow = body.following[0];
+                var fstFollow = body.following[0];
 
                 fstFollow.username.should.equal(validUser2.username);
                 done();
@@ -442,7 +443,7 @@ describe("Get users", function() {
 
     it('Should be able to see listing of all users', function(done) {
         request(URL)
-            .get('/all')
+            .get('/')
             .send()
             .end(function(err, res) {
                 if (err) { throw err }
@@ -457,7 +458,7 @@ describe("Get users", function() {
 
     it('Should be able to see listing of all users', function(done) {
         request(URL)
-            .get('/all')
+            .get('/')
             .set('authorization', userToken)
             .send()
             .end(function(err, res) {

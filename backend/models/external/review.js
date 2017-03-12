@@ -1,5 +1,9 @@
 /**
  * Created by Oskar Jönefors on 2/26/17.
+ *
+ * External representation of a review. If a recipient id is supplied, the representation will reflect any vote
+ * made by that user on the review.
+ *
  */
 
 var PublicUser = require('./user');

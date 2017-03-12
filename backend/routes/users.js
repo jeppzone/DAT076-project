@@ -8,7 +8,11 @@ var TokenVerification = require('../middleware/tokens').tokenVerification;
 var Users = require('../middleware/users');
 var Reviews = require('../middleware/reviews');
 var MovieLists = require('../middleware/movie-lists');
+var Profiles = require('../middleware/profiles');
 
+var PublicMe = require('../models/external/me');
+var PublicMovieListOverview = require('../models/external/movie-list-overview');
+var PublicProfile = require('../models/external/profile');
 var PublicUser = require('../models/external/user');
 
 module.exports = function(express) {
@@ -19,48 +23,29 @@ module.exports = function(express) {
     /**
      * Search for users. Search string is passed in the query parameter "search".
      * Matches from the start of the username. Search string must be at least 3 characters long.
+     * If search string is not present, all users will be returned.
      *
      * ## Errors (HTTP Status)
-     *   search query was missing or too short (400)
-     *
+     *   search query was too short (400)
+     *   token was invalid (401)
      */
     router.get('/', function(req, res) {
         var searchString = req.query.search;
 
-        if (!searchString || searchString.length < Cfg.SEARCH_MIN_LENGTH) {
+        if (searchString && searchString.length < Cfg.SEARCH_MIN_LENGTH) {
             Errors.sendErrorResponse(Errors.BAD_REQUEST, res);
         } else {
-            Users.search(searchString)
+            (searchString ? Users.search(searchString) : Users.getAllUsers(req.user ? [req.user._id] : []))
                 .then(function(foundUsers) {
-                    pubUsers = foundUsers.map(function(u) {
+                    var pubUsers = foundUsers.map(function(u) {
                         return new PublicUser(u);
                     });
 
-                    res.send({ searchResults: pubUsers });
+                    res.send({ users: pubUsers });
                 })
                 .catch(function(err) { Errors.sendErrorResponse(err, res) });
         }
 
-    });
-
-    /**
-     * Return all users. If token is supplied, the requesting user will be omitted from results.
-     *
-     * Returns HTTP Status 200 if successful together with the user array in body parameter "users".
-     *
-     * ## Errors (HTTP Status) ##
-     *   token was invalid (401)
-     *
-     */
-    router.get('/all', function(req, res) {
-        return Users.getAllUsers(req.user ? [req.user._id] : [])
-            .then(function(users) {
-                res.send({
-                    users: users.map(function(u) {
-                        return new PublicUser(u);
-                    })
-                })
-            })
     });
 
     /**
@@ -90,11 +75,15 @@ module.exports = function(express) {
     *
     */
     router.get('/:username/profile', function(req, res) {
-        Users.getUserAndProfile(req.params.username)
-            .then(function(pubUserAndProfile) {
-                res.send(pubUserAndProfile);
+        Users.getUser(req.params.username)
+            .then(function(foundUser) {
+                return Profiles.getProfile(foundUser._id)
+                    .then(function(foundProfile) {
+                        res.send({user: new PublicUser(foundUser), profile: new PublicProfile(foundProfile)})
+                    });
             })
-            .catch(function(err) { Errors.sendErrorResponse(err, res) })
+            .catch(function(err) { Errors.sendErrorResponse(err, res) });
+
     });
 
 
@@ -131,7 +120,10 @@ module.exports = function(express) {
     router.get('/:username/lists', function(req, res) {
         MovieLists.getListsByAuthor(req.params.username)
             .then(function(lists) {
-                res.send({lists: lists})
+                var pubLists = lists.map(function(ml) {
+                    return new PublicMovieListOverview(ml);
+                });
+                res.send({lists: pubLists})
             })
             .catch(function(err) {
                 Errors.sendErrorResponse(err, res);
@@ -166,7 +158,7 @@ module.exports = function(express) {
         } else {
             Users.updateUser(req.user, req.body)
                 .then(function(savedUser) {
-                    res.send(savedUser);
+                    res.send(new PublicMe(savedUser));
                 })
                 .catch(function(err) {
                     Errors.sendErrorResponse(err, res);

@@ -7,8 +7,6 @@ var Errors = require('../errors');
 var MovieList = require('../models/internal/movie-list');
 var Movies = require('./movies');
 var Users = require('./users');
-var PublicFullMovieList = require('../models/external/movie-list-full');
-var PublicMovieListOverview = require('../models/external/movie-list-overview');
 
 module.exports = {
     createMovieList: createMovieList,
@@ -74,7 +72,7 @@ function getMovieList(listId) {
             if (!populatedList) {
                 throw Errors.NOT_FOUND;
             }
-            return new PublicFullMovieList(populatedList);
+            return populatedList;
         })
 }
 
@@ -83,11 +81,6 @@ function getListsByAuthor(username) {
         .then(function(foundUser) {
             return MovieList.find({author: foundUser._id})
                 .populate('author')
-                .then(function(populatedMovieLists) {
-                    return populatedMovieLists.map(function(ml) {
-                        return new PublicMovieListOverview(ml);
-                    })
-                })
         })
 }
 
@@ -95,10 +88,5 @@ function getLists(searchQuery, sortQuery, limit) {
     return MovieList.find(searchQuery ? searchQuery : {})
         .sort(sortQuery ? sortQuery : {})
         .limit(limit ? limit : 0)
-        .populate('author')
-        .then(function(movieLists) {
-            return movieLists.map(function(ml) {
-                return new PublicMovieListOverview(ml);
-            })
-        })
+        .populate('author');
 }

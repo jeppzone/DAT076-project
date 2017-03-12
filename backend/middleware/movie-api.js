@@ -2,7 +2,6 @@
  * Created by Oskar Jönefors on 2/26/17.
  */
 var request = require('request-promise');
-var Cfg = require('../configuration');
 var Errors = require('../errors');
 
 const BASE_URL = 'https://api.themoviedb.org/3';
