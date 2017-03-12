@@ -47,7 +47,6 @@ function login(userIdentifier, password) {
             }
         })
 
-
 }
 
 /**
@@ -145,6 +144,11 @@ function search(searchString) {
 
 }
 
+/**
+ * Return all users that the given user is following.
+ * @param user
+ * @returns {Promise}
+ */
 function getFollowedUsers(user) {
     return User.findById(user._id).populate('following')
         .then(function(populatedUser) {
@@ -162,6 +166,11 @@ function followUser(user, usernameToFollow) {
         })
 }
 
+/**
+ * Remove the user matching the given username from the follower list of the given user
+ * @param user - The user who follows
+ * @param usernameToUnfollow - The user who is not to be followed anymore.
+ */
 function unfollowUser(user, usernameToUnfollow) {
     return getUser(usernameToUnfollow)
         .then(function(userToUnfollow) {

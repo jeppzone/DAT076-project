@@ -11,6 +11,7 @@ var MovieLists = require('../middleware/movie-lists');
 var Profiles = require('../middleware/profiles');
 
 var PublicMe = require('../models/external/me');
+var PublicMovieListOverview = require('../models/external/movie-list-overview');
 var PublicProfile = require('../models/external/profile');
 var PublicUser = require('../models/external/user');
 
@@ -119,7 +120,10 @@ module.exports = function(express) {
     router.get('/:username/lists', function(req, res) {
         MovieLists.getListsByAuthor(req.params.username)
             .then(function(lists) {
-                res.send({lists: lists})
+                var pubLists = lists.map(function(ml) {
+                    return new PublicMovieListOverview(ml);
+                });
+                res.send({lists: pubLists})
             })
             .catch(function(err) {
                 Errors.sendErrorResponse(err, res);
