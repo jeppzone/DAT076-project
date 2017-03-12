@@ -1,8 +1,9 @@
 'use strict';
 
-/** Module containing the directive that is responsible for displaying a single list
-    It takes one scope property:
-*   @property list - The list that should be displayed
+/**
+Module containing the directive that is responsible for displaying a single list
+It takes one scope property:
+*@property list - The list that should be displayed
 **/
 angular.module('moviez.list', [])
 

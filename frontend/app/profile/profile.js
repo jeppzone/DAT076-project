@@ -1,10 +1,11 @@
 'use strict';
 
-/* Module containing the 'profile' state, which is responsible for displaying
+/**
+Module containing the 'profile' state, which is responsible for displaying
 information in the profile tab (the tab with the user's username). The users that
 the logged in users follows, the reviews that the user has written and the lists
 that the user have created will be fetched before entering the state.
-*/
+**/
 angular.module('moviez.profile', [])
 
 .config(profileConfig)

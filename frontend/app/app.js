@@ -1,13 +1,10 @@
 'use strict';
 
 /**
- * @ngdoc overview
- * @name frontendApp
- * @description
- * # frontendApp
- *
- * Main module of the application.
- */
+This is the entry point of the application. Here, all dependecies are loaded,
+as well as global functions that are run everytime a state is changed and everytime
+a http request is sent.
+**/
 angular
   .module('frontendApp', [
     'ngAnimate',

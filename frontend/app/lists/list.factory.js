@@ -1,7 +1,7 @@
 'use strict';
 /**
-  Module containing the list factory which is responsible for making all the requests
-  to the backend regarding lists.
+Module containing the list factory which is responsible for making all the requests
+to the backend regarding lists.
 **/
 angular.module('moviez.list-factory', [])
 

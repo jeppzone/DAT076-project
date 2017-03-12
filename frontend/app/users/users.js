@@ -1,11 +1,12 @@
 'use strict';
 
-/* Module responsible for displaying users in the 'Users tab'. It is also
+/**
+Module responsible for displaying users in the 'Users tab'. It is also
 responsible for filtering users when a search has been performed with the searchType 'Users'
 The state needs to resolve fetching all users from the API, as well as fetching
 all users that the logged in user follows before proceeding. This state
 is only reachable and visible when a user is logged in.
-*/
+**/
 angular.module('moviez.users', [])
 
 .config(usersConfig)

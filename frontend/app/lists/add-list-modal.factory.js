@@ -1,7 +1,8 @@
 'use strict';
 
-/* Module responsible for controlling the modal where lists can be added and edited.
-*/
+/**
+ Module responsible for controlling the modal where lists can be added and edited.
+**/
 angular.module('moviez.add-list-modal', [])
 
 .factory('AddListModal', AddListModal);

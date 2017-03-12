@@ -1,9 +1,10 @@
 'use strict';
 
-/* Module containing the 'home' state responsible for displaying content at the tab 'home'.
-  Will fetch the 20 most popular movies, the 20 latest releases and the 10 latest
-  reviews before entering the state.
-*/
+/**
+Module containing the 'home' state responsible for displaying content at the tab 'home'.
+Will fetch the 20 most popular movies, the 20 latest releases and the 10 latest
+reviews before entering the state.
+**/
 angular.module('moviez.home', [])
 
 .config(homeConfig)

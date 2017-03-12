@@ -1,10 +1,11 @@
 'use strict';
 
-/** The review directive represents a review card and is responsible for editing
-    and deleting the given review. It takes two scope properties:
-* @property review - The review object which contains the text, the score and
-            the author
-* @property title - The title of the movie that the review belongs to
+/**
+The review directive represents a review card and is responsible for editing
+and deleting the given review. It takes two scope properties:
+*@property review - The review object which contains the text, the score and
+the author
+*@property title - The title of the movie that the review belongs to
 **/
 angular.module('moviez.review', [])
 
