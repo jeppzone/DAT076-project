@@ -91,10 +91,9 @@ describe("Get users", function() {
         request(URL)
             .get('/' + encodeURIComponent(validUser.username.toUpperCase()))
             .send()
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
-
-                res.status.should.equal(Status.OK);
 
                 should.exist(res.body);
                 var body = res.body;
@@ -110,11 +109,9 @@ describe("Get users", function() {
         request(URL)
             .get('/barbapappa')
             .send()
+            .expect(Status.NOT_FOUND)
             .end(function(err, res) {
                 if (err) { throw err }
-
-                res.status.should.equal(Status.NOT_FOUND);
-
                 done();
             })
     });
@@ -126,6 +123,7 @@ describe("Get users", function() {
             .get('/')
             .set('authorization', userToken)
             .send()
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
 
@@ -151,6 +149,7 @@ describe("Get users", function() {
             .get('/')
             .set('authorization', user2Token)
             .send()
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
 
@@ -176,9 +175,9 @@ describe("Get users", function() {
         request(MY_PROFILE_URL)
             .get('/')
             .send()
+            .expect(Errors.BAD_REQUEST)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.BAD_REQUEST);
                 done();
             })
     });
@@ -188,9 +187,9 @@ describe("Get users", function() {
             .get('/')
             .set('authorization', 'this is not really a token')
             .send()
+            .expect(Errors.TOKEN_INVALID)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.TOKEN_INVALID);
                 done();
             })
     });
@@ -199,6 +198,7 @@ describe("Get users", function() {
         request(URL)
             .get('/' + encodeURIComponent(validUser.username) + '/profile')
             .send()
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
 
@@ -222,9 +222,9 @@ describe("Get users", function() {
         request(URL)
             .get('/the_donald/profile')
             .send()
+            .expect(Errors.NOT_FOUND)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.NOT_FOUND);
                 done();
             })
     });
@@ -234,10 +234,9 @@ describe("Get users", function() {
             .put('/')
             .set('authorization', userToken)
             .send({text: validProfileText})
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Status.OK);
-
                 should.exist(res.body);
                 var body = res.body;
 
@@ -267,9 +266,9 @@ describe("Get users", function() {
             .put('/')
             .set('authorization', userToken)
             .send({text: tooLongProfileText})
+            .expect(Errors.VALIDATION_ERROR)
             .end(function (err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.VALIDATION_ERROR);
                 done();
             })
     });
@@ -279,9 +278,9 @@ describe("Get users", function() {
             .put('/')
             .set('authorization', userToken)
             .send({texxxxt: validProfileText})
+            .expect(Errors.VALIDATION_ERROR)
             .end(function (err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.VALIDATION_ERROR);
                 done();
             })
     });
@@ -290,9 +289,9 @@ describe("Get users", function() {
         request(MY_PROFILE_URL)
             .put('/')
             .send({text: validProfileText})
+            .expect(Errors.VALIDATION_ERROR)
             .end(function (err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.VALIDATION_ERROR);
                 done();
             })
     });
@@ -302,6 +301,7 @@ describe("Get users", function() {
             .put('/')
             .set('authorization', 'LET ME IN PLZ')
             .send({text: validProfileText})
+            .expect(Errors.TOKEN_INVALID)
             .end(function (err, res) {
                 if (err) { throw err }
                 res.status.should.equal(Errors.TOKEN_INVALID);
@@ -313,9 +313,9 @@ describe("Get users", function() {
         request(URL)
             .get('/?search=equ')
             .send()
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Status.OK);
                 should.exist(res.body);
 
                 var body = res.body;
@@ -337,9 +337,9 @@ describe("Get users", function() {
         request(URL)
             .get('/?search=the')
             .send()
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Status.OK);
                 should.exist(res.body);
 
                 var body = res.body;
@@ -361,9 +361,9 @@ describe("Get users", function() {
         request(URL)
             .get('/?search=haaaaaa')
             .send()
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Status.OK);
                 should.exist(res.body);
 
                 var body = res.body;
@@ -380,9 +380,9 @@ describe("Get users", function() {
         request(URL)
             .get('/?search=h')
             .send()
+            .expect(Errors.BAD_REQUEST)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.BAD_REQUEST);
                 done();
             })
     });
@@ -392,9 +392,9 @@ describe("Get users", function() {
             .put('/following?user=' + encodeURIComponent(validUser2.username))
             .set('authorization', userToken)
             .send()
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Status.OK);
                 done();
             })
     });
@@ -404,9 +404,9 @@ describe("Get users", function() {
             .get('/following')
             .set('authorization', userToken)
             .send()
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Status.OK);
                 var body = res.body;
                 should.exist(body.following);
                 body.following.length.should.equal(1);
@@ -422,9 +422,9 @@ describe("Get users", function() {
             .delete('/following?user=' + encodeURIComponent(validUser2.username))
             .set('authorization', userToken)
             .send()
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Status.OK);
                 done();
             })
     });
@@ -434,9 +434,9 @@ describe("Get users", function() {
             .put('/following?user=' + encodeURIComponent(validUser.username))
             .set('authorization', userToken)
             .send()
+            .expect(Errors.FORBIDDEN)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.FORBIDDEN);
                 done();
             })
     });
@@ -445,9 +445,9 @@ describe("Get users", function() {
         request(URL)
             .get('/')
             .send()
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Status.OK);
                 should.exist(res.body);
                 var body = res.body;
                 should.exist (body.users);
@@ -461,9 +461,9 @@ describe("Get users", function() {
             .get('/')
             .set('authorization', userToken)
             .send()
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Status.OK);
                 should.exist(res.body);
                 var body = res.body;
                 should.exist (body.users);

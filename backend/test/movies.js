@@ -73,9 +73,9 @@ describe("Post and read reviews", function() {
         request(URL)
             .post("/329865/reviews")
             .send(validReview)
+            .expect(Errors.TOKEN_INVALID)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.TOKEN_INVALID);
                 done();
             })
     });
@@ -86,9 +86,9 @@ describe("Post and read reviews", function() {
             .post("/329865/reviews")
             .set('authorization', userToken)
             .send({})
+            .expect(Errors.BAD_REQUEST)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.BAD_REQUEST);
                 done();
             })
     });
@@ -98,9 +98,9 @@ describe("Post and read reviews", function() {
             .post("/329865/reviews")
             .set('authorization', userToken)
             .send({score: 6})
+            .expect(Errors.BAD_REQUEST)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.BAD_REQUEST);
                 done();
             })
     });
@@ -110,9 +110,9 @@ describe("Post and read reviews", function() {
             .post("/329865/reviews")
             .set('authorization', userToken)
             .send({score: "hello"})
+            .expect(Errors.BAD_REQUEST)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.BAD_REQUEST);
                 done();
             })
     });
@@ -122,9 +122,9 @@ describe("Post and read reviews", function() {
             .post("/greatmovie/reviews")
             .set('authorization', userToken)
             .send({score: 5})
+            .expect(Errors.BAD_REQUEST)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.BAD_REQUEST);
                 done();
             })
     });
@@ -134,9 +134,9 @@ describe("Post and read reviews", function() {
             .post("/329865/reviews")
             .set('authorization', userToken)
             .send({score: 5, text: new Array(4000).join("X") })
+            .expect(Errors.BAD_REQUEST)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.BAD_REQUEST);
                 done();
             })
     });
@@ -146,10 +146,9 @@ describe("Post and read reviews", function() {
             .post("/329865/reviews")
             .set('authorization', userToken)
             .send(validReview)
+            .expect(Status.CREATED)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Status.CREATED);
-
                 var body = res.body;
 
                 should.exist(body.score);
@@ -173,9 +172,9 @@ describe("Post and read reviews", function() {
             .post("/329865/reviews")
             .set('authorization', user2Token)
             .send(validReview2)
+            .expect(Status.CREATED)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Status.CREATED);
 
                 var body = res.body;
 
@@ -199,10 +198,9 @@ describe("Post and read reviews", function() {
         request(URL)
             .get("/329865")
             .send()
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
-
-                res.status.should.equal(Status.OK);
                 var body = res.body;
 
                 should.exist(body.averageScore);
@@ -219,10 +217,9 @@ describe("Post and read reviews", function() {
         request(URL)
             .get("/329866")
             .send()
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
-
-                res.status.should.equal(Status.OK);
                 var body = res.body;
 
                 should.exist(body.averageScore);
@@ -239,10 +236,9 @@ describe("Post and read reviews", function() {
         request(BASE_URL + '/reviews')
             .get('?sortby=date&sortorder=desc')
             .send()
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
-
-                res.status.should.equal(Status.OK);
 
                 should.exist(res.body);
                 var body = res.body;
@@ -272,10 +268,9 @@ describe("Post and read reviews", function() {
         request(BASE_URL + "/reviews")
             .get("?sortby=date&sortorder=desc&limit=1")
             .send()
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
-
-                res.status.should.equal(Status.OK);
 
                 should.exist(res.body);
                 var body = res.body;
@@ -309,10 +304,9 @@ describe("Post and read reviews", function() {
         request(BASE_URL + "/users")
             .get("/" + validUser.username + "/reviews")
             .send()
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
-
-                res.status.should.equal(Status.OK);
 
                 should.exist(res.body);
                 var body = res.body;
@@ -346,9 +340,9 @@ describe("Post and read reviews", function() {
             .delete("/")
             .set('authorization', user2Token)
             .send()
+            .expect(Errors.FORBIDDEN)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.FORBIDDEN);
                 done();
             })
     });
@@ -358,9 +352,9 @@ describe("Post and read reviews", function() {
             .delete("/")
             .set('authorization', user2Token)
             .send()
+            .expect(Errors.NOT_FOUND)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.NOT_FOUND);
                 done();
             })
     });
@@ -370,9 +364,9 @@ describe("Post and read reviews", function() {
             .delete("/")
             .set('authorization', userToken)
             .send()
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Status.OK);
                 done();
             })
     });

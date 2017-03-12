@@ -67,10 +67,10 @@ describe("Register and log in user", function() {
         request(URL)
             .post("/register")
             .send(validUser)
+            .expect(Status.CREATED)
             .end(function(err, res) {
                 if (err) { throw err }
                 var body = res.body;
-                res.status.should.equal(Status.CREATED);
 
                 should.exist(body.username);
                 body.username.should.equal(validUser.username);
@@ -88,9 +88,9 @@ describe("Register and log in user", function() {
         request(URL)
             .post("/register")
             .send(usernameCollision)
+            .expect(Errors.COLLISION)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.COLLISION);
                 done();
             })
     });
@@ -99,9 +99,9 @@ describe("Register and log in user", function() {
         request(URL)
             .post("/register")
             .send(emailCollision)
+            .expect(Errors.COLLISION)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.COLLISION);
                 done();
             })
     });
@@ -110,9 +110,9 @@ describe("Register and log in user", function() {
         request(URL)
             .post("/register")
             .send(invalidUsername)
+            .expect(Errors.USERNAME_MALFORMED)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.USERNAME_MALFORMED);
                 done();
             })
     });
@@ -121,9 +121,9 @@ describe("Register and log in user", function() {
         request(URL)
             .post("/register")
             .send(invalidEmail)
+            .expect(Errors.EMAIL_MALFORMED)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.EMAIL_MALFORMED);
                 done();
             })
     });
@@ -132,9 +132,9 @@ describe("Register and log in user", function() {
         request(URL)
             .post("/register")
             .send(shortPassword)
+            .expect(Errors.PASSWORD_MALFORMED)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.PASSWORD_MALFORMED);
                 done();
             })
     });
@@ -143,9 +143,9 @@ describe("Register and log in user", function() {
         request(URL)
             .post("/register")
             .send(longPassword)
+            .expect(Errors.PASSWORD_MALFORMED)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.PASSWORD_MALFORMED);
                 done();
             })
     });
@@ -157,9 +157,9 @@ describe("Register and log in user", function() {
                 username: validUser.username,
                 email: validUser.email
             })
+            .expect(Errors.BAD_REQUEST)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.BAD_REQUEST);
                 done();
             })
     });
@@ -171,10 +171,10 @@ describe("Register and log in user", function() {
                 user: validUser.username.toUpperCase() + "   ", //Check case-insensitivity and trimming of string
                 password: validUser.password
             })
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
                 var body = res.body;
-                res.status.should.equal(Status.OK);
 
                 should.exist(body.username);
                 body.username.should.equal(validUser.username);
@@ -195,10 +195,10 @@ describe("Register and log in user", function() {
                 user: validUser.email.toUpperCase() + "   ", //Check case-insensitivity and trimming of string
                 password: validUser.password
             })
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
                 var body = res.body;
-                res.status.should.equal(Status.OK);
 
                 should.exist(body.username);
                 body.username.should.equal(validUser.username);
@@ -219,9 +219,9 @@ describe("Register and log in user", function() {
                 user: validUser.username.toUpperCase() + "   ", //Check case-insensitivity and trimming of string
                 password: validUser.password + "123"
             })
+            .expect(Errors.LOGIN_INVALID)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.LOGIN_INVALID);
                 done();
             })
     });
@@ -230,13 +230,13 @@ describe("Register and log in user", function() {
     it("Should fail to login with e-mail due to wrong password", function(done) {
         request(URL)
             .post("/login")
+            .expect(Errors.LOGIN_INVALID)
             .send({
                 user: validUser.email.toUpperCase() + "   ", //Check case-insensitivity and trimming of string
                 password: validUser.password + "123"
             })
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.LOGIN_INVALID);
                 done();
             })
     });
@@ -248,9 +248,9 @@ describe("Register and log in user", function() {
                 user: "notregistered", //Check case-insensitivity and trimming of string
                 password: validUser.password
             })
+            .expect(Errors.NOT_FOUND)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.NOT_FOUND);
                 done();
             })
     });
@@ -261,9 +261,9 @@ describe("Register and log in user", function() {
             .send({
                 user: validUser.username
             })
+            .expect(Errors.BAD_REQUEST)
             .end(function(err, res) {
                 if (err) { throw err }
-                res.status.should.equal(Errors.BAD_REQUEST);
                 done();
             })
     });

@@ -77,10 +77,9 @@ describe("Post and read lists", function() {
             .post('/')
             .set('authorization', userToken)
             .send(validList)
+            .expect(Status.CREATED)
             .end(function(err, res) {
                 if (err) { throw err }
-
-                res.status.should.equal(Status.CREATED);
                 should.exist(res.body);
                 should.exist(res.body.listId);
                 validList.id = res.body.listId;
@@ -92,12 +91,10 @@ describe("Post and read lists", function() {
         request(URL)
             .get('/')
             .send()
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
-
-                res.status.should.equal(Status.OK);
                 should.exist(res.body);
-
                 done();
             })
     });
@@ -106,10 +103,9 @@ describe("Post and read lists", function() {
         request(URL)
             .get('/' + validList.id)
             .send()
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
-
-                res.status.should.equal(Status.OK);
                 should.exist(res.body);
 
                 done();
@@ -121,10 +117,9 @@ describe("Post and read lists", function() {
             .put('/' + validList.id)
             .set('authorization', userToken)
             .send(validListUpdate)
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
-
-                res.status.should.equal(Status.OK);
                 done();
             })
     });
@@ -133,10 +128,9 @@ describe("Post and read lists", function() {
         request(URL)
             .get('/' + validList.id)
             .send()
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
-
-                res.status.should.equal(Status.OK);
                 should.exist(res.body);
 
                 done();
@@ -147,9 +141,9 @@ describe("Post and read lists", function() {
        request(USERS_URL)
            .get('/' + validUser.username + '/lists')
            .send()
+           .expect(Status.OK)
            .end(function(err, res) {
                if (err) { throw err }
-               res.status.should.equal(Status.OK);
                should.exist(res.body);
                done();
            })
@@ -160,10 +154,9 @@ describe("Post and read lists", function() {
             .delete('/' + validList.id)
             .set('authorization', user2Token)
             .send()
+            .expect(Status.FORBIDDEN)
             .end(function(err, res) {
                 if (err) { throw err }
-
-                res.status.should.equal(Status.FORBIDDEN);
                 done();
             })
     });
@@ -173,10 +166,9 @@ describe("Post and read lists", function() {
             .delete('/' + validList.id)
             .set('authorization', userToken)
             .send()
+            .expect(Status.OK)
             .end(function(err, res) {
                 if (err) { throw err }
-
-                res.status.should.equal(Status.OK);
                 done();
             })
     });
@@ -185,11 +177,9 @@ describe("Post and read lists", function() {
         request(URL)
             .get('/' + validList.id)
             .send()
+            .expect(Errors.NOT_FOUND)
             .end(function(err, res) {
                 if (err) { throw err }
-
-                res.status.should.equal(Errors.NOT_FOUND);
-
                 done();
             })
     });
