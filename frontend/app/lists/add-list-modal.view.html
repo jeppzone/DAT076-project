@@ -1,8 +1,8 @@
 <div class="drag-drop-container">
-  <input type="text" class="list-title" placeholder="title" ng-model="vm.title"></input>
+  <input type="text" class="list-title" maxlength="150" placeholder="title" ng-model="vm.title"></input>
   <div class="col-md-5 drag-drop-list">
      <h4>Movies</h4>
-     <input class="searchbar" placeholder="Search for movies..." ng-model="vm.searchString">
+     <input class="searchbar" maxlength="100" placeholder="Search for movies..." ng-model="vm.searchString">
      <ul dnd-list="vm.movies">
       <li ng-repeat="item in vm.movies"
           dnd-draggable="item"

@@ -2,7 +2,7 @@
   <input ng-show="!vm.adding" type="button" class="add-review-button" value="Add review" ng-click="vm.adding=true">
   <div ng-show="vm.adding" class="add-review-adding">
     <span uib-rating ng-model="vm.rating" max="5"></span>
-    <textarea ng-model="vm.review"></textarea>
+    <textarea maxlength="2999" ng-model="vm.review"></textarea>
     <input type="button" class="add-review-button" value="Cancel" ng-click="vm.adding=false"></input>
     <input type="button" class="add-review-button" value="Submit review" ng-click="vm.addReview()"></input>
   </div>
