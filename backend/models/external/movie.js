@@ -1,5 +1,7 @@
 /**
  * Created by Oskar Jönefors on 2017-03-01.
+ *
+ * External representation of a movie.
  */
 
 module.exports = function(movie) {

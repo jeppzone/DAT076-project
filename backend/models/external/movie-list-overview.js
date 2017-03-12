@@ -1,5 +1,9 @@
 /**
  * Created by Oskar Jönefors on 3/6/17.
+ *
+ * External representation of a movie list. Meant to be used in overviews where the actual list content
+ * is not shown, but merely the name, author and description.
+ *
  */
 
 var PublicUser = require('./user');
