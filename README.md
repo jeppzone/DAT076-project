@@ -17,7 +17,7 @@ $ npm install
 When all dependencies have been installed, run the backend: 
 
 ```bash
-$ ./bin/www
+$ npm start
 ```
 
 Then fire up a new terminal and cd into the /frontend directory and run 
@@ -35,4 +35,15 @@ A webserver is now running at
 ```
 localhost:9000/
 ```
-Open it in a browser of your choice (We recommend Google Chrome for this application, as it has been used throughout development)
+Open it in a browser of your choice (We recommend Google Chrome for this application, as it has been used throughout development)  
+
+To run the tests for the backend, first start the backend using the test database:
+
+```bash
+$ npm start test
+```
+  And then run the tests in another shell:
+  
+```bash
+$ npm test
+```
