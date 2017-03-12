@@ -316,8 +316,8 @@ describe("Get users", function() {
 
                 var body = res.body;
 
-                should.exist(body.searchResults);
-                var results = body.searchResults;
+                should.exist(body.users);
+                var results = body.users;
 
                 results.length.should.equal(1);
 
@@ -340,8 +340,8 @@ describe("Get users", function() {
 
                 var body = res.body;
 
-                should.exist(body.searchResults);
-                var results = body.searchResults;
+                should.exist(body.users);
+                var results = body.users;
 
                 results.length.should.equal(1);
 
@@ -364,8 +364,8 @@ describe("Get users", function() {
 
                 var body = res.body;
 
-                should.exist(body.searchResults);
-                var results = body.searchResults;
+                should.exist(body.users);
+                var results = body.users;
 
                 results.length.should.equal(0);
                 done();
@@ -439,7 +439,7 @@ describe("Get users", function() {
 
     it('Should be able to see listing of all users', function(done) {
         request(URL)
-            .get('/all')
+            .get('/')
             .send()
             .end(function(err, res) {
                 if (err) { throw err }
@@ -454,7 +454,7 @@ describe("Get users", function() {
 
     it('Should be able to see listing of all users', function(done) {
         request(URL)
-            .get('/all')
+            .get('/')
             .set('authorization', userToken)
             .send()
             .end(function(err, res) {
