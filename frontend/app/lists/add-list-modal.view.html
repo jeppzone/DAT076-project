@@ -13,7 +13,7 @@
           >
           <b>{{item.title}}</b>
           <img ng-if="item.poster_path" class="poster" ng-src="{{vm.posterBase}}{{item.poster_path}}" align="right">
-          <img ng-if="!item.poster_path" class="poster" src="poster-not-available.jpg" align="right">
+          <img ng-if="!item.poster_path" class="poster" src="common/assets/poster-not-available.jpg" align="right">
         </span>
       </li>
     </ul>
@@ -31,7 +31,7 @@
           {{item.title}}
           <img ng-if="item.poster_path" class="poster" ng-src="{{vm.posterBase}}{{item.poster_path}}" align="right">
           <img ng-if="item.posterPath" class="poster" ng-src="{{vm.posterBase}}{{item.posterPath}}" align="right">
-          <img ng-if="!item.poster_path && !item.posterPath" class="poster" src="poster-not-available.jpg" align="right">
+          <img ng-if="!item.poster_path && !item.posterPath" class="poster" src="common/assets/poster-not-available.jpg" align="right">
       </li>
     </ul>
   </div>
