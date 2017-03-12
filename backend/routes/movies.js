@@ -73,7 +73,7 @@ module.exports = function(express) {
      *   invalid token (401)
      *   malformed attributes (400)
      */
-    router.post('/:movieId/review', function(req, res) {
+    router.post('/:movieId/reviews', function(req, res) {
         var body = req.body;
         var movieId = req.params.movieId;
         if (!req.user) {

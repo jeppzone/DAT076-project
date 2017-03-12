@@ -70,7 +70,7 @@ describe("Post and read reviews", function() {
 
     it('Should not be able to post a review without a token', function(done) {
         request(URL)
-            .post("/329865/review")
+            .post("/329865/reviews")
             .send(validReview)
             .end(function(err, res) {
                 if (err) { throw err }
@@ -82,7 +82,7 @@ describe("Post and read reviews", function() {
 
     it('Should not be able to post a review without score or text', function(done) {
         request(URL)
-            .post("/329865/review")
+            .post("/329865/reviews")
             .set('authorization', userToken)
             .send({})
             .end(function(err, res) {
@@ -94,7 +94,7 @@ describe("Post and read reviews", function() {
 
     it('Should not be able to post a review with an invalid score', function(done) {
         request(URL)
-            .post("/329865/review")
+            .post("/329865/reviews")
             .set('authorization', userToken)
             .send({score: 6})
             .end(function(err, res) {
@@ -106,7 +106,7 @@ describe("Post and read reviews", function() {
 
     it('Should not be able to post a review with an invalid score', function(done) {
         request(URL)
-            .post("/329865/review")
+            .post("/329865/reviews")
             .set('authorization', userToken)
             .send({score: "hello"})
             .end(function(err, res) {
@@ -118,7 +118,7 @@ describe("Post and read reviews", function() {
 
     it('Should not be able to post a review to a movie with an invalid id', function(done) {
         request(URL)
-            .post("/greatmovie/review")
+            .post("/greatmovie/reviews")
             .set('authorization', userToken)
             .send({score: 5})
             .end(function(err, res) {
@@ -130,7 +130,7 @@ describe("Post and read reviews", function() {
 
     it('Should not be able to post a review that is too long', function(done) {
         request(URL)
-            .post("/329865/review")
+            .post("/329865/reviews")
             .set('authorization', userToken)
             .send({score: 5, text: new Array(4000).join("X") })
             .end(function(err, res) {
@@ -142,7 +142,7 @@ describe("Post and read reviews", function() {
 
     it('Should be able to post a review', function(done) {
         request(URL)
-            .post("/329865/review")
+            .post("/329865/reviews")
             .set('authorization', userToken)
             .send(validReview)
             .end(function(err, res) {
@@ -169,7 +169,7 @@ describe("Post and read reviews", function() {
 
     it('Should be able to post a review', function(done) {
         request(URL)
-            .post("/329865/review")
+            .post("/329865/reviews")
             .set('authorization', user2Token)
             .send(validReview2)
             .end(function(err, res) {
