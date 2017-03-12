@@ -51,7 +51,6 @@ function ProfileController(UserFactory, followedUsers, myReviews, lists){
   function save() {
     if(vm.editedDescription !== vm.user.text){
       UserFactory.editUserProfile(vm.editedDescription).then((result) => {
-        console.log(result);
         UserFactory.updateUser(Object.assign(result.data.user, result.data.profile));
         vm.user = result.data.user;
         vm.editing = false;
@@ -60,7 +59,6 @@ function ProfileController(UserFactory, followedUsers, myReviews, lists){
 
     UserFactory.editUserCredentials(vm.editedUsername, vm.editedEmail, vm.editedPassword)
       .then((result) => {
-        console.log(result);
         UserFactory.updateUser(result.data);
         vm.user.username = result.data.username;
         vm.user.email = result.data.email;

@@ -57,7 +57,6 @@ function AddListModal($uibModal) {
       function save() {
         if(editing){
           ListFactory.editList(vm.listId, vm.title, vm.description, getMovieIdsFromList()).then((result) => {
-            console.log(result);
             $uibModalInstance.close(result);
           });
         }else{
