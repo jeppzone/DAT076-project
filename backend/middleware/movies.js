@@ -5,7 +5,6 @@
 var Cfg = require('../configuration');
 var TMDB = require('./movie-api');
 var Movie = require('../models/internal/movie');
-var md5 = require('md5');
 
 module.exports = { getMovie: getMovie };
 
