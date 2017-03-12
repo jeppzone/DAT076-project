@@ -20,7 +20,7 @@ function ReviewFactory(ApiBase, $http) {
   return service;
 
   function getReviews(limit, show, sortBy, sortOrder) {
-    return $http.get(ApiBase + '/reviews/all', {
+    return $http.get(ApiBase + '/reviews', {
       params: {limit: limit, show: show, sortby: sortBy, sortorder: sortOrder}
     });
   }

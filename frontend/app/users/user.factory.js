@@ -52,7 +52,7 @@ function UserFactory($http, ApiBase) {
   }
 
   function getAllUsers(){
-    return $http.get(ApiBase + '/users/all');
+    return $http.get(ApiBase + '/users');
   }
 
   function searchUsers(searchString){

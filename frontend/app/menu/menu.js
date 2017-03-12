@@ -1,9 +1,9 @@
 'use strict';
-
-/* The module menu contains the parent state to which all other states in the
-  application inherit from. The menu module is responsible for all navigation
-  and is visible and accessible at all times.
-*/
+/**
+The module menu contains the parent state to which all other states in the
+application inherit from. The menu module is responsible for all navigation
+and is visible and accessible at all times.
+**/
 
 angular.module('moviez.menu', [])
 

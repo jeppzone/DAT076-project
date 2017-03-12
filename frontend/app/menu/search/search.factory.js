@@ -1,5 +1,8 @@
 'use strict';
-
+/**
+Module containing the search factory, which is responsible for storing the current
+search type (Users or Movies), the current search string and the lastest search results
+**/
 angular.module('moviez.search-factory', [])
 
 .factory('SearchFactory', SearchFactory);

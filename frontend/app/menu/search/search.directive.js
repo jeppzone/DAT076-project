@@ -1,5 +1,8 @@
 'use strict';
-
+/**
+Module containing the directive responsible for displaying and performing search queries.
+It is responsible for changing state based on what type of search the user has performed.
+**/
 angular.module('moviez.search', [])
 
 .directive('search', Search)
