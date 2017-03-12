@@ -36,7 +36,7 @@ function ReviewFactory(ApiBase, $http) {
   }
 
   function createReview(review, rating, movieId) {
-    return $http.post(ApiBase + '/movies/' + movieId + '/review', {
+    return $http.post(ApiBase + '/movies/' + movieId + '/reviews', {
       text: review,
       score: rating
     });
