@@ -11,37 +11,6 @@ module.exports = function(express) {
     var router = express.Router();
 
     /**
-     * Get the latest reviews by all users. At most 20 reviews,
-     * but a lower number can be set in the query parameter "limit".
-     *
-     *
-     * If token is submitted, details regarding the recipient user's votes will be returned.
-     *
-     * Returns HTTP Status 200 if successful
-     *
-     * ## Error (HTTP Status) ##
-     *   token was invalid (401)
-     *
-     */
-    router.get('/latest', function(req, res) {
-
-        var limit = Cfg.LATEST_REVIEWS_MAX_LIMIT;
-        var showFeed = req.query.show && req.query.show === 'feed';
-
-        if (req.query.limit) {
-            var iLimit = parseInt(req.query.limit);
-            limit = !isNaN(iLimit) && iLimit < Cfg.LATEST_REVIEWS_MAX_LIMIT ? iLimit : limit;
-        }
-
-        Reviews.getReviews(req.user && showFeed ? req.user.following : undefined, limit,
-            req.user ? req.user._id : undefined, { date: -1 })
-            .then(function(pubReviews) {
-                res.send({reviews: pubReviews});
-            })
-            .catch(function(err) { Errors.sendErrorResponse(err, res) });
-    });
-
-    /**
      * Return all reviews. Supply token to show details of user votes on reviews.
      * Optionally, query parameter "sortby" can be set to "date" or "votes", and query parameter "sortorder" can be
      * set to "desc" or "asc" to specify sorting parameter and sort order.
