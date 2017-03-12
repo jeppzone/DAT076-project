@@ -1,5 +1,9 @@
 /**
  * Created by Oskar Jönefors on 2/22/17.
+ *
+ * Error constants. For now they only consist of HTTP Statuses, but could be expanded upon to have messages and
+ * additional data.
+ *
  */
 
 var Status = require('http-status-codes');
@@ -18,11 +22,16 @@ module.exports = {
     UNAUTHORIZED: Status.UNAUTHORIZED,
     UNKNOWN_ERROR: 500,
 
+    /**
+     * Send the given error in the given response.
+     * @param err
+     * @param res
+     */
     sendErrorResponse: function(err, res) {
         console.log(err);
-        if (typeof err === 'number') {
+        if (typeof err === 'number') { // We know what went wrong since we threw this error.
             res.status(err).send();
-        } else {
+        } else { // Something else happened, so send a status 500.
             res.status(this.UNKNOWN_ERROR).send();
         }
     }

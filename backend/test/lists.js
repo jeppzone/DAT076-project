@@ -96,7 +96,6 @@ describe("Post and read lists", function() {
 
                 res.status.should.equal(Status.OK);
                 should.exist(res.body);
-                var body = res.body;
 
                 done();
             })
@@ -111,7 +110,6 @@ describe("Post and read lists", function() {
 
                 res.status.should.equal(Status.OK);
                 should.exist(res.body);
-                var body = res.body;
 
                 done();
             })
@@ -139,7 +137,6 @@ describe("Post and read lists", function() {
 
                 res.status.should.equal(Status.OK);
                 should.exist(res.body);
-                var body = res.body;
 
                 done();
             })

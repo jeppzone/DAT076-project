@@ -3,7 +3,6 @@
  */
 var Errors = require('../errors');
 var Status = require('http-status-codes');
-var Promise = require('bluebird');
 var Cfg = require('../configuration');
 var MovieLists = require('../middleware/movie-lists');
 var TokenVerification = require('../middleware/tokens').tokenVerification;

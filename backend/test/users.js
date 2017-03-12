@@ -406,7 +406,7 @@ describe("Get users", function() {
                 var body = res.body;
                 should.exist(body.following);
                 body.following.length.should.equal(1);
-                fstFollow = body.following[0];
+                var fstFollow = body.following[0];
 
                 fstFollow.username.should.equal(validUser2.username);
                 done();

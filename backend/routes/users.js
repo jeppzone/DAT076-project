@@ -32,7 +32,7 @@ module.exports = function(express) {
         } else {
             Users.search(searchString)
                 .then(function(foundUsers) {
-                    pubUsers = foundUsers.map(function(u) {
+                    var pubUsers = foundUsers.map(function(u) {
                         return new PublicUser(u);
                     });
 

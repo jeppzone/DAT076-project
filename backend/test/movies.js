@@ -371,7 +371,7 @@ describe("Post and read reviews", function() {
             .send()
             .end(function(err, res) {
                 if (err) { throw err }
-
+                res.status.should.equal(Status.OK);
                 done();
             })
     });

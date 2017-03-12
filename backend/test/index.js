@@ -61,7 +61,6 @@ describe("Register and log in user", function() {
 
     before(Helpers.connectTestingDb);
     before(Helpers.clearUsers);
-    //after(Helpers.clearUsers);
     after(Helpers.disconnectDb);
 
     it("Should register the user and return it", function(done) {
