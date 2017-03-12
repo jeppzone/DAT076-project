@@ -9,6 +9,9 @@ var Cfg = require('../configuration');
 var Reviews = require('../middleware/reviews');
 var TokenVerification = require('../middleware/tokens').tokenVerification;
 
+var PublicReview = require('../models/external/review');
+var PublicFullReview = require('../models/external/full-review');
+
 module.exports = function(express) {
 
     var router = express.Router();
@@ -32,7 +35,9 @@ module.exports = function(express) {
                     req.user ? req.user._id : undefined)
             ])
                 .spread(function(averageScore, reviews) {
-                    res.send({ averageScore: averageScore, reviews: reviews });
+                    res.send({ averageScore: averageScore, reviews: reviews.map(function(r) {
+                        return new PublicReview(r, req.user ? req.user._id : undefined);
+                    }) });
                 })
                 .catch(function(err) {
                     Errors.sendErrorResponse(err, res);
@@ -54,7 +59,9 @@ module.exports = function(express) {
         } else {
             Reviews.getReviews(req.params.movieId)
                 .then(function(reviews) {
-                    res.send(reviews);
+                    res.send(reviews.map(function(r) {
+                        return new PublicFullReview(r, req.user ? req.user._id : undefined);
+                    }));
                 })
                 .catch(function(err) {
                     Errors.sendErrorResponse(err, res);

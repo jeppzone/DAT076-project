@@ -6,8 +6,6 @@ var Cfg = require('../configuration');
 var Errors = require('../errors');
 var Movies = require('./movies');
 var Review = require('../models/internal/review');
-var PublicReview = require('../models/external/review');
-var PublicFullReview = require('../models/external/full-review');
 
 module.exports = {
     getAverageScore: getAverageScore,
@@ -31,34 +29,23 @@ function getReviewsByMovie(tmdbMovieId, limit, userId) {
     })
         .sort({ date: -1 })
         .limit(limit ? limit : Cfg.LATEST_REVIEWS_MAX_LIMIT)
-        .populate('author')
-        .then(function(reviews) {
-            return reviews.map(function(r) {
-                return new PublicReview(r, userId);
-            })
-        })
+        .populate('author');
 }
 
 /**
  * Get the latest reviews, possibly by a group of authors.
  * @param userIds - If unset, reviews by all authors will be returned.
  * @param limit - The number of reviews to return.
- * @param recipientId - If supplied, reviews will contain information about the user votes.
  * @param sortQuery - How to sort the reviews.
  * @returns {Promise}
  */
-function getReviews(userIds, limit, recipientId, sortQuery) {
+function getReviews(userIds, limit, sortQuery) {
     var query = userIds ? { author: { $in: userIds } } : {};
 
     return Review.find(query)
         .sort(sortQuery ? sortQuery : {})
         .limit(limit ? limit : 0)
-        .populate('author movie')
-        .then(function(reviews) {
-            return reviews.map(function(r) {
-                return new PublicFullReview(r, recipientId);
-            })
-        })
+        .populate('author movie');
 }
 
 /**

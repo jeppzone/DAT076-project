@@ -14,6 +14,7 @@ var PublicMe = require('../models/external/me');
 var PublicMovieListOverview = require('../models/external/movie-list-overview');
 var PublicProfile = require('../models/external/profile');
 var PublicUser = require('../models/external/user');
+var PublicFullReview = require('../models/external/full-review');
 
 module.exports = function(express) {
 
@@ -99,12 +100,15 @@ module.exports = function(express) {
      *
      */
     router.get('/:username/reviews', function(req, res) {
+        var userId = (req.user ? req.user._id : undefined);
         Users.getUser(req.params.username)
             .then(function(foundUser) {
-                return Reviews.getReviews([foundUser._id], 0, (req.user ? req.user._id : undefined))
+                return Reviews.getReviews([foundUser._id], 0)
             })
-            .then(function(publicReviews) {
-                res.send({ reviews: publicReviews });
+            .then(function(reviews) {
+                res.send({ reviews: reviews.map(function(r) {
+                    return new PublicFullReview(r, userId);
+                }) });
             })
             .catch(function(err) { Errors.sendErrorResponse(err, res) });
     });

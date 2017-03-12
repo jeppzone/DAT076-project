@@ -7,6 +7,8 @@ var Cfg = require('../configuration');
 var Reviews = require('../middleware/reviews');
 var Util = require('../middleware/util');
 
+var PublicFullReview = require('../models/external/full-review');
+
 module.exports = function(express) {
     var router = express.Router();
 
@@ -39,10 +41,11 @@ module.exports = function(express) {
                 (req.query.sortby === 'votes' ? { voteScore: sortOrder } : {});
         }
 
-        Reviews.getReviews(req.user && showFeed ? req.user.following : undefined, limit,
-            req.user ? req.user._id : undefined, sortQuery)
-            .then(function(pubReviews) {
-                res.send({reviews: pubReviews});
+        Reviews.getReviews(req.user && showFeed ? req.user.following : undefined, limit, sortQuery)
+            .then(function(reviews) {
+                res.send({reviews: reviews.map(function(r) {
+                    return new PublicFullReview(r, req.user ? req.user._id : undefined);
+                })});
             })
             .catch(function(err) { Errors.sendErrorResponse(err, res) });
     });

@@ -36,14 +36,14 @@ describe("Post and read lists", function() {
 
     const validList = {
         title: "My favs",
-        description: "A list of my favorite movies.",
+        description: "A list of my 3 favorite movies.",
         movies: [123, 9693, 115]
     };
 
     const validListUpdate = {
         title: "My favs and a doozer",
-        description: "A list of my favorite movies, and a shitty one.",
-        movies: [123, 115, 9693, 11631]
+        description: "A list of my 2 favorite movies.",
+        movies: [123, 115]
     };
 
 
@@ -73,6 +73,8 @@ describe("Post and read lists", function() {
     after(Helpers.disconnectDb);
 
     it('Should be able to post review', function(done) {
+        this.timeout(5000);
+
         request(URL)
             .post('/')
             .set('authorization', userToken)
