@@ -15,6 +15,7 @@ var Helpers = require('./test-helpers');
 var Status = require('http-status-codes');
 
 var UsersMW = require('../middleware/users');
+var Tokens = require('../middleware/tokens');
 
 describe("Post and read lists", function() {
 
@@ -55,16 +56,16 @@ describe("Post and read lists", function() {
     before(Helpers.clearLists);
     before(function (done) {
         UsersMW.register(validUser)
-            .then(function (pubUser) {
-                userToken = pubUser.token;
+            .then(function (registeredUser) {
+                userToken = Tokens.signSessionToken(registeredUser);
                 done();
             })
     });
 
     before(function (done) {
         UsersMW.register(validUser2)
-            .then(function (pubUser) {
-                user2Token = pubUser.token;
+            .then(function (registeredUser2) {
+                user2Token = Tokens.signSessionToken(registeredUser2);
                 done();
             })
     });

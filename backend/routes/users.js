@@ -8,7 +8,10 @@ var TokenVerification = require('../middleware/tokens').tokenVerification;
 var Users = require('../middleware/users');
 var Reviews = require('../middleware/reviews');
 var MovieLists = require('../middleware/movie-lists');
+var Profiles = require('../middleware/profiles');
 
+var PublicMe = require('../models/external/me');
+var PublicProfile = require('../models/external/profile');
 var PublicUser = require('../models/external/user');
 
 module.exports = function(express) {
@@ -71,11 +74,15 @@ module.exports = function(express) {
     *
     */
     router.get('/:username/profile', function(req, res) {
-        Users.getUserAndProfile(req.params.username)
-            .then(function(pubUserAndProfile) {
-                res.send(pubUserAndProfile);
+        Users.getUser(req.params.username)
+            .then(function(foundUser) {
+                return Profiles.getProfile(foundUser._id)
+                    .then(function(foundProfile) {
+                        res.send({user: new PublicUser(foundUser), profile: new PublicProfile(foundProfile)})
+                    });
             })
-            .catch(function(err) { Errors.sendErrorResponse(err, res) })
+            .catch(function(err) { Errors.sendErrorResponse(err, res) });
+
     });
 
 
@@ -147,7 +154,7 @@ module.exports = function(express) {
         } else {
             Users.updateUser(req.user, req.body)
                 .then(function(savedUser) {
-                    res.send(savedUser);
+                    res.send(new PublicMe(savedUser));
                 })
                 .catch(function(err) {
                     Errors.sendErrorResponse(err, res);

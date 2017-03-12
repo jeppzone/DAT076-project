@@ -4,10 +4,13 @@ var Errors = require('../errors');
 var Status = require('http-status-codes');
 var TokenVerification = require('../middleware/tokens').tokenVerification;
 
+var Profiles = require('../middleware/profiles');
+var Tokens = require('../middleware/tokens');
 var Users = require('../middleware/users');
 
 var PublicMe = require('../models/external/me');
 var PublicUser = require('../models/external/user');
+var PublicProfile = require('../models/external/profile');
 
 module.exports = function(express) {
 
@@ -34,8 +37,10 @@ module.exports = function(express) {
             res.status(Errors.BAD_REQUEST).send();
         } else {
             Users.login(body.user, body.password)
-                .then(function(publicUser) {
-                    res.send(publicUser);
+                .then(function(loggedInUser) {
+                    var pubUser = new PublicMe(loggedInUser);
+                    pubUser.token = Tokens.signSessionToken(loggedInUser);
+                    res.status(Status.OK).send(pubUser);
                 })
                 .catch(function(err) {
                     Errors.sendErrorResponse(err, res);
@@ -67,8 +72,13 @@ module.exports = function(express) {
             res.status(Errors.PASSWORD_MALFORMED).send();
         } else {
             Users.register(body)
-                .then(function(publicUser) {
-                    res.status(Status.CREATED).send(publicUser)
+                .then(function(savedUser) {
+                    return Profiles.createProfile(savedUser._id)
+                        .then(function(savedProfile) {
+                            var pubUser = new PublicMe(savedUser);
+                            pubUser.token = Tokens.signSessionToken(savedUser);
+                            res.status(Status.CREATED).send(pubUser)
+                        });
                 })
                 .catch(function(err) {
                     Errors.sendErrorResponse(err, res);
@@ -92,10 +102,9 @@ module.exports = function(express) {
         if (!req.user) { //Token was not supplied
             Errors.sendErrorResponse(Errors.BAD_REQUEST, res);
         } else {
-            Users.getUserProfile(req.user)
-                .then(function(pubProfile) {
-
-                    res.send({user: new PublicMe(req.user), profile: pubProfile});
+            Profiles.getProfile(req.user._id)
+                .then(function(profile) {
+                    res.send({user: new PublicMe(req.user), profile: new PublicProfile(profile)});
                 })
                 .catch(function(err) { Errors.sendErrorResponse(err, res); });
         }
@@ -120,9 +129,9 @@ module.exports = function(express) {
 
             Errors.sendErrorResponse(Errors.BAD_REQUEST, res);
         } else {
-            Users.updateProfile(req.user, req.body.text)
-                .then(function(pubUserAndProfile) {
-                    res.send(pubUserAndProfile);
+            Profiles.updateProfile(req.user, req.body.text)
+                .then(function(updatedProfile) {
+                    res.send({user: new PublicMe(req.user), profile: new PublicProfile(updatedProfile)});
                 })
                 .catch(function(err) { Errors.sendErrorResponse(err, res) })
         }
