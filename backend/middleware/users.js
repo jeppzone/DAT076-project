@@ -31,21 +31,21 @@ function login(userIdentifier, password) {
             {email: userIdentifier.toLowerCase().trim()}
         ]
     })
-        .then(function(user) {
-            if (user) {
-                return user.comparePassword(password.trim())
-                    .then(function(isMatch) {
-                        if (isMatch) {
-                            return user;
-                        } else {
-                            throw Errors.LOGIN_INVALID;
-                        }
-                    })
-            } else {
-                /* No user was found */
-                throw Errors.NOT_FOUND;
-            }
-        })
+    .then(function(user) {
+        if (user) {
+            return user.comparePassword(password.trim())
+                .then(function(isMatch) {
+                    if (isMatch) {
+                        return user;
+                    } else {
+                        throw Errors.LOGIN_INVALID;
+                    }
+                })
+        } else {
+            /* No user was found */
+            throw Errors.NOT_FOUND;
+        }
+    })
 
 }
 
@@ -64,26 +64,7 @@ function register(userData) {
     });
 
     return newUser.save()
-        .catch(function (err) {
-            //noinspection FallThroughInSwitchStatementJS
-            switch (err.name) {
-                case 'ValidationError':
-                    if (err.errors.email) {
-                        throw Errors.EMAIL_MALFORMED;
-                    } else if (err.errors.username || err.errors.usernameLower) {
-                        throw Errors.USERNAME_MALFORMED;
-                    } else {
-                        throw Errors.UNKNOWN_ERROR;
-                    }
-                case 'MongoError':
-                    if (err.errmsg.indexOf('duplicate key error') >= 0) {
-                        console.log("COLLISION");
-                        throw Errors.COLLISION;
-                    }
-                default:
-                    throw Errors.UNKNOWN_ERROR;
-            }
-        });
+        .catch(userSaveValidation);
 }
 
 /**
@@ -106,6 +87,7 @@ function getUser(username) {
  * Update the user with the given user data
  * @param user
  * @param userData - should contain any of the attributes email, password or username
+ * @return {Promise} - The updated user
  */
 function updateUser(user, userData) {
     user.email = userData.email ? userData.email : user.email;
@@ -114,26 +96,7 @@ function updateUser(user, userData) {
     user.password = userData.password ? userData.password : user.password;
 
     return user.save()
-        .catch(function (err) {
-            //noinspection FallThroughInSwitchStatementJS
-            switch (err.name) {
-                case 'ValidationError':
-                    if (err.errors.email) {
-                        throw Errors.EMAIL_MALFORMED;
-                    } else if (err.errors.username || err.errors.usernameLower) {
-                        throw Errors.USERNAME_MALFORMED;
-                    } else {
-                        throw Errors.UNKNOWN_ERROR;
-                    }
-                case 'MongoError':
-                    if (err.errmsg.indexOf('duplicate key error') >= 0) {
-                        console.log("COLLISION");
-                        throw Errors.COLLISION;
-                    }
-                default:
-                    throw Errors.UNKNOWN_ERROR;
-            }
-        })
+        .catch(userSaveValidation)
 }
 
 function search(searchString) {
@@ -147,7 +110,7 @@ function search(searchString) {
 /**
  * Return all users that the given user is following.
  * @param user
- * @returns {Promise}
+ * @returns {Promise} - A list of users
  */
 function getFollowedUsers(user) {
     return User.findById(user._id).populate('following')
@@ -156,6 +119,12 @@ function getFollowedUsers(user) {
         });
 }
 
+/**
+ * Add the user matching the given username to the given user's follower list.
+ * @param user
+ * @param usernameToFollow
+ * @returns {Promise} - The updated user
+ */
 function followUser(user, usernameToFollow) {
     return getUser(usernameToFollow)
         .then(function(userToFollow) {
@@ -170,6 +139,7 @@ function followUser(user, usernameToFollow) {
  * Remove the user matching the given username from the follower list of the given user
  * @param user - The user who follows
  * @param usernameToUnfollow - The user who is not to be followed anymore.
+ * @return {Promise} - The updated user
  */
 function unfollowUser(user, usernameToUnfollow) {
     return getUser(usernameToUnfollow)
@@ -191,4 +161,29 @@ function getAllUsers(omittedIds) {
     omittedIds = omittedIds && omittedIds.length ? omittedIds : [];
 
     return User.find({ _id: { $nin: omittedIds }});
+}
+
+/**
+ * Handle errors arising from the saving of a user.
+ * @param err
+ */
+function userSaveValidation(err) {
+    //noinspection FallThroughInSwitchStatementJS
+    switch (err.name) {
+        case 'ValidationError':
+            if (err.errors.email) {
+                throw Errors.EMAIL_MALFORMED;
+            } else if (err.errors.username || err.errors.usernameLower) {
+                throw Errors.USERNAME_MALFORMED;
+            } else {
+                throw Errors.UNKNOWN_ERROR;
+            }
+        case 'MongoError':
+            if (err.errmsg.indexOf('duplicate key error') >= 0) {
+                console.log("COLLISION");
+                throw Errors.COLLISION;
+            }
+        default:
+            throw Errors.UNKNOWN_ERROR;
+    }
 }
