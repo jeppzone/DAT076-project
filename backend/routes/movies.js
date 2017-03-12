@@ -94,8 +94,9 @@ module.exports = function(express) {
             Errors.sendErrorResponse(Errors.BAD_REQUEST, res);
         } else {
             Reviews.postReview(body.score, body.text, req.user, movieId)
-                .then(function(pubReview) {
-                    res.status(Status.CREATED).send(pubReview);
+                .then(function(savedReview) {
+                    savedReview.author = req.user;
+                    res.status(Status.CREATED).send(new PublicReview(savedReview, req.user._id));
                 })
                 .catch(function(err) {
                     Errors.sendErrorResponse(err, res);

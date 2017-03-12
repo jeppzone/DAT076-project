@@ -74,11 +74,7 @@ function postReview(score, text, user, tmdbMovieId) {
                 foundReview.upvotes = [user._id];
                 return foundReview.save();
             })
-        })
-        .then(function(savedReview) {
-            savedReview.author = user;
-            return new PublicReview(savedReview, user._id);
-        })
+        });
 }
 
 function deleteReview(user, reviewId) {
