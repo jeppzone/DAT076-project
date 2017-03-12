@@ -14,13 +14,13 @@ Then cd into the /backend directory and run
 ```bash
 $ npm install
 ```
-When all dependencies have been installed, run the backend: 
+When all dependencies have been installed run the backend:
 
 ```bash
 $ npm start
 ```
 
-Then fire up a new terminal and cd into the /frontend directory and run 
+Make sure to have mongoDB running as well. Then fire up a new terminal and cd into the /frontend directory and run 
 
 ```bash
 $ npm install
