@@ -25,8 +25,11 @@ module.exports = function(express) {
         }
 
         MovieLists.getLists({}, sortQuery)
-            .then(function(pubLists) {
-                res.send({lists: pubLists})
+            .then(function(lists) {
+                var pubLists = lists.map(function(ml) {
+                    return new PublicMovieListOverview(ml);
+                });
+                res.send({lists: pubLists })
             })
             .catch(function(err) {Errors.sendErrorResponse(err, res) })
 
