@@ -61,20 +61,20 @@ angular
             $state.go(toState, toParams);
           }else{
             $rootScope.stateChangeByPass = true;
-            $state.go('home');
+            $state.go('menu.home');
           }
         }, () => {
           //We don't have a user and tried to access users or profile. Redirect to home
-          if(toState === 'users' || toState === 'profile'){
+          if(toState.name === 'menu.users' || toState.name === 'menu.profile' || toState.name ==='menu.other-user'){
             $rootScope.stateChangeByPass = true;
-            $state.go('home');
+            $state.go('menu.home');
           }
         });
       }else {
         //Auth cookie is empty, but we tried to access users or profile. Redirect to home
-        if(toState === 'users' || toState === 'profile'){
+        if(toState.name === 'menu.users' || toState.name === 'menu.profile' || toState.name ==='menu.other-user'){
           $rootScope.stateChangeByPass = true;
-          $state.go('home');
+          $state.go('menu.home');
         //Auth cookie is empty, but we didn't try to access a state that needs authentication. Proceed to state
         }else{
           $rootScope.stateChangeByPass = true;
