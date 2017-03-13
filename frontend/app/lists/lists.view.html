@@ -5,7 +5,7 @@
 </div>
 <div class="list-overview slide" ng-repeat="list in vm.lists">
   <h4><i>{{list.title}} </i></h4> by
-  <h4><b> {{list.author.username}} </b></h4>
+  <h4 class="author" ui-sref="menu.other-user({username: list.author.username})"><b> {{list.author.username}} </b></h4>
   <br></br>
   <list list="list"></list>
 </div>

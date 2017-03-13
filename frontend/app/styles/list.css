@@ -262,3 +262,7 @@
 .list-header-buttons {
   margin-left: 10px;
 }
+
+.list-overview .author {
+  cursor: pointer;
+}
