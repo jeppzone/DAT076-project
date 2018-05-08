@@ -1,4 +1,4 @@
-# DAT076-project by Group 11 - Oskar Jönefors and Jesper Olsson
+# Moviez by Oskar Jönefors (backend) and Jesper Olsson (frontend)
 Project in course DAT076 - Web applications @ Chalmers
 
 Before you begin
